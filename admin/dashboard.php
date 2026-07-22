@@ -30,7 +30,7 @@ $nombreClients = getCountClients($pdo);
 <body class="bg-light">
 
     <!-- Inclusion de la barre latérale (Sidebar Admin) -->
-    <?php include(__DIR__ . "/../includes/sidebar_admin.php"); ?>
+    <?php include(__DIR__ . "/sidebar_admin.php"); ?>
 
     <!-- Zone principale décalee de 250px vers la droite -->
     <main style="margin-left: 250px;" class="p-4">

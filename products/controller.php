@@ -44,7 +44,7 @@ function createProd($data, PDO $pdo)
 
 
 }
-function deleteProd($id, PDO $pdo)
+function deleteProd( int $id, PDO $pdo)
 {
     $req = "DELETE FROM product WHERE proId = :proid ";
 
@@ -55,7 +55,7 @@ function deleteProd($id, PDO $pdo)
 
 
 }
-function updateProd($id, $data, $pdo) {
+function updateProd(int $id, array $data, PDO $pdo) {
     try {
         // Si une nouvelle image est envoyée, on l'inclut dans la requête SQL
         if (!empty($data['image'])) {

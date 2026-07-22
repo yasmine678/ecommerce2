@@ -28,12 +28,13 @@ $categories = getAll($pdo);
 
 <body class="bg-light">
 
-    <?php include(__DIR__ . "/../includes/sidebar_admin.php"); ?>
+    <?php include(__DIR__ . "/../admin/sidebar_admin.php"); ?>
 
     <main style="margin-left: 250px;" class="p-4">
+
         <div class="container-fluid">
 
-            <!-- En-tête -->
+
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h2 class="fw-bold text-dark mb-1">Gestion des Produits</h2>
@@ -44,7 +45,7 @@ $categories = getAll($pdo);
                     + Ajouter
                 </button>
 
-                <!-- Modal d'ajout -->
+
                 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -105,39 +106,39 @@ $categories = getAll($pdo);
                         <div class="col-12">
                             <div class="card border-0 shadow-sm p-3">
                                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                                    
+
                                     <!-- Image du Produit en span -->
                                     <span class="d-inline-flex align-items-center justify-content-center">
                                         <?php if (!empty($product['image']) && file_exists(__DIR__ . "/../assets/images/" . $product['image'])): ?>
-                                            <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>" 
-                                                 alt="Image produit" 
-                                                 class="rounded border" 
-                                                 width="50" 
-                                                 height="50" 
-                                                 style="object-fit: cover;">
+                                            <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>"
+                                                alt="Image produit"
+                                                class="rounded border"
+                                                width="50"
+                                                height="50"
+                                                style="object-fit: cover;">
                                         <?php else: ?>
                                             <span class="badge bg-secondary text-white p-3 rounded border">
                                                 No Img
                                             </span>
                                         <?php endif; ?>
                                     </span>
+                                    
 
-                                    <!-- Nom du Produit (Span badge sombre) -->
                                     <span class="badge bg-dark text-white px-3 py-2 fs-6">
                                         <?= htmlspecialchars($product['proName']) ?>
                                     </span>
 
-                                    <!-- Description du Produit (Span badge neutre) -->
+
                                     <span class="badge bg-light text-secondary border px-3 py-2 text-truncate" style="max-width: 250px;">
                                         <?= htmlspecialchars($product['prodescription'] ?? 'Pas de description') ?>
                                     </span>
 
-                                    <!-- Catégorie (Span badge info) -->
+
                                     <span class="badge bg-info text-dark bg-opacity-25 px-3 py-2 border border-info border-opacity-25 rounded-pill">
                                         <?= htmlspecialchars($product['name'] ?? 'Sans catégorie') ?>
                                     </span>
 
-                                    <!-- Prix (Span badge succès) -->
+
                                     <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 fs-6">
                                         <?= number_format($product['price'], 0, ',', ' ') ?> FCFA
                                     </span>
