@@ -1,0 +1,232 @@
+/* ===== RÉINITIALISATION GENERALE ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding-top: 90px;
+}
+@media (min-width: 992px) {
+    body {
+        padding-top: 110px;
+    }
+} /* Suppression des padding-top qui créaient la bande blanche */
+
+
+/* ===== LOGO / NAVBAR ===== */
+.logo-yosishop {
+    height: 55px;
+    width: auto;
+}
+@media (min-width: 992px) {
+    .logo-yosishop {
+        height: 85px;
+    }
+}
+
+/* ===== HERO ===== */
+.hero {
+    position: relative;
+    min-height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 40px 20px;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: #3498db;
+    background-image: url("http://localhost/ecommerce/assets/images/E-commerce.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: blur(6px);
+    transform: scale(1.1);
+    z-index: -2;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: -1;
+}
+
+.hero-content {
+    text-align: center;
+    color: white;
+    z-index: 1;
+    max-width: 700px;
+    padding: 0 15px;
+}
+
+.hero h1 {
+    font-size: clamp(28px, 6vw, 60px);
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.hero h1 span {
+    color: #ffc107;
+}
+
+.hero p {
+    font-size: clamp(15px, 2.5vw, 22px);
+    margin: 20px 0;
+}
+
+.hero .btn {
+    margin: 10px;
+}
+
+@media (max-width: 576px) {
+    .hero {
+        min-height: 60vh;
+    }
+    .hero .btn {
+        display: block;
+        width: 100%;
+        max-width: 280px;
+        margin: 8px auto;
+    }
+}
+
+/* ===== CATEGORIES (carrousel/scroll) ===== */
+.category-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #cb964b;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.category-label {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .category-icon {
+        width: 65px;
+        height: 65px;
+        font-size: 22px;
+    }
+    .category-label {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 400px) {
+    .category-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 18px;
+    }
+}
+
+.categorie-col {
+    margin-bottom: 10px;
+}
+
+.scroll-categories {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px;
+}
+
+.scroll-categories::-webkit-scrollbar {
+    display: none;
+}
+
+/* ===== PRODUITS ===== */
+.produit-image {
+    height: 160px;
+    object-fit: cover;
+}
+@media (min-width: 768px) {
+    .produit-image {
+        height: 200px;
+    }
+}
+
+.produit-description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.produit-card {
+    transition: transform 0.15s ease;
+}
+.produit-card:hover {
+    transform: translateY(-4px);
+}
+
+/* ===== CARROUSEL : fleches + etat neutre ===== */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    filter: invert(1) grayscale(100);
+    opacity: 0.6;
+}
+@media (max-width: 576px) {
+    .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%;
+    }
+}
+
+.carousel-neutre .carousel-control-prev,
+.carousel-neutre .carousel-control-next {
+    opacity: 0.15;
+    pointer-events: none;
+    cursor: default;
+}
+
+/* ===== PAGINATION NUMEROTEE ===== */
+.pagination .page-link {
+    color: #cb964b;
+    border-radius: 50%;
+    margin: 0 3px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cb964b;
+}
+.pagination .page-item.active .page-link {
+    background-color: #cb964b;
+    border-color: #cb964b;
+    color: white;
+}
+.main-content {
+    margin-top: 50px; /* Ajustez les pixels selon l'espace souhaité */
+    padding-bottom: 50px; /* Optionnel : ajoute aussi de l'espace avant le footer */
+}
+.barre-fond {
+    height: 14px;
+    background-color: #eee;
+    border-radius: 7px;
+    overflow: hidden;
+}
+.barre-remplissage {
+    height: 100%;
+    background-color: #cb964b;
+    border-radius: 7px;
+    transition: width 0.6s ease;
+}
