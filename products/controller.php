@@ -12,12 +12,12 @@ function getAllPro(PDO $pdo)
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-function getModiPro($id, PDO $pdo)
+function getModiPro( int $id, PDO $pdo)
 {
-    $req = "SELECT * FROM product WHERE proId = :proid";
+    $req = "SELECT * FROM product WHERE proId = :proId";
     $stmt = $pdo->prepare($req);
     $stmt->execute([
-        ':proid' => $id
+        ':proId' => $id
     ]);
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -28,7 +28,7 @@ function getModiPro($id, PDO $pdo)
 
 
 
-function createProd($data, PDO $pdo)
+function createProd(array $data, PDO $pdo)
 {
     $req = "INSERT INTO product(proName, prodescription, price, catId) VALUES (:proName, :prodescription, :price, :catId)";
 
@@ -46,11 +46,11 @@ function createProd($data, PDO $pdo)
 }
 function deleteProd( int $id, PDO $pdo)
 {
-    $req = "DELETE FROM product WHERE proId = :proid ";
+    $req = "DELETE FROM product WHERE proId = :proId ";
 
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
-        ':proid' => $id
+        ':proId' => $id
     ]);
 
 
@@ -59,21 +59,21 @@ function updateProd(int $id, array $data, PDO $pdo) {
     try {
         // Si une nouvelle image est envoyée, on l'inclut dans la requête SQL
         if (!empty($data['image'])) {
-            $sql = "UPDATE products 
+            $sql = "UPDATE product 
                     SET proName = :proName, 
                         prodescription = :prodescription, 
                         price = :price, 
                         catId = :catId, 
                         image = :image 
-                    WHERE proId = :proid";
+                    WHERE proId = :proId";
         } else {
             // Sinon, on conserve l'ancienne image
-            $sql = "UPDATE products 
+            $sql = "UPDATE product
                     SET proName = :proName, 
                         prodescription = :prodescription, 
                         price = :price, 
                         catId = :catId 
-                    WHERE proId = :proid";
+                    WHERE proId = :proId";
         }
 
         $stmt = $pdo->prepare($sql);
@@ -83,7 +83,7 @@ function updateProd(int $id, array $data, PDO $pdo) {
             ':prodescription' => $data['prodescription'],
             ':price'          => $data['price'],
             ':catId'          => $data['catId'],
-            ':proid'          => $id
+            ':proId'          => $id
         ];
 
         if (!empty($data['image'])) {
@@ -115,6 +115,30 @@ function getProduitsPlusVendus(PDO $pdo, $limite = 5)
     $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+function uploadProductImage(array $file, string $targetDir): ?string {
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    $maxFileSize = 5 * 1024 * 1024; // 5 Mo
+
+    $fileName = $file['name'];
+    $fileSize = $file['size'];
+    $fileTmp  = $file['tmp_name'];
+
+    $extension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+    // Contrôle de l'extension et de la taille
+    if (in_array($extension, $allowedExtensions) && $fileSize <= $maxFileSize) {
+        // Nom de fichier unique (ex: prod_64f1a2b3c4d5e.webp)
+        $newFileName = uniqid('prod_', true) . '.' . $extension;
+        $destination = $targetDir . $newFileName;
+
+        // Fonction native PHP corrigée ici :
+        if (move_uploaded_file($fileTmp, $destination)) {
+            return $newFileName;
+        }
+    }
+
+    return null;
 }
 
 

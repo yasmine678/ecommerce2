@@ -16,14 +16,14 @@
             </a>
         </li>
         <li>
-            <a href="../categories/index_admin.php" class="nav-link text-white d-flex align-items-center gap-2">
+            <a href="../categories/index.php" class="nav-link text-white d-flex align-items-center gap-2">
                 <i class="bi bi-folder2-open"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-archive text-warning mb-2" viewBox="0 0 16 16">
                         <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
                     </svg></i> Catégories
             </a>
         </li>
         <li>
-            <a href="../products/index_admin.php" class="nav-link text-white d-flex align-items-center gap-2">
+            <a href="../products/index.php" class="nav-link text-white d-flex align-items-center gap-2">
                 <i class="bi bi-box-seam"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-box2" viewBox="0 0 16 16">
                         <path d="M2.95.4a1 1 0 0 1 .8-.4h8.5a1 1 0 0 1 .8.4l2.85 3.8a.5.5 0 0 1 .1.3V15a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4.5a.5.5 0 0 1 .1-.3zM7.5 1H3.75L1.5 4h6zm1 0v3h6l-2.25-3zM15 5H1v10h14z" />
                     </svg></i> Produits

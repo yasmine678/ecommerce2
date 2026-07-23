@@ -5,14 +5,28 @@
     box-sizing: border-box;
 }
 
-body {
+/* Client : header fixe */
+body.client {
     padding-top: 90px;
 }
+
 @media (min-width: 992px) {
-    body {
+    body.client {
         padding-top: 110px;
     }
-} /* Suppression des padding-top qui créaient la bande blanche */
+}
+
+/* Admin : pas de header */
+body.admin {
+    padding-top: 0;
+}
+
+/* Contenu admin */
+body.admin .main-content {
+    margin-left: 250px;
+    padding: 30px;
+    width: calc(100% - 250px);
+}
 
 
 /* ===== LOGO / NAVBAR ===== */
@@ -215,8 +229,8 @@ body {
     color: white;
 }
 .main-content {
-    margin-top: 50px; /* Ajustez les pixels selon l'espace souhaité */
-    padding-bottom: 50px; /* Optionnel : ajoute aussi de l'espace avant le footer */
+    margin-left: 250px; /* Ajustez les pixels selon l'espace souhaité */
+    padding-top: 20px; /* Optionnel : ajoute aussi de l'espace avant le footer */
 }
 .barre-fond {
     height: 14px;

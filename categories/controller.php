@@ -13,22 +13,22 @@ function getAll(PDO $pdo)
 
 
 }
-function getModi($id, PDO $pdo)
+function getModi(int $id, PDO $pdo)
 {
-    $req = "SELECT * FROM category WHERE catId = :catid";
+    $req = "SELECT * FROM category WHERE catId = :catId";
     $stmt = $pdo->prepare($req);
     $stmt->execute([
-        ':catid' => $id
+        ':catId' => $id
     ]);
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 
 }
-function getProduitsByCategorie($Id, PDO $pdo)
+function getProduitsByCategorie(int $id, PDO $pdo)
 {
     $req = "SELECT * FROM product WHERE catId = :catId";
     $stmt = $pdo->prepare($req);
-    $stmt->execute([':catId' => $Id]);
+    $stmt->execute([':catId' => $id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -36,7 +36,7 @@ function getProduitsByCategorie($Id, PDO $pdo)
 
 
 
-function create($data, PDO $pdo)
+function create(array $data, PDO $pdo)
 {
     $req = "INSERT INTO category(name, description) VALUES (:name, :description)";
 
@@ -50,25 +50,25 @@ function create($data, PDO $pdo)
 
 
 }
-function delete($id, PDO $pdo)
+function delete(int $id, PDO $pdo)
 {
-    $req = "DELETE FROM category WHERE catId = :catid ";
+    $req = "DELETE FROM category WHERE catId = :catId ";
 
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
-        ':catid' => $id
+        ':catId' => $id
     ]);
 
 
 }
-function update($id, $data, PDO $pdo)
+function update(int $id, array $data, PDO $pdo)
 {
-    $req = "UPDATE category SET name = :name, description = :description WHERE catId = :catid";
+    $req = "UPDATE category SET name = :name, description = :description WHERE catId = :catId";
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
         ':name' => $data['name'],
         ':description' => $data['description'],
-        ':catid' => $id
+        ':catId' => $id
     ]);
 }
 function getCountCategories(PDO $pdo)
