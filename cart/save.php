@@ -28,7 +28,7 @@ if (isset($_POST['validate']) && $_POST['validate'] !== '') {
 
     } else if ($validate == "Supprimer") {
 
-        $cartId = $_POST['cartId'];
+        $cartId = $_POST['cId'];
         supprimerLigneCart($cartId, $pdo);
         header("Location: /ecommerce/cart/index.php?succes=1");
         exit();

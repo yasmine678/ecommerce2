@@ -90,7 +90,7 @@ $produitsAffiches = array_slice($produits, $debut, $produitsParPage);
                                     <span class="fw-bold text-warning">
                                         <?php echo number_format($produit['price'], 0, ',', ' '); ?> FCFA
                                     </span>
-                                    <form action="./panier/save.php" method="POST" class="m-0">
+                                    <form action="./cart/add.php" method="POST" class="m-0">
                                         <input type="hidden" name="produit_id" value="<?php echo $produit['proId']; ?>">
                                         <button type="submit" class="btn btn-sm btn-outline-warning">🛒</button>
                                     </form>

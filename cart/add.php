@@ -8,7 +8,7 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-$userId = $_SESSION['user']['id'];
+$userId = $_SESSION['user']['usId'];
 $prodId = $_POST['proId'] ?? null;
 $quantite = (int) ($_POST['cquantity'] ?? 1);
 

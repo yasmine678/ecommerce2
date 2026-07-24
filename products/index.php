@@ -253,7 +253,7 @@ if ($categoryId) {
                                                  style="object-fit: cover;">
                                         <?php else: ?>
                                             <div class="text-center text-muted">
-                                                <span class="fs-1">📦</span>
+                                                <span class="fs-1">A</span>
                                                 <p class="small mb-0">Pas d'image</p>
                                             </div>
                                         <?php endif; ?>
@@ -280,7 +280,7 @@ if ($categoryId) {
                                                     <?= number_format($product['price'] ?? 0, 0, ',', ' ') ?> FCFA
                                                 </span>
                                             </div>
-                                            <form action="../panier/add.php" method="POST" class="m-0">
+                                            <form action="../cart/add.php" method="POST" class="m-0">
                                                 <input type="hidden" name="proId" value="<?= $product['proId'] ?>">
                                                 <button type="submit" class="btn btn-sm btn-outline-primary w-100">
                                                     🛒 Ajouter au panier

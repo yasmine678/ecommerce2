@@ -150,7 +150,7 @@ if ($isAdmin) {
                                 <?php endif; ?>
                             </div>
                             <div class="modal-footer">
-                                <a href="./produits.php?catId=<?= $category['catId'] ?>" class="btn btn-warning">
+                                <a href="../products/index.php/ $category['catId'] ?>" class="btn btn-warning">
                                     Voir tous les produits
                                 </a>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>

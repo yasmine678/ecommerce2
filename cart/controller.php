@@ -29,7 +29,7 @@ function insererLigneCart(int $userId, int $prodId, int $quantity, PDO $pdo)
 function mettreAJourQuantiteCart(int $cartId, int $quantity, PDO $pdo)
 {
     $stmt = $pdo->prepare("UPDATE cart SET cquantity = :cquantity WHERE cId = :cId");
-    return $stmt->execute([':cquantity' => $quantity, ':cid' => $cartId]);
+    return $stmt->execute([':cquantity' => $quantity, ':cId' => $cartId]);
 }
 
 function supprimerLigneCart(int $cartId, PDO $pdo)

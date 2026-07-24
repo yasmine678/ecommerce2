@@ -8,7 +8,7 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-$userId = $_SESSION['user']['cid'];
+$userId = $_SESSION['user']['usId'];
 $lignesCart = getCartByUser($userId, $pdo);
 
 $montantTotal = 0;
@@ -55,7 +55,7 @@ foreach ($lignesCart as $ligne) {
                             <tr>
                                 <td class="d-flex align-items-center gap-2">
                                     <?php if (!empty($ligne['image'])): ?>
-                                        <img src="/ecommerce/assets/images/produits/<?= htmlspecialchars($ligne['image']) ?>"
+                                        <img src="/ecommerce/assets/images/<?= htmlspecialchars($ligne['image']) ?>"
                                              style="width: 50px; height: 50px; object-fit: cover;" class="rounded">
                                     <?php endif; ?>
                                     <?= htmlspecialchars($ligne['proName']) ?>
@@ -96,7 +96,7 @@ foreach ($lignesCart as $ligne) {
             </div>
 
             <div class="text-end">
-                <a href="/ecommerce/orders/create.php" class="btn btn-warning btn-lg">
+                <a href="/ecommerce/order/create.php" class="btn btn-warning btn-lg">
                     Passer la commande
                 </a>
             </div>
