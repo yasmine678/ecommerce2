@@ -10,9 +10,9 @@ function getUserByEmail(string $email, PDO $pdo)
 }
 function getUserByID(int $id, PDO $pdo)
 {
-    $req = "SELECT * FROM users WHERE usid = :id";
+    $req = "SELECT * FROM users WHERE usId = :usId";
     $stmt = $pdo->prepare($req);
-    $stmt->execute([':id' => $id]);
+    $stmt->execute([':usId' => $id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 

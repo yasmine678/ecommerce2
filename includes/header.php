@@ -6,7 +6,7 @@ $loggedin = isset($user);
 
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 px-lg-4" style="background-color: #cb964b;">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 px-lg-4" style="background-color: #022f4e;">
     <div class="container-fluid px-0">
 
         <a href="/ecommerce/index.php" class="navbar-brand p-0">

@@ -55,7 +55,7 @@ $produitsAffiches = array_slice($produits, $debut, $produitsParPage);
 
             <!-- Barre de recherche alignée sur la même ligne -->
             <div class="col-12 col-md-5 col-lg-4">
-                <form action="./recherche.php" method="GET" class="d-flex">
+                <form action="./researsh.php" method="GET" class="d-flex">
                     <input type="search" name="q" class="form-control me-2" placeholder="Rechercher un produit..." required>
                     <button class="btn btn-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
@@ -91,7 +91,7 @@ $produitsAffiches = array_slice($produits, $debut, $produitsParPage);
                                         <?php echo number_format($produit['price'], 0, ',', ' '); ?> FCFA
                                     </span>
                                     <form action="./cart/add.php" method="POST" class="m-0">
-                                        <input type="hidden" name="produit_id" value="<?php echo $produit['proId']; ?>">
+                                        <input type="hidden" name="proId" value="<?php echo $produit['proId']; ?>">
                                         <button type="submit" class="btn btn-sm btn-outline-warning">🛒</button>
                                     </form>
                                 </div>
@@ -128,7 +128,7 @@ $produitsAffiches = array_slice($produits, $debut, $produitsParPage);
     </section>
 
     <?php include("./includes/footer.php"); ?>
-    <script src="/ecommerce/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/ecommerce/assets/js/bootstrap.js"></script>
 </body>
 
 </html>
