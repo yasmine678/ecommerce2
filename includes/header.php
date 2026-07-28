@@ -1,9 +1,16 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 
+require_once(__DIR__ . "/../requests/controller.php");
+require_once(__DIR__ . "/../config/db.php");
+
 $user = $_SESSION['user'] ?? null;
 $loggedin = isset($user);
 
+$demandeEnCours = false;
+if ($loggedin && $user['role'] === 'client') {
+    $demandeEnCours = (bool) getRequestEnCoursPourUser($user['usId'], $pdo);
+}
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 px-lg-4" style="background-color: #022f4e;">
@@ -56,6 +63,24 @@ $loggedin = isset($user);
                             Panier
                         </a>
                     </li>
+
+                    <?php if ($user['role'] === 'client'): ?>
+                        <li class="nav-item my-1 my-lg-0 me-lg-3">
+                            <?php if ($demandeEnCours): ?>
+                                <span class="nav-link border border-light rounded px-3 py-2 text-warning">
+                                    Demande en cours
+                                </span>
+                            <?php else: ?>
+                                <form action="/ecommerce/requests/save.php" method="POST" class="m-0">
+                                    <button type="submit" name="validate" value="Demander"
+                                        class="btn btn-outline-light rounded px-3 py-2">
+                                        Devenir manager
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </li>
+                    <?php endif; ?>
+
                     <li class="nav-item my-1 my-lg-0">
                         <a class="nav-link border border-light rounded px-3 py-2" href="/ecommerce/auth/logout.php">
                             Déconnexion

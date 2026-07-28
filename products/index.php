@@ -37,7 +37,7 @@ if ($categoryId) {
     <script src="../assets/js/bootstrap.js" defer></script>
 </head>
 
-<body class="<?= $isAdmin ? 'bg-light' : '' ?>" style="<?= !$isAdmin ? 'padding-top: 90px; background-color: #f8f9fa;' : '' ?>">
+<body class="<?= $isAdmin ? 'bg-light' : 'client' ?>" style="<?= !$isAdmin ? 'background-color: #f8f9fa;' : '' ?>">
 
     <?php if ($isAdmin): ?>
         <!-- Barre latérale d'administration -->
@@ -243,49 +243,54 @@ if ($categoryId) {
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                         <?php foreach ($products as $product): ?>
                             <div class="col">
-                                <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
+                                <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden d-flex flex-column">
 
-                                    <!-- Image produit ou placeholder avec hauteur fixe -->
-                                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
-                                        <?php if (!empty($product['image'])): ?>
-                                            <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>"
-                                                class="card-img-top w-100 h-100"
-                                                alt="<?= htmlspecialchars($product['proName'] ?? 'Produit') ?>"
-                                                style="object-fit: cover;">
-                                        <?php else: ?>
-                                            <div class="text-center text-muted">
-                                                <span class="fs-1">A</span>
-                                                <p class="small mb-0">Pas d'image</p>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
+                                    <div class="produit-clickable" role="button" tabindex="0"
+                                        data-proid="<?= $product['proId'] ?>"
+                                        data-name="<?= htmlspecialchars($product['proName'] ?? $product['name'] ?? '', ENT_QUOTES) ?>"
+                                        data-desc="<?= htmlspecialchars($product['prodescription'] ?? 'Aucune description disponible.', ENT_QUOTES) ?>"
+                                        data-price="<?= number_format($product['price'] ?? 0, 0, ',', ' ') ?>"
+                                        data-image="<?= !empty($product['image']) ? '../assets/images/' . htmlspecialchars($product['image'], ENT_QUOTES) : '' ?>"
+                                        data-cat="<?= htmlspecialchars($product['catName'] ?? $product['name'] ?? '', ENT_QUOTES) ?>">
+                                        <!-- Image produit ou placeholder avec hauteur fixe -->
+                                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
+                                            <?php if (!empty($product['image'])): ?>
+                                                <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>"
+                                                    class="card-img-top w-100 h-100"
+                                                    alt="<?= htmlspecialchars($product['proName'] ?? 'Produit') ?>"
+                                                    style="object-fit: cover;">
+                                            <?php else: ?>
+                                                <div class="text-center text-muted">
+                                                    <span class="fs-1">A</span>
+                                                    <p class="small mb-0">Pas d'image</p>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
 
-                                    <div class="card-body d-flex flex-column justify-content-between p-3">
-                                        <div>
+                                        <div class="card-body pb-0">
                                             <div class="d-flex justify-content-between align-items-start mb-2">
                                                 <h5 class="fw-bold text-dark mb-0">
                                                     <?= htmlspecialchars($product['proName'] ?? $product['name'] ?? '') ?>
                                                 </h5>
                                                 <span class="badge bg-info text-dark bg-opacity-25 border border-info border-opacity-25 rounded-pill">
-                                                    <?= htmlspecialchars($product['name'] ?? $product['name'] ?? 'Général') ?>
+                                                    <?= htmlspecialchars($product['catName'] ?? $product['name'] ?? 'Général') ?>
                                                 </span>
                                             </div>
-                                            <p class="text-muted small mb-3">
+                                            <p class="text-muted small mb-0">
                                                 <?= htmlspecialchars($product['prodescription'] ?? 'Aucune description disponible.') ?>
                                             </p>
                                         </div>
+                                    </div>
 
-                                        <div>
-                                            <div class="d-flex justify-content-between align-items-center mt-auto">
-                                                <span class="fw-bold text-warning fs-5">
-                                                    <?= number_format($product['price'] ?? 0, 0, ',', ' ') ?> FCFA
-                                                </span>
-                                                <form action="./cart/add.php" method="POST" class="m-0">
-                                                    <input type="hidden" name="proId" value="<?php echo $product['proId']; ?>">
-                                                    <button type="submit" class="btn btn-sm btn-outline-warning">🛒</button>
-                                                </form>
-                                            </div>
-
+                                    <div class="card-body pt-2 mt-auto">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="fw-bold text-warning fs-5">
+                                                <?= number_format($product['price'] ?? 0, 0, ',', ' ') ?> FCFA
+                                            </span>
+                                            <form action="./cart/add.php" method="POST" class="m-0">
+                                                <input type="hidden" name="proId" value="<?php echo $product['proId']; ?>">
+                                                <button type="submit" class="btn btn-sm btn-outline-warning">🛒</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -298,6 +303,11 @@ if ($categoryId) {
 
         </div>
     </main>
+
+    <?php if (!$isAdmin): ?>
+        <?php include(__DIR__ . "/../includes/produit-modal.php"); ?>
+        <script src="../assets/js/script.js" defer></script>
+    <?php endif; ?>
 
 </body>
 

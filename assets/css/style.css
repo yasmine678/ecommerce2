@@ -48,7 +48,8 @@ body.admin .main-content {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    padding: 40px 20px;
+    padding-top: 0;
+    margin-top: 0;
 }
 
 .hero::before {
@@ -111,7 +112,6 @@ body.admin .main-content {
     }
 }
 
-/* ===== CATEGORIES (carrousel/scroll) ===== */
 .category-icon {
     width: 80px;
     height: 80px;
@@ -155,11 +155,14 @@ body.admin .main-content {
 
 .scroll-categories {
     display: flex;
+    flex: 1 1 0%;
+    min-width: 0;
     overflow-x: auto;
     white-space: nowrap;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     padding-bottom: 5px;
+    gap: 10px;
 }
 
 .scroll-categories::-webkit-scrollbar {
@@ -190,25 +193,12 @@ body.admin .main-content {
     transform: translateY(-4px);
 }
 
-/* ===== CARROUSEL : fleches + etat neutre ===== */
-.carousel-control-prev,
-.carousel-control-next {
-    width: 5%;
-    filter: invert(1) grayscale(100);
-    opacity: 0.6;
+.produit-clickable {
+    cursor: pointer;
 }
-@media (max-width: 576px) {
-    .carousel-control-prev,
-    .carousel-control-next {
-        width: 10%;
-    }
-}
-
-.carousel-neutre .carousel-control-prev,
-.carousel-neutre .carousel-control-next {
-    opacity: 0.15;
-    pointer-events: none;
-    cursor: default;
+.produit-clickable:focus-visible {
+    outline: 2px solid #cb964b;
+    outline-offset: 2px;
 }
 
 /* ===== PAGINATION NUMEROTEE ===== */
@@ -228,6 +218,7 @@ body.admin .main-content {
     border-color: #cb964b;
     color: white;
 }
+
 .main-content {
     margin-left: 250px; /* Ajustez les pixels selon l'espace souhaité */
     padding-top: 20px; /* Optionnel : ajoute aussi de l'espace avant le footer */

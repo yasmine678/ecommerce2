@@ -1,3 +1,8 @@
+<?php
+require_once(__DIR__ . "/../requests/controller.php");
+require_once(__DIR__ . "/../config/db.php");
+$nombreDemandes = count(getPendingRequests($pdo));
+?>
 <div class="responsive d-flex flex-column flex-shrink-0 p-3 text-white bg-primary" style="width: 250px; min-height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000;">
     <!-- Logo -->
     <a href="../index.php" class="d-flex align-items-center mb-4 me-md-auto text-white text-decoration-none bg-white p-2 rounded w-100 justify-content-center">
@@ -37,12 +42,15 @@
             </a>
         </li>
         <li>
-            <a href="../users/index.php" class="nav-link text-white d-flex align-items-center gap-2">
+            <a href="../admin/users.php" class="nav-link text-white d-flex align-items-center gap-2">
                 <i class="bi bi-people">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                     </svg>
                 </i> Utilisateurs
+                <?php if ($nombreDemandes > 0): ?>
+                    <span class="badge bg-warning text-dark ms-auto"><?= $nombreDemandes ?></span>
+                <?php endif; ?>
             </a>
         </li>
     </ul>

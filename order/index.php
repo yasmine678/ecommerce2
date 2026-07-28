@@ -13,6 +13,8 @@ $commandes = getCommandesByUser($_SESSION['user']['usId'], $pdo);
 $libelles = [
     'en_attente' => ['label' => 'En attente', 'classe' => 'secondary'],
     'en_cours' => ['label' => 'En cours', 'classe' => 'info'],
+    'expediee' => ['label' => 'Expédiée', 'classe' => 'primary'],
+    'livee' => ['label' => 'Livrée', 'classe' => 'success'],
     'annulee' => ['label' => 'Annulée', 'classe' => 'danger'],
 ];
 ?>
@@ -25,7 +27,7 @@ $libelles = [
     <link rel="stylesheet" href="/ecommerce/assets/css/bootstrap.css">
     <link rel="stylesheet" href="/ecommerce/assets/css/style.css">
 </head>
-<body>
+<body class="client">
     <?php include(__DIR__ . "/../includes/header.php"); ?>
 
     <div class="container my-5">

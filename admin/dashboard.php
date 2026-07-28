@@ -15,6 +15,10 @@ if (!isset($_SESSION['user'])) {
 $nombreProduits = getCountProduits($pdo);
 $nombreCategories = getCountCategories($pdo);
 $nombreClients = getCountClients($pdo);
+$topProduits = getProduitsPlusVendus($pdo, 5);
+$categoriesProduits = getCategoriesAvecNombreProduits($pdo);
+$totalProduitsCategories = array_sum(array_column($categoriesProduits, 'nombre'));
+$couleursCamembert = ['#cb964b', '#022f4e', '#3498db', '#28a745', '#e67e22', '#9b59b6', '#e74c3c', '#16a085'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -86,8 +90,10 @@ $nombreClients = getCountClients($pdo);
 
             </div>
 
+            <div class="row g-3">
+            <div class="col-lg-6">
             <!-- Graphique des produits les plus vendus -->
-            <div class="card border-0 shadow-sm p-4">
+            <div class="card border-0 shadow-sm p-4 h-100">
                 <h5 class="fw-bold mb-4">Produits les plus vendus</h5>
 
                 <?php if (empty($topProduits)): ?>
@@ -181,6 +187,55 @@ $nombreClients = getCountClients($pdo);
 
                     </div>
                 <?php endif; ?>
+            </div>
+            </div>
+
+            <div class="col-lg-6">
+            <!-- Camembert des catégories par nombre de produits -->
+            <div class="card border-0 shadow-sm p-4 h-100">
+                <h5 class="fw-bold mb-4">Catégories par nombre de produits</h5>
+
+                <?php if (empty($categoriesProduits) || $totalProduitsCategories === 0): ?>
+                    <p class="text-muted m-0">Aucune catégorie avec des produits pour le moment.</p>
+                <?php else: ?>
+                    <?php
+                    $degrades = [];
+                    $cumule = 0;
+                    foreach ($categoriesProduits as $i => $cat) {
+                        $part = ($cat['nombre'] / $totalProduitsCategories) * 100;
+                        $debut = $cumule;
+                        $cumule += $part;
+                        $couleur = $couleursCamembert[$i % count($couleursCamembert)];
+                        $degrades[] = "$couleur " . round($debut, 2) . "% " . round($cumule, 2) . "%";
+                    }
+                    ?>
+
+                    <div class="d-flex flex-column flex-sm-row align-items-center gap-4">
+                        <div class="position-relative flex-shrink-0" style="width: 180px; height: 180px;">
+                            <div class="rounded-circle w-100 h-100"
+                                style="background: conic-gradient(<?= implode(', ', $degrades) ?>);">
+                            </div>
+                            <div class="rounded-circle position-absolute bg-white"
+                                style="width: 100px; height: 100px; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                            </div>
+                        </div>
+
+                        <ul class="list-unstyled m-0 w-100">
+                            <?php foreach ($categoriesProduits as $i => $cat): ?>
+                                <li class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="d-flex align-items-center gap-2">
+                                        <span class="rounded-circle d-inline-block"
+                                            style="width: 12px; height: 12px; background-color: <?= $couleursCamembert[$i % count($couleursCamembert)] ?>;"></span>
+                                        <?= htmlspecialchars($cat['name']) ?>
+                                    </span>
+                                    <span class="text-muted"><?= $cat['nombre'] ?></span>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
+            </div>
+            </div>
             </div>
 
         </div>

@@ -78,6 +78,18 @@ function getCountCategories(PDO $pdo)
     return $stmt->fetchColumn();
 }
 
+function getCategoriesAvecNombreProduits(PDO $pdo)
+{
+    $req = "SELECT category.name, COUNT(product.proId) AS nombre
+            FROM category
+            LEFT JOIN product ON product.catId = category.catId
+            GROUP BY category.catId, category.name
+            HAVING nombre > 0
+            ORDER BY nombre DESC";
+    $stmt = $pdo->query($req);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 
 ?>

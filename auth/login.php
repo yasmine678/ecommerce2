@@ -31,11 +31,11 @@ require_once(__DIR__ . "/../config/db.php");
         <form action="../users/save.php" method="POST" class="border border-gray p-4 rounded">
             <div class="col-sm-10">
                 <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="email" name="email" autocomplete="username" class="form-control" required>
             </div>
             <div class="col-sm-10">
                 <label class="form-label">Mot de passe</label>
-                <input type="password" name="password" class="form-control" required>
+                <input type="password" name="password" autocomplete="current-password" class="form-control" required>
             </div><br>
             <div>   
             <button type="submit" name="validate" value="Connexion" class="btn btn-warning w-100">

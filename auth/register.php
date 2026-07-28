@@ -34,30 +34,23 @@ require_once(__DIR__ . "/../config/db.php");
         <form action="../users/save.php" method="POST" class="row g-3 border border-gray p-4 rounded">
             <div class="col-sm-10">
                 <label class="form-label">Nom</label>
-                <input type="text" name="nom" class="form-control" required>
+                <input type="text" name="nom" autocomplete="family-name" class="form-control" required>
             </div>
             <div class="col-sm-10">
                 <label class="form-label">Prénom</label>
-                <input type="text" name="prenom" class="form-control" required>
+                <input type="text" name="prenom" autocomplete="given-name" class="form-control" required>
             </div>
             <div class="col-sm-10">
                 <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" required>
+                <input type="email" name="email" autocomplete="username" class="form-control" required>
             </div>
             <div class="col-sm-10">
                 <label class="form-label">Mot de passe</label>
-                <input type="password" name="password" class="form-control" required minlength="6">
+                <input type="password" name="password" autocomplete="new-password" class="form-control" required minlength="6">
             </div>
             <div class="col-sm-10">
                 <label class="form-label">Confirmer le mot de passe</label>
-                <input type="password" name="password_confirm" class="form-control" required>
-            </div><br>
-             <div class="mb-3">
-                <label class="form-label">Je suis</label>
-                <select name="role" class="form-select" required>
-                    <option value="client">Client</option>
-                    <option value="manager">Manager</option>
-                </select>
+                <input type="password" name="password_confirm" autocomplete="new-password" class="form-control" required>
             </div><br>
             <div>
             <button type="submit" name="validate" value="Inscription" class="btn btn-primary w-100">

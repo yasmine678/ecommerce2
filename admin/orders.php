@@ -13,6 +13,8 @@ $commandes = getToutesLesCommandes($pdo);
 $statutsDisponibles = [
     'en_attente' => 'En attente',
     'en_cours' => 'En cours',
+    'expediee' => 'Expédiée',
+    'livee' => 'Livrée',
     'annulee' => 'Annulée',
 ];
 ?>
@@ -72,48 +74,50 @@ $statutsDisponibles = [
                                     </button>
                                 </td>
                             </tr>
-
-                            <div class="modal fade" id="modalStatut<?= $commande['oId'] ?>" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form action="../order/save.php" method="POST">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Commande #<?= $commande['oId'] ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <input type="hidden" name="oId" value="<?= $commande['oId'] ?>">
-
-                                                <p class="mb-2">
-                                                    <strong>Client :</strong>
-                                                    <?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?>
-                                                </p>
-                                                <p class="mb-3">
-                                                    <strong>Produit :</strong> <?= htmlspecialchars($commande['proName']) ?>
-                                                    (x<?= $commande['quantity'] ?>)
-                                                </p>
-
-                                                <label class="form-label">Nouveau statut :</label>
-                                                <select name="status" class="form-select">
-                                                    <?php foreach ($statutsDisponibles as $valeur => $libelle): ?>
-                                                        <option value="<?= $valeur ?>" <?= ($valeur === $commande['status']) ? 'selected' : '' ?>>
-                                                            <?= $libelle ?>
-                                                        </option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                                <button type="submit" name="validate" value="Mise à jour" class="btn btn-primary">Enregistrer</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
+
+            <?php foreach ($commandes as $commande): ?>
+                <div class="modal fade" id="modalStatut<?= $commande['oId'] ?>" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="../order/save.php" method="POST">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Commande #<?= $commande['oId'] ?></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="oId" value="<?= $commande['oId'] ?>">
+
+                                    <p class="mb-2">
+                                        <strong>Client :</strong>
+                                        <?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?>
+                                    </p>
+                                    <p class="mb-3">
+                                        <strong>Produit :</strong> <?= htmlspecialchars($commande['proName']) ?>
+                                        (x<?= $commande['quantity'] ?>)
+                                    </p>
+
+                                    <label class="form-label">Nouveau statut :</label>
+                                    <select name="status" class="form-select">
+                                        <?php foreach ($statutsDisponibles as $valeur => $libelle): ?>
+                                            <option value="<?= $valeur ?>" <?= ($valeur === $commande['status']) ? 'selected' : '' ?>>
+                                                <?= $libelle ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="submit" name="validate" value="Mise à jour" class="btn btn-primary">Enregistrer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         <?php endif; ?>
     </main>
 

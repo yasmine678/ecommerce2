@@ -25,7 +25,7 @@ foreach ($lignesCart as $ligne) {
     <link rel="stylesheet" href="/ecommerce/assets/css/bootstrap.css">
     <link rel="stylesheet" href="/ecommerce/assets/css/style.css">
 </head>
-<body>
+<body class="client">
     <?php include(__DIR__ . "/../includes/header.php"); ?>
 
     <div class="container my-5">

@@ -1,6 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 require_once(__DIR__ . "/../users/controller.php");
+require_once(__DIR__ . "/../requests/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'manager') {
@@ -9,6 +10,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'manager') {
 }
 
 $utilisateurs = getAllUsers($pdo);
+$demandes = getPendingRequests($pdo);
 $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder soi-meme
 ?>
 <!DOCTYPE html>
@@ -33,6 +35,50 @@ $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder
             <div class="alert alert-danger">Une erreur est survenue.</div>
         <?php endif; ?>
 
+        <!-- Demandes pour devenir manager -->
+        <?php if (!empty($demandes)): ?>
+            <h5 class="fw-bold mb-3">Demandes pour devenir manager</h5>
+            <div class="table-responsive mb-4">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Demandé le</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($demandes as $demande): ?>
+                            <tr>
+                                <td><?= htmlspecialchars(($demande['firstName'] ?? '') . ' ' . ($demande['lastName'] ?? '')) ?></td>
+                                <td><?= htmlspecialchars($demande['email']) ?></td>
+                                <td><?= htmlspecialchars($demande['requestedAt']) ?></td>
+                                <td class="text-end">
+                                    <form action="/ecommerce/requests/save.php" method="POST" class="d-inline">
+                                        <input type="hidden" name="reqId" value="<?= $demande['reqId'] ?>">
+                                        <button type="submit" name="validate" value="Accepter"
+                                                class="btn btn-sm btn-outline-success">
+                                            Accepter
+                                        </button>
+                                    </form>
+                                    <form action="/ecommerce/requests/save.php" method="POST" class="d-inline"
+                                          onsubmit="return confirm('Refuser cette demande ?');">
+                                        <input type="hidden" name="reqId" value="<?= $demande['reqId'] ?>">
+                                        <button type="submit" name="validate" value="Refuser"
+                                                class="btn btn-sm btn-outline-danger">
+                                            Refuser
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+
+        <h5 class="fw-bold mb-3">Tous les utilisateurs</h5>
         <?php if (empty($utilisateurs)): ?>
             <div class="alert alert-info">Aucun utilisateur trouvé.</div>
         <?php else: ?>

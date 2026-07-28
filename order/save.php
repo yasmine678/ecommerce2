@@ -15,7 +15,7 @@ if ($action === 'Mise à jour') {
     $orderId = intval($_POST['oId'] ?? 0);
     $statut = $_POST['status'] ?? '';
 
-    $statutsValides = ['en_attente', 'en_cours', 'annulee'];
+    $statutsValides = ['en_attente', 'en_cours', 'expediee', 'livee', 'annulee'];
 
     if (!$orderId || !in_array($statut, $statutsValides)) {
         header("Location: /ecommerce/admin/orders.php?erreur=1");

@@ -48,7 +48,7 @@ if (isset($_POST['validate']) && $_POST['validate'] !== '') {
         $email = trim($_POST['email']);
         $password = $_POST['password'];
         $passwordConfirm = $_POST['password_confirm'];
-        $role = $_POST['role'] ?? 'client';
+        $role = 'client';
 
         if (empty($nom) || empty($prenom) || empty($email) || empty($password)) {
             header("Location: /ecommerce/auth/register.php?erreur=champs_vides");
