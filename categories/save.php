@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once(__DIR__ . "/../config/db.php");
 require_once(__DIR__ . "/controller.php");
+require_once(__DIR__ . "/../products/controller.php");
 
 // Protection : vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user'])) {
@@ -10,17 +11,24 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
+// Dossier de destination pour les images de catégorie (même dossier que les produits)
+$uploadDir = __DIR__ . '/../assets/images/';
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
+}
+
 // Vérification de la soumission en POST via le bouton 'action' ou 'validate'
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    
+
     // Supporte à la fois 'action' (du nouveau modal) et 'validate' (de l'ancien formulaire)
     $action = $_POST['action'] ?? $_POST['validate'] ?? '';
 
     // 1. ACTION : CRÉER (Créer / create)
     if ($action === 'create' || $action === 'Creer') {
-        
+
         $catName = trim($_POST['name'] ?? $_POST['name'] ?? '');
         $catDescription = trim($_POST['description'] ?? $_POST['description'] ?? '');
+        $catImage = null;
 
         if (empty($catName)) {
             $_SESSION['error'] = "Le nom de la catégorie est obligatoire.";
@@ -28,9 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
+        if (isset($_FILES['catImage']) && $_FILES['catImage']['error'] === UPLOAD_ERR_OK) {
+            $catImage = uploadProductImage($_FILES['catImage'], $uploadDir);
+        }
+
         $data = [
             'name' => $catName,
-            'description' => $catDescription
+            'description' => $catDescription,
+            'catImage' => $catImage
         ];
 
         if (create($data, $pdo)) {
@@ -43,10 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 2. ACTION : MISE À JOUR (update / Mise à jour)
     } elseif ($action === 'mise à jour') {
-        
+
         $id = filter_input(INPUT_POST, 'catId', FILTER_VALIDATE_INT) ?? filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
         $catName = trim( $_POST['name'] ?? '');
         $catDescription = trim($_POST['description'] ?? $_POST['description'] ?? '');
+        $catImage = null;
 
         if (!$id || empty($catName)) {
             $_SESSION['error'] = "Informations invalides pour la mise à jour.";
@@ -54,9 +68,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
+        if (isset($_FILES['catImage']) && $_FILES['catImage']['error'] === UPLOAD_ERR_OK) {
+            // Supprime l'ancienne image du disque avant d'enregistrer la nouvelle
+            $ancienneCategorie = getModi($id, $pdo);
+            if (!empty($ancienneCategorie['catImage']) && file_exists($uploadDir . $ancienneCategorie['catImage'])) {
+                unlink($uploadDir . $ancienneCategorie['catImage']);
+            }
+            $catImage = uploadProductImage($_FILES['catImage'], $uploadDir);
+        }
+
         $data = [
             'name' => $catName,
-            'description' => $catDescription
+            'description' => $catDescription,
+            'catImage' => $catImage
         ];
 
         if (update($id, $data, $pdo)) {
@@ -69,8 +93,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // 3. ACTION : SUPPRIMER (Supprimer / delete)
     } elseif ($action === 'delete' || $action === 'Supprimer') {
-        
+
         $id = filter_input(INPUT_POST, 'catId', FILTER_VALIDATE_INT) ?? filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+
+        if ($id) {
+            $categorieASupprimer = getModi($id, $pdo);
+            if (!empty($categorieASupprimer['catImage']) && file_exists($uploadDir . $categorieASupprimer['catImage'])) {
+                unlink($uploadDir . $categorieASupprimer['catImage']);
+            }
+        }
 
         if ($id && delete($id, $pdo)) {
             $_SESSION['success'] = "La catégorie a été supprimée avec succès.";

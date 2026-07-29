@@ -38,17 +38,14 @@ function getProduitsByCategorie(int $id, PDO $pdo)
 
 function create(array $data, PDO $pdo)
 {
-    $req = "INSERT INTO category(name, description) VALUES (:name, :description)";
+    $req = "INSERT INTO category(name, description, catImage) VALUES (:name, :description, :catImage)";
 
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
         ':name' => $data['name'],
-        ':description' => $data['description']
+        ':description' => $data['description'],
+        ':catImage' => $data['catImage'] ?? ''
     ]);
-
-
-
-
 }
 function delete(int $id, PDO $pdo)
 {
@@ -63,13 +60,25 @@ function delete(int $id, PDO $pdo)
 }
 function update(int $id, array $data, PDO $pdo)
 {
-    $req = "UPDATE category SET name = :name, description = :description WHERE catId = :catId";
+    if (!empty($data['catImage'])) {
+        $req = "UPDATE category SET name = :name, description = :description, catImage = :catImage WHERE catId = :catId";
+    } else {
+        $req = "UPDATE category SET name = :name, description = :description WHERE catId = :catId";
+    }
+
     $stmt = $pdo->prepare($req);
-    return $stmt->execute([
+
+    $params = [
         ':name' => $data['name'],
         ':description' => $data['description'],
         ':catId' => $id
-    ]);
+    ];
+
+    if (!empty($data['catImage'])) {
+        $params[':catImage'] = $data['catImage'];
+    }
+
+    return $stmt->execute($params);
 }
 function getCountCategories(PDO $pdo)
 {

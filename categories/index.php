@@ -79,8 +79,8 @@ if ($isAdmin) {
 
                         <div class="card-body d-flex flex-column justify-content-between p-3">
                             <div>
-                                <?php if (!empty($category['image'])): ?>
-                                    <img src="/ecommerce/assets/images<?= htmlspecialchars($category['image']) ?>"
+                                <?php if (!empty($category['catImage'])): ?>
+                                    <img src="/ecommerce/assets/images/<?= htmlspecialchars($category['catImage']) ?>"
                                         class="w-100 rounded mb-2" style="height: 120px; object-fit: cover;" alt="<?= htmlspecialchars($category['name']) ?>">
                                 <?php endif; ?>
 
@@ -150,7 +150,7 @@ if ($isAdmin) {
                                 <?php endif; ?>
                             </div>
                             <div class="modal-footer">
-                                <a href="../products/index.php/ $category['catId'] ?>" class="btn btn-warning">
+                                <a href="../products/index.php?catId=<?= $category['catId'] ?>" class="btn btn-warning">
                                     Voir tous les produits
                                 </a>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -166,7 +166,7 @@ if ($isAdmin) {
                     <div class="modal fade" id="changeModal<?= $category['catId'] ?>" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form action="./save.php" method="POST">
+                                <form action="./save.php" method="POST" enctype="multipart/form-data">
                                     <div class="modal-header">
                                         <h5 class="modal-title fw-bold">Mise à jour de la catégorie</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
@@ -180,6 +180,14 @@ if ($isAdmin) {
                                         <div class="mb-3">
                                             <label class="form-label fw-semibold">Description :</label>
                                             <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($category['description'] ?? ''); ?></textarea>
+                                        </div>
+                                        <?php if (!empty($category['catImage'])): ?>
+                                            <img src="/ecommerce/assets/images/<?= htmlspecialchars($category['catImage']) ?>"
+                                                class="w-100 rounded mb-2" style="height: 100px; object-fit: cover;" alt="">
+                                        <?php endif; ?>
+                                        <div class="mb-3">
+                                            <label class="form-label fw-semibold">Changer l'image :</label>
+                                            <input type="file" name="catImage" class="form-control" accept="image/*">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -244,7 +252,7 @@ if ($isAdmin) {
         <div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="./save.php" method="POST">
+                    <form action="./save.php" method="POST" enctype="multipart/form-data">
                         <div class="modal-header">
                             <h5 class="modal-title fw-bold">Ajouter une catégorie</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
@@ -257,6 +265,10 @@ if ($isAdmin) {
                             <div class="mb-3">
                                 <label for="desc" class="form-label fw-semibold">Description</label>
                                 <textarea name="description" id="desc" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="catImage" class="form-label fw-semibold">Image de la catégorie</label>
+                                <input type="file" name="catImage" id="catImage" class="form-control" accept="image/*">
                             </div>
                         </div>
                         <div class="modal-footer">
