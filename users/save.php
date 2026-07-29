@@ -2,6 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) session_start();
 // require_once("./controller.php");
 require_once("../auth/controller.php");
+require_once(__DIR__ . "/../order/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 if (isset($_POST['validate']) && $_POST['validate'] !== '') {
@@ -32,7 +33,8 @@ if (isset($_POST['validate']) && $_POST['validate'] !== '') {
         $_SESSION['user'] = $user;
 
         if ($user["role"] === "manager") {
-            header("Location: /ecommerce/admin/dashboard.php");
+            $nouvellesCommandes = getCountCommandesActives($pdo) > 0 ? '?nouvelles_commandes=1' : '';
+            header("Location: /ecommerce/admin/dashboard.php" . $nouvellesCommandes);
             exit();
         } else if ($user["role"] === "client") {
             header("Location: /ecommerce/index.php");

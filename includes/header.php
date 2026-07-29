@@ -64,23 +64,6 @@ if ($loggedin && $user['role'] === 'client') {
                         </a>
                     </li>
 
-                    <?php if ($user['role'] === 'client'): ?>
-                        <li class="nav-item my-1 my-lg-0 me-lg-3">
-                            <?php if ($demandeEnCours): ?>
-                                <span class="nav-link border border-light rounded px-3 py-2 text-warning">
-                                    Demande en cours
-                                </span>
-                            <?php else: ?>
-                                <form action="/ecommerce/requests/save.php" method="POST" class="m-0">
-                                    <button type="submit" name="validate" value="Demander"
-                                        class="btn btn-outline-light rounded px-3 py-2">
-                                        Devenir manager
-                                    </button>
-                                </form>
-                            <?php endif; ?>
-                        </li>
-                    <?php endif; ?>
-
                     <li class="nav-item my-1 my-lg-0">
                         <a class="nav-link border border-light rounded px-3 py-2" href="/ecommerce/auth/logout.php">
                             Déconnexion

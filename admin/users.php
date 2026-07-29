@@ -124,45 +124,47 @@ $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder
                                     <?php endif; ?>
                                 </td>
                             </tr>
-
-                            <?php if ($utilisateur['usId'] != $monId): ?>
-                                <div class="modal fade" id="modalRole<?= $utilisateur['usId'] ?>" tabindex="-1">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form action="./save.php" method="POST">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">
-                                                        Rôle de <?= htmlspecialchars($utilisateur['firstName'] ?? $utilisateur['email']) ?>
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input type="hidden" name="usId" value="<?= $utilisateur['usId'] ?>">
-                                                    <label class="form-label">Rôle :</label>
-                                                    <select name="role" class="form-select">
-                                                        <option value="client" <?= $utilisateur['role'] === 'client' ? 'selected' : '' ?>>
-                                                            Client
-                                                        </option>
-                                                        <option value="manager" <?= $utilisateur['role'] === 'manager' ? 'selected' : '' ?>>
-                                                            Manager
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                                    <button type="submit" name="validate" value="ChangerRole" class="btn btn-primary">
-                                                        Enregistrer
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
+
+            <?php foreach ($utilisateurs as $utilisateur): ?>
+                <?php if ($utilisateur['usId'] != $monId): ?>
+                    <div class="modal fade" id="modalRole<?= $utilisateur['usId'] ?>" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="./save.php" method="POST">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">
+                                            Rôle de <?= htmlspecialchars($utilisateur['firstName'] ?? $utilisateur['email']) ?>
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="hidden" name="usId" value="<?= $utilisateur['usId'] ?>">
+                                        <label class="form-label">Rôle :</label>
+                                        <select name="role" class="form-select">
+                                            <option value="client" <?= $utilisateur['role'] === 'client' ? 'selected' : '' ?>>
+                                                Client
+                                            </option>
+                                            <option value="manager" <?= $utilisateur['role'] === 'manager' ? 'selected' : '' ?>>
+                                                Manager
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                        <button type="submit" name="validate" value="ChangerRole" class="btn btn-primary">
+                                            Enregistrer
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
         <?php endif; ?>
     </main>
 

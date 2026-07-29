@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 require_once(__DIR__ . "/../products/controller.php");
 require_once(__DIR__ . "/../categories/controller.php");
 require_once(__DIR__ . "/../auth/controller.php");
+require_once(__DIR__ . "/../order/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 // Protection : seul un utilisateur connecté peut accéder à cette page
@@ -16,9 +17,10 @@ $nombreProduits = getCountProduits($pdo);
 $nombreCategories = getCountCategories($pdo);
 $nombreClients = getCountClients($pdo);
 $topProduits = getProduitsPlusVendus($pdo, 5);
+$nombreCommandesActives = getCountCommandesActives($pdo);
 $categoriesProduits = getCategoriesAvecNombreProduits($pdo);
 $totalProduitsCategories = array_sum(array_column($categoriesProduits, 'nombre'));
-$couleursCamembert = ['#cb964b', '#022f4e', '#3498db', '#28a745', '#e67e22', '#9b59b6', '#e74c3c', '#16a085'];
+$couleursCamembert = ['#066a95', '#022f4e', '#3498db', '#0a591c', '#049729', '#300f64', '#851306', '#16a085'];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -46,8 +48,12 @@ $couleursCamembert = ['#cb964b', '#022f4e', '#3498db', '#28a745', '#e67e22', '#9
                 <p class="text-muted">Bienvenue, <?= htmlspecialchars($_SESSION['user']['lastName'] ?? $_SESSION['user']['prenom'] ?? '') ?>.</p>
             </div>
 
+            <?php if (isset($_GET['nouvelles_commandes'])): ?>
+                <div class="alert alert-warning">Vous avez de nouvelles commandes.</div>
+            <?php endif; ?>
+
             <!-- Cartes statistiques -->
-            <div class="row row-cols-1 row-cols-md-3 g-3 mb-4">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mb-4">
 
                 <!-- Carte Produits -->
                 <div class="col">
@@ -84,6 +90,20 @@ $couleursCamembert = ['#cb964b', '#022f4e', '#3498db', '#28a745', '#e67e22', '#9
                             </svg>
                             <h3 class="fw-bold mb-0"><?= $nombreClients; ?></h3>
                             <p class="text-muted mb-0">Clients inscrits</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carte Commandes -->
+                <div class="col">
+                    <div class="card text-center shadow-sm border-0 dashboard-card p-3">
+                        <div class="card-body">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cart3 text-primary mb-2" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 10H4a.5.5 0 0 1-.485-.379L1.61 2H.5a.5.5 0 0 1-.5-.5M3.14 4l.5 2H4a.5.5 0 0 1 0 1H3.89l.5 2H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.485-.379L2.14 4z" />
+                                <path d="M6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0M13 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                            </svg>
+                            <h3 class="fw-bold mb-0"><?= $nombreCommandesActives; ?></h3>
+                            <p class="text-muted mb-0">Commandes</p>
                         </div>
                     </div>
                 </div>

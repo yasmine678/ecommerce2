@@ -55,3 +55,13 @@ function getCountCommandes(PDO $pdo)
 {
     return $pdo->query("SELECT COUNT(*) FROM orders")->fetchColumn();
 }
+
+function getCountCommandesActives(PDO $pdo)
+{
+    $req = "SELECT COUNT(*)
+            FROM orders
+            JOIN product ON orders.proId = product.proId
+            JOIN users ON orders.usId = users.usId
+            WHERE orders.status NOT IN ('livee', 'annulee')";
+    return $pdo->query($req)->fetchColumn();
+}
