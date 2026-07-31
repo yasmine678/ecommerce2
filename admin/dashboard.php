@@ -30,7 +30,7 @@ $couleursCamembert = ['#066a95', '#022f4e', '#3498db', '#0a591c', '#049729', '#3
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord - YosiShop</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/style.css'); ?>">
 </head>
 
 <body class="bg-light">

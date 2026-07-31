@@ -33,7 +33,7 @@ if ($categoryId) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $isAdmin ? "Gestion des Produits" : "Nos Produits" ?> - YosiShop</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/style.css'); ?>">
     <script src="../assets/js/bootstrap.js" defer></script>
 </head>
 

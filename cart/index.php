@@ -23,7 +23,7 @@ foreach ($lignesCart as $ligne) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon panier - YosiShop</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/../assets/css/style.css'); ?>">
 </head>
 <body class="client">
     <?php include(__DIR__ . "/../includes/header.php"); ?>
