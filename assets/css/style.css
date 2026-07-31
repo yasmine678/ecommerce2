@@ -5,15 +5,9 @@
     box-sizing: border-box;
 }
 
-/* Client : header fixe */
-body.client {
-    padding-top: 90px;
-}
-
-@media (min-width: 992px) {
-    body.client {
-        padding-top: 110px;
-    }
+/* Contenu client sous le header fixe (hauteur mesurée dynamiquement par includes/header.php) */
+.below-header {
+    margin-top: var(--header-height, 90px) !important;
 }
 
 /* Admin : pas de header */
@@ -49,7 +43,7 @@ body.admin .main-content {
     align-items: center;
     overflow: hidden;
     padding-top: 0;
-    margin-top: 0;
+    margin-top: var(--header-height, 90px);
 }
 
 .hero::before {
@@ -57,7 +51,7 @@ body.admin .main-content {
     position: absolute;
     inset: 0;
     background-color: #3498db;
-    background-image: url("http://localhost/ecommerce/assets/images/E-commerce.jpg");
+    background-image: url("../images/E-commerce.jpg");
     background-size: cover;
     background-position: center;
     filter: blur(6px);

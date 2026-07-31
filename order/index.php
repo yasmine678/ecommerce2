@@ -24,13 +24,13 @@ $libelles = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes commandes - YosiShop</title>
-    <link rel="stylesheet" href="/ecommerce/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/ecommerce/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body class="client">
     <?php include(__DIR__ . "/../includes/header.php"); ?>
 
-    <div class="container my-5">
+    <div class="container my-5 below-header">
         <h2 class="mb-4">Mes commandes</h2>
 
         <?php if (isset($_GET['succes'])): ?>

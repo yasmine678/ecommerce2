@@ -19,8 +19,8 @@ $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des utilisateurs - YosiShop</title>
-    <link rel="stylesheet" href="/ecommerce/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/ecommerce/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <?php include(__DIR__ . "/../admin/sidebar_admin.php"); ?>
@@ -168,6 +168,6 @@ $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder
         <?php endif; ?>
     </main>
 
-    <script src="/ecommerce/assets/js/bootstrap.js"></script>
+    <script src="../assets/js/bootstrap.js"></script>
 </body>
 </html>

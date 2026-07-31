@@ -22,13 +22,13 @@ foreach ($lignesCart as $ligne) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mon panier - YosiShop</title>
-    <link rel="stylesheet" href="/ecommerce/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/ecommerce/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body class="client">
     <?php include(__DIR__ . "/../includes/header.php"); ?>
 
-    <div class="container my-5">
+    <div class="container my-5 below-header">
         <h2 class="mb-4">Mon panier</h2>
 
         <?php if (isset($_GET['succes'])): ?>
@@ -55,7 +55,7 @@ foreach ($lignesCart as $ligne) {
                             <tr>
                                 <td class="d-flex align-items-center gap-2">
                                     <?php if (!empty($ligne['image'])): ?>
-                                        <img src="/ecommerce/assets/images/<?= htmlspecialchars($ligne['image']) ?>"
+                                        <img src="../assets/images/<?= htmlspecialchars($ligne['image']) ?>"
                                              style="width: 50px; height: 50px; object-fit: cover;" class="rounded">
                                     <?php endif; ?>
                                     <?= htmlspecialchars($ligne['proName']) ?>

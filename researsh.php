@@ -23,6 +23,16 @@ $resultats = [];
 if ($motCle !== '') {
     $resultats = searchProducts($motCle, $pdo);
 }
+
+if (($_GET['format'] ?? '') === 'json') {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        'motCle' => $motCle,
+        'total' => count($resultats),
+        'produits' => $resultats,
+    ]);
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -30,16 +40,16 @@ if ($motCle !== '') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche - YosiShop</title>
-    <link rel="stylesheet" href="/ecommerce/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/ecommerce/assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body class="client">
     <?php include(__DIR__ . "/includes/header.php"); ?>
 
-    <div class="container my-5">
+    <div class="container my-5 below-header">
 
         <!-- Barre de recherche, reaffichee ici pour permettre une nouvelle recherche -->
-        <form action="./recherche.php" method="GET" class="d-flex mb-4" style="max-width: 500px;">
+        <form action="./researsh.php" method="GET" class="d-flex mb-4 recherche-form" style="max-width: 500px;">
             <input type="search" name="q" class="form-control me-2"
                    placeholder="Rechercher un produit..."
                    value="<?= htmlspecialchars($motCle) ?>" required>
@@ -67,7 +77,7 @@ if ($motCle !== '') {
                         <div class="card h-100 shadow-sm produit-card">
                             <?php if (!empty($produit['image'])): ?>
                                 <a href="./products/detail.php?id=<?= $produit['proId'] ?>">
-                                    <img src="/ecommerce/assets/images/<?= htmlspecialchars($produit['image']) ?>"
+                                    <img src="./assets/images/<?= htmlspecialchars($produit['image']) ?>"
                                          class="card-img-top produit-image"
                                          alt="<?= htmlspecialchars($produit['proName']) ?>">
                                 </a>
@@ -104,7 +114,7 @@ if ($motCle !== '') {
     </div>
 
    
-    <script src="/ecommerce/assets/js/bootstrap.js"></script>
-    <script src="/ecommerce/assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/assets/js/script.js'); ?>"></script>
+    <script src="./assets/js/bootstrap.js"></script>
+    <script src="./assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/assets/js/script.js'); ?>"></script>
 </body>
 </html>

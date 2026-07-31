@@ -8,8 +8,8 @@ require_once(__DIR__ . "/../config/db.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
-    <link rel="stylesheet" href="http://localhost/ecommerce/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="http://localhost/ecommerce/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
 
@@ -49,6 +49,6 @@ require_once(__DIR__ . "/../config/db.php");
         </p>
     </div>
 
-     <script src="http://localhost/ecommerce/assets/js/bootstrap%20.js"></script>
+     <script src="../assets/js/bootstrap.js"></script>
 </body>
 </html>

@@ -58,10 +58,12 @@ $produitsAffiches = $pagesProduits[$page - 1] ?? [];
 
                     <?php foreach ($categories as $cat): ?>
 
-                        <a href="./products/index.php?catId=<?php echo $cat['catId']; ?>"
-                            class="btn btn-outline-secondary rounded-pill px-3 d-inline-block">
+                        <button type="button"
+                            class="btn btn-outline-secondary rounded-pill px-3 d-inline-block categorie-trigger"
+                            data-catid="<?php echo $cat['catId']; ?>"
+                            data-catname="<?php echo htmlspecialchars($cat['name'], ENT_QUOTES); ?>">
                             <?php echo htmlspecialchars($cat['name']); ?>
-                        </a>
+                        </button>
                     <?php endforeach; ?>
 
                 </div>
@@ -71,7 +73,7 @@ $produitsAffiches = $pagesProduits[$page - 1] ?? [];
 
             <!-- Barre de recherche alignée sur la même ligne -->
             <div class="col-12 col-md-5 col-lg-4">
-                <form action="./researsh.php" method="GET" class="d-flex">
+                <form action="./researsh.php" method="GET" class="d-flex recherche-form">
                     <input type="search" name="q" class="form-control me-2" placeholder="Rechercher un produit..." required>
                     <button class="btn btn-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
@@ -177,7 +179,40 @@ $produitsAffiches = $pagesProduits[$page - 1] ?? [];
         </div>
     </div>
 
-    <script src="/ecommerce/assets/js/bootstrap.js"></script>
+    <!-- Modal catégorie : 4 produits de la catégorie cliquée, rempli en JS -->
+    <div class="modal fade" id="categorieModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categorieModalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="categorieModalBody" class="row row-cols-2 row-cols-md-4 g-3"></div>
+                </div>
+                <div class="modal-footer">
+                    <a id="categorieModalVoirPlus" href="#" class="btn btn-warning">Voir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal recherche : résultats affichés sans quitter la page, rempli en JS -->
+    <div class="modal fade" id="rechercheModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rechercheModalTitle">Résultats de recherche</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="rechercheModalBody" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/js/bootstrap.js"></script>
     <script src="./assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/assets/js/script.js'); ?>"></script>
 </body>
 
