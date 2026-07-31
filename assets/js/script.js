@@ -77,7 +77,11 @@ document.querySelectorAll(".ajout-panier").forEach(function (form) {
             method: "POST",
             body: new FormData(form)
         })
-            .then(function () {
+            .then(function (response) {
+                if (response.url.indexOf("/auth/login.php") !== -1) {
+                    window.location.href = "/ecommerce/auth/login.php";
+                    return;
+                }
                 afficherMessagePanier("Produit ajouté au panier ✅");
             })
             .catch(function () {
