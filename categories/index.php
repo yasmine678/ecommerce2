@@ -81,7 +81,7 @@ if ($isAdmin) {
                             <div>
                                 <?php if (!empty($category['catImage'])): ?>
                                     <img src="/ecommerce/assets/images/<?= htmlspecialchars($category['catImage']) ?>"
-                                        class="w-100 rounded mb-2" style="height: 120px; object-fit: cover;" alt="<?= htmlspecialchars($category['name']) ?>">
+                                        class="w-100 rounded mb-1" style="height: 250px; object-fit: cover;" alt="<?= htmlspecialchars($category['name']) ?>">
                                 <?php endif; ?>
 
                                 <h5 class="fw-bold text-dark mb-1">

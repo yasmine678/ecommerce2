@@ -67,7 +67,7 @@ if ($categoryId) {
                         + Ajouter
                     </button>
 
-                    <!-- Modal Ajouter un produit -->
+                    <!-- Ajout de produit -->
                     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -140,7 +140,7 @@ if ($categoryId) {
                                 <div class="card border-0 shadow-sm p-3">
                                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
 
-                                        <!-- Image Admin -->
+                                       
                                         <span class="d-inline-flex align-items-center justify-content-center">
                                             <?php if (!empty($product['image'])): ?>
                                                 <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>" alt="Image produit" class="rounded border" width="50" height="50" style="object-fit: cover;">
@@ -149,22 +149,21 @@ if ($categoryId) {
                                             <?php endif; ?>
                                         </span>
 
-                                        <!-- Nom -->
+                                     
                                         <span class="badge bg-dark text-white px-3 py-2 fs-6">
                                             <?= htmlspecialchars($product['proName'] ?? '') ?>
                                         </span>
 
-                                        <!-- Description -->
+                                     
                                         <span class="badge bg-light text-secondary border px-3 py-2 text-truncate" style="max-width: 250px;">
                                             <?= htmlspecialchars($product['prodescription'] ?? 'Pas de description') ?>
                                         </span>
 
-                                        <!-- Catégorie -->
+                                
                                         <span class="badge bg-info text-dark bg-opacity-25 px-3 py-2 border border-info border-opacity-25 rounded-pill">
                                             <?= htmlspecialchars($product['name'] ?? 'Sans catégorie') ?>
                                         </span>
 
-                                        <!-- Prix -->
                                         <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 fs-6">
                                             <?= number_format($product['price'], 0, ',', ' ') ?> FCFA
                                         </span>
@@ -187,7 +186,7 @@ if ($categoryId) {
                                 </div>
                             </div>
 
-                            <!-- Modal Modification -->
+                            <!-- Modification -->
                             <div class="modal fade" id="changeModal<?= $product['proId'] ?>" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -239,7 +238,7 @@ if ($categoryId) {
 
                 <?php else: ?>
 
-                    <!-- VUE CLIENT (Grille de Cartes) -->
+                    <!-- VUE CLIENT -->
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                         <?php foreach ($products as $product): ?>
                             <div class="col">
@@ -256,7 +255,7 @@ if ($categoryId) {
                                         <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
                                             <?php if (!empty($product['image'])): ?>
                                                 <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>"
-                                                    class="card-img-top w-100 h-100"
+                                                    class="card-img-top w-100 h-100 "
                                                     alt="<?= htmlspecialchars($product['proName'] ?? 'Produit') ?>"
                                                     style="object-fit: cover;">
                                             <?php else: ?>
@@ -287,7 +286,7 @@ if ($categoryId) {
                                             <span class="fw-bold text-warning fs-5">
                                                 <?= number_format($product['price'] ?? 0, 0, ',', ' ') ?> FCFA
                                             </span>
-                                            <form action="../cart/add.php" method="POST" class="m-0">
+                                            <form action="../cart/add.php" method="POST" class="m-0 ajout-panier">
                                                 <input type="hidden" name="proId" value="<?php echo $product['proId']; ?>">
                                                 <button type="submit" class="btn btn-sm btn-outline-warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket2" viewBox="0 0 16 16">
                                                         <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
@@ -310,7 +309,7 @@ if ($categoryId) {
 
     <?php if (!$isAdmin): ?>
         <?php include(__DIR__ . "/../includes/produit-modal.php"); ?>
-        <script src="../assets/js/script.js" defer></script>
+        <script src="../assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/script.js'); ?>" defer></script>
     <?php endif; ?>
 
 </body>

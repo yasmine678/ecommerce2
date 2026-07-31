@@ -211,7 +211,7 @@ $couleursCamembert = ['#066a95', '#022f4e', '#3498db', '#0a591c', '#049729', '#3
             </div>
 
             <div class="col-lg-6">
-            <!-- Camembert des catégories par nombre de produits -->
+          
             <div class="card border-0 shadow-sm p-4 h-100">
                 <h5 class="fw-bold mb-4">Catégories par nombre de produits</h5>
 

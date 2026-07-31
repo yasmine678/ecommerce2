@@ -1,14 +1,15 @@
 <?php
 require_once(__DIR__ . "/../config/db.php");
 
-function creerCommande(int $userId, int $prodId, int $quantity, PDO $pdo)
+function creerCommande(int $userId, int $prodId, int $quantity, PDO $pdo, ?string $note = null)
 {
-    $req = "INSERT INTO orders (usId, proId, quantity, status) VALUES (:usId, :proId, :quantity, 'en_attente')";
+    $req = "INSERT INTO orders (usId, proId, quantity, note, status) VALUES (:usId, :proId, :quantity, :note, 'en_attente')";
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
         ':usId' => $userId,
         ':proId' => $prodId,
-        ':quantity' => $quantity
+        ':quantity' => $quantity,
+        ':note' => $note
     ]);
 }
 
@@ -31,7 +32,7 @@ function getCommandesByUser(int $userId, PDO $pdo)
 
 function getToutesLesCommandes(PDO $pdo)
 {
-    $req = "SELECT orders.oId, orders.quantity, orders.status,
+    $req = "SELECT orders.oId, orders.quantity, orders.status, orders.note,
                    product.proName, product.price,
                    users.lastName AS clientNom,
                    users.firstname AS clientPrenom

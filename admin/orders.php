@@ -52,6 +52,7 @@ $statutsDisponibles = [
                             <th>Produit</th>
                             <th>Quantité</th>
                             <th>Total</th>
+                            <th>Note client</th>
                             <th>Statut</th>
                             <th class="text-end">Actions</th>
                         </tr>
@@ -64,6 +65,15 @@ $statutsDisponibles = [
                                 <td><?= htmlspecialchars($commande['proName']) ?></td>
                                 <td><?= $commande['quantity'] ?></td>
                                 <td><?= number_format($commande['price'] * $commande['quantity'], 0, ',', ' ') ?> FCFA</td>
+                                <td>
+                                    <?php if (!empty($commande['note'])): ?>
+                                        <span class="text-truncate d-inline-block" style="max-width: 180px;" title="<?= htmlspecialchars($commande['note']) ?>">
+                                            <?= htmlspecialchars($commande['note']) ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="text-muted">—</span>
+                                    <?php endif; ?>
+                                </td>
                                 <td>
                                     <span class="badge bg-secondary"><?= $statutsDisponibles[$commande['status']] ?? $commande['status'] ?></span>
                                 </td>
@@ -99,6 +109,13 @@ $statutsDisponibles = [
                                         <strong>Produit :</strong> <?= htmlspecialchars($commande['proName']) ?>
                                         (x<?= $commande['quantity'] ?>)
                                     </p>
+
+                                    <?php if (!empty($commande['note'])): ?>
+                                        <p class="mb-3">
+                                            <strong>Note du client :</strong><br>
+                                            <span class="text-muted"><?= nl2br(htmlspecialchars($commande['note'])) ?></span>
+                                        </p>
+                                    <?php endif; ?>
 
                                     <label class="form-label">Nouveau statut :</label>
                                     <select name="status" class="form-select">

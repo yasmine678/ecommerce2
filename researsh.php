@@ -89,8 +89,8 @@ if ($motCle !== '') {
                                     <span class="fw-bold text-warning">
                                         <?= number_format($produit['price'], 0, ',', ' ') ?> FCFA
                                     </span>
-                                    <form action="./cart/add.php" method="POST" class="m-0">
-                                        <input type="hidden" name="product_id" value="<?= $produit['proId'] ?>">
+                                    <form action="./cart/add.php" method="POST" class="m-0 ajout-panier">
+                                        <input type="hidden" name="proId" value="<?= $produit['proId'] ?>">
                                         <button type="submit" class="btn btn-sm btn-outline-warning">🛒</button>
                                     </form>
                                 </div>
@@ -105,5 +105,6 @@ if ($motCle !== '') {
 
    
     <script src="/ecommerce/assets/js/bootstrap.js"></script>
+    <script src="/ecommerce/assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/assets/js/script.js'); ?>"></script>
 </body>
 </html>

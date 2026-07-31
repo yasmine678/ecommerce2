@@ -95,11 +95,21 @@ foreach ($lignesCart as $ligne) {
                 </table>
             </div>
 
-            <div class="text-end">
-                <a href="/ecommerce/order/create.php" class="btn btn-warning btn-lg">
-                    Passer la commande
-                </a>
-            </div>
+            <form action="/ecommerce/order/create.php" method="POST">
+                <div class="mb-3">
+                    <label for="note" class="form-label">
+                        Une précision pour le vendeur ? (optionnel)
+                    </label>
+                    <textarea name="note" id="note" class="form-control" rows="3"
+                        placeholder="Ex : couleur souhaitée, adresse de livraison précise, créneau horaire..."></textarea>
+                    <div class="form-text">Ce message ne sera visible que par le manager.</div>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-warning btn-lg">
+                        Passer la commande
+                    </button>
+                </div>
+            </form>
         <?php endif; ?>
     </div>
 

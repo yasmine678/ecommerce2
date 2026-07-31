@@ -57,3 +57,31 @@ if (produitModalEl) {
         };
     });
 }
+
+// ===== AJOUT AU PANIER SANS QUITTER LA PAGE =====
+function afficherMessagePanier(texte, erreur) {
+    const div = document.createElement("div");
+    div.className = "alert " + (erreur ? "alert-danger" : "alert-success") + " position-fixed shadow";
+    div.style.cssText = "top: 100px; right: 20px; z-index: 2000; min-width: 250px;";
+    div.textContent = texte;
+    document.body.appendChild(div);
+    setTimeout(function () {
+        div.remove();
+    }, 2500);
+}
+
+document.querySelectorAll(".ajout-panier").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        fetch(form.action, {
+            method: "POST",
+            body: new FormData(form)
+        })
+            .then(function () {
+                afficherMessagePanier("Produit ajouté au panier ✅");
+            })
+            .catch(function () {
+                afficherMessagePanier("Erreur lors de l'ajout au panier.", true);
+            });
+    });
+});

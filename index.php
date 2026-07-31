@@ -117,7 +117,7 @@ $produitsAffiches = $pagesProduits[$page - 1] ?? [];
                                     <span class="fw-bold text-warning">
                                         <?php echo number_format($produit['price'], 0, ',', ' '); ?> FCFA
                                     </span>
-                                    <form action="./cart/add.php" method="POST" class="m-0">
+                                    <form action="./cart/add.php" method="POST" class="m-0 ajout-panier">
                                         <input type="hidden" name="proId" value="<?php echo $produit['proId']; ?>">
                                         <button type="submit" class="btn btn-sm btn-outline-warning"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket2" viewBox="0 0 16 16">
                                                 <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />
@@ -178,7 +178,7 @@ $produitsAffiches = $pagesProduits[$page - 1] ?? [];
     </div>
 
     <script src="/ecommerce/assets/js/bootstrap.js"></script>
-    <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/assets/js/script.js'); ?>"></script>
 </body>
 
 </html>
