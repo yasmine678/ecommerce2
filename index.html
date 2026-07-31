@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo</title>
+<style>
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        font-family: system-ui, sans-serif;
+        background: #0f172a;
+        color: #f1f5f9;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    #horloge {
+        font-size: 3rem;
+        font-variant-numeric: tabular-nums;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        background: #f59e0b;
+        color: #0f172a;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #fbbf24;
+    }
+    #compteur {
+        font-size: 1.2rem;
+    }
+</style>
+</head>
+<body>
+
+    <h1>Bonjour 👋</h1>
+    <div id="horloge">--:--:--</div>
+
+    <div>
+        <button id="btn">Cliquez ici</button>
+        <p id="compteur">Clics : 0</p>
+    </div>
+
+    <script>
+        const horloge = document.getElementById("horloge");
+        function majHorloge() {
+            horloge.textContent = new Date().toLocaleTimeString("fr-FR");
+        }
+        majHorloge();
+        setInterval(majHorloge, 1000);
+
+        let clics = 0;
+        const btn = document.getElementById("btn");
+        const compteur = document.getElementById("compteur");
+        btn.addEventListener("click", function () {
+            clics++;
+            compteur.textContent = "Clics : " + clics;
+        });
+    </script>
+
+</body>
+</html>
