@@ -17,7 +17,7 @@ if ($loggedin && $user['role'] === 'client') {
     <div class="container-fluid px-0">
 
         <a href="/ecommerce/index.php" class="navbar-brand p-0">
-            <img src="/ecommerce/assets/images/Logo%20YosiShop.png" class="logo-yosishop" alt="YosiShop">
+            <img src="../assets/images/Logo YosiShop.png" class="logo-yosishop" alt="YosiShop">
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"

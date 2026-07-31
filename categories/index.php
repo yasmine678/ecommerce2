@@ -80,7 +80,7 @@ if ($isAdmin) {
                         <div class="card-body d-flex flex-column justify-content-between p-3">
                             <div>
                                 <?php if (!empty($category['catImage'])): ?>
-                                    <img src="../assets/images/ htmlspecialchars($category['catImage']) ?>"
+                                    <img src="/ecommerce/assets/images/<?= htmlspecialchars($category['catImage']) ?>"
                                         class="w-100 rounded mb-1" style="height: 250px; object-fit: cover;" alt="<?= htmlspecialchars($category['name']) ?>">
                                 <?php endif; ?>
 
@@ -134,7 +134,7 @@ if ($isAdmin) {
                                             <div class="col">
                                                 <div class="card h-100">
                                                     <?php if (!empty($produit['image'])): ?>
-                                                        <img src="../assets/images/ htmlspecialchars($produit['image']) ?>"
+                                                        <img src="/ecommerce/assets/images/<?= htmlspecialchars($produit['image']) ?>"
                                                             class="card-img-top" style="height: 100px; object-fit: cover;">
                                                     <?php endif; ?>
                                                     <div class="card-body p-2">
