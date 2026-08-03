@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 31 juil. 2026 à 09:02
+-- Généré le : lun. 03 août 2026 à 18:19
 -- Version du serveur : 8.4.7
 -- Version de PHP : 8.3.28
 
@@ -18,40 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `ecommercedb`
---
-CREATE DATABASE IF NOT EXISTS `ecommercedb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `ecommercedb`;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `categorie`
---
-
-DROP TABLE IF EXISTS `categorie`;
-CREATE TABLE IF NOT EXISTS `categorie` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `categorie`
---
-
-INSERT INTO `categorie` (`id`, `name`, `description`) VALUES
-(9, 'Alimentationnnn', 'boissons, cereales, fruits, viande...'),
-(6, 'sauce', 'epice'),
-(5, 'ramene', 'plat chinois'),
-(10, 'Textile', 'robe ,chemise, pantalon, tissu'),
-(11, 'nettoyants', 'detergent, savon de marseil, javel, desinfectant');
---
 -- Base de données : `paecomdb`
 --
-CREATE DATABASE IF NOT EXISTS `paecomdb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `paecomdb`;
 
 -- --------------------------------------------------------
 
@@ -69,7 +37,16 @@ CREATE TABLE IF NOT EXISTS `cart` (
   PRIMARY KEY (`cId`),
   KEY `usId` (`usId`),
   KEY `fk_cart_product` (`prodId`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `cart`
+--
+
+INSERT INTO `cart` (`cId`, `usId`, `cquantity`, `prodId`, `servId`) VALUES
+(28, 8, 1, 9, NULL),
+(27, 8, 1, 10, NULL),
+(26, 8, 2, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -84,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `description` text COLLATE utf8mb4_unicode_ci,
   `catImage` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`catId`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `category`
@@ -120,35 +97,35 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `proId` (`proId`),
   KEY `cId` (`cId`),
   KEY `fk_users_usId` (`usId`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `orders`
 --
 
-INSERT INTO `orders` (`oId`, `proId`, `cId`, `status`, `quantity`, `note`, `usId`) VALUES
-(2, 6, 0, 'en_attente', 2, NULL, 0),
-(3, 6, 0, 'en_cours', 2, NULL, 2),
-(4, 5, 0, 'en_cours', 6, NULL, 2),
-(5, 5, 0, 'en_cours', 1, NULL, 2),
-(6, 5, 0, 'en_attente', 1, NULL, 2),
-(7, 6, 0, 'en_attente', 1, NULL, 2),
-(8, 5, 0, 'en_attente', 2, NULL, 2),
-(9, 5, 0, 'en_cours', 1, NULL, 8),
-(10, 5, 0, 'expediee', 1, NULL, 9),
-(11, 13, 0, 'livee', 1, NULL, 9),
-(12, 12, 0, 'livee', 1, NULL, 9),
-(13, 5, 0, 'expediee', 1, NULL, 8),
-(14, 5, 0, 'annulee', 1, NULL, 8),
-(15, 6, 0, 'en_attente', 2, NULL, 8),
-(16, 11, 0, 'en_attente', 2, NULL, 8),
-(17, 5, 0, 'en_attente', 2, NULL, 8),
-(18, 8, 0, 'en_attente', 1, NULL, 8),
-(19, 13, 0, 'en_attente', 1, NULL, 8),
-(20, 10, 0, 'en_attente', 1, NULL, 8),
-(21, 6, 0, 'en_attente', 1, NULL, 8),
-(22, 5, 0, 'en_attente', 1, 'Merci de livrer avant 18h, portail bleu au fond de la cour.', 8),
-(23, 6, 0, 'en_attente', 2, 'mais sec, rouge, 10kg, Adresse(segbe)', 8);
+INSERT INTO `orders` (`oId`, `proId`, `servId`, `cId`, `status`, `quantity`, `note`, `usId`) VALUES
+(2, 6, NULL, 0, 'en_attente', 2, NULL, 0),
+(3, 6, NULL, 0, 'en_cours', 2, NULL, 2),
+(4, 5, NULL, 0, 'en_cours', 6, NULL, 2),
+(5, 5, NULL, 0, 'en_cours', 1, NULL, 2),
+(6, 5, NULL, 0, 'en_attente', 1, NULL, 2),
+(7, 6, NULL, 0, 'en_attente', 1, NULL, 2),
+(8, 5, NULL, 0, 'en_attente', 2, NULL, 2),
+(9, 5, NULL, 0, 'annulee', 1, NULL, 8),
+(10, 5, NULL, 0, 'livee', 1, NULL, 9),
+(11, 13, NULL, 0, 'livee', 1, NULL, 9),
+(12, 12, NULL, 0, 'livee', 1, NULL, 9),
+(13, 5, NULL, 0, 'livee', 1, NULL, 8),
+(14, 5, NULL, 0, 'annulee', 1, NULL, 8),
+(15, 6, NULL, 0, 'livee', 2, NULL, 8),
+(16, 11, NULL, 0, 'annulee', 2, NULL, 8),
+(17, 5, NULL, 0, 'livee', 2, NULL, 8),
+(18, 8, NULL, 0, 'livee', 1, NULL, 8),
+(19, 13, NULL, 0, 'livee', 1, NULL, 8),
+(20, 10, NULL, 0, 'livee', 1, NULL, 8),
+(21, 6, NULL, 0, 'livee', 1, NULL, 8),
+(22, 5, NULL, 0, 'annulee', 1, 'Merci de livrer avant 18h, portail bleu au fond de la cour.', 8),
+(23, 6, NULL, 0, 'livee', 2, 'mais sec, rouge, 10kg, Adresse(segbe)', 8);
 
 -- --------------------------------------------------------
 
@@ -194,16 +171,16 @@ INSERT INTO `product` (`proId`, `proName`, `price`, `prodescription`, `image`, `
 DROP TABLE IF EXISTS `service`;
 CREATE TABLE IF NOT EXISTS `service` (
   `servId` int NOT NULL AUTO_INCREMENT,
-  `servName` varchar(255) NOT NULL,
-  `description` text,
+  `servName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
   `priceHours` decimal(10,0) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `disponible` enum('disponible','indisponible','en_conge') NOT NULL DEFAULT 'disponible',
-  `prestataire` varchar(255) DEFAULT NULL,
+  `serImage` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `available` tinyint(1) NOT NULL DEFAULT '1',
+  `provideur` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `catId` int NOT NULL,
   PRIMARY KEY (`servId`),
   KEY `catId` (`catId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
