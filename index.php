@@ -28,16 +28,6 @@ $produitsAffiches = $pagesProduits[$page - 1] ?? [];
 <body class="client">
     <?php include("./includes/header.php"); ?>
 
-    <?php if (isset($_GET['succes']) && $_GET['succes'] === 'demande_envoyee'): ?>
-        <div class="alert alert-success text-center mb-0 rounded-0" style="margin-top: 90px;">
-            Votre demande pour devenir manager a bien été envoyée.
-        </div>
-    <?php elseif (isset($_GET['erreur'])): ?>
-        <div class="alert alert-danger text-center mb-0 rounded-0" style="margin-top: 90px;">
-            Une erreur est survenue, ou une demande est déjà en cours.
-        </div>
-    <?php endif; ?>
-
     <!-- HERO -->
     <section class="hero">
         <div class="hero-content">

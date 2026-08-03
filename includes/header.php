@@ -1,16 +1,10 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-require_once(__DIR__ . "/../requests/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 $user = $_SESSION['user'] ?? null;
 $loggedin = isset($user);
-
-$demandeEnCours = false;
-if ($loggedin && $user['role'] === 'client') {
-    $demandeEnCours = (bool) getRequestEnCoursPourUser($user['usId'], $pdo);
-}
 ?>
 
 <nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top px-3 px-lg-4" style="background-color: #022f4e;">
@@ -42,6 +36,11 @@ if ($loggedin && $user['role'] === 'client') {
                             Produits
                         </a>
                     </li>
+                    <li class="nav-item my-1 my-lg-0 me-lg-3">
+                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/services/index.php">
+                            Services
+                        </a>
+                    </li>
                     <li class="nav-item my-1 my-lg-0">
                         <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/auth/login.php">
                             Connexion
@@ -56,6 +55,11 @@ if ($loggedin && $user['role'] === 'client') {
                     <li class="nav-item my-1 my-lg-0 me-lg-3">
                         <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/products/index.php">
                             Nouveau
+                        </a>
+                    </li>
+                    <li class="nav-item my-1 my-lg-0 me-lg-3">
+                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/services/index.php">
+                            Services
                         </a>
                     </li>
                     <li class="nav-item my-1 my-lg-0 me-lg-3">

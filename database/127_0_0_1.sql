@@ -64,7 +64,8 @@ CREATE TABLE IF NOT EXISTS `cart` (
   `cId` int NOT NULL AUTO_INCREMENT,
   `usId` int NOT NULL,
   `cquantity` int NOT NULL DEFAULT '1',
-  `prodId` int NOT NULL,
+  `prodId` int DEFAULT NULL,
+  `servId` int DEFAULT NULL,
   PRIMARY KEY (`cId`),
   KEY `usId` (`usId`),
   KEY `fk_cart_product` (`prodId`)
@@ -102,40 +103,14 @@ INSERT INTO `category` (`catId`, `name`, `description`, `catImage`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `manager_requests`
---
-
-DROP TABLE IF EXISTS `manager_requests`;
-CREATE TABLE IF NOT EXISTS `manager_requests` (
-  `reqId` int NOT NULL AUTO_INCREMENT,
-  `usId` int NOT NULL,
-  `status` enum('pending','accepted','refused') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
-  `requestedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `processedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`reqId`),
-  KEY `usId` (`usId`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Déchargement des données de la table `manager_requests`
---
-
-INSERT INTO `manager_requests` (`reqId`, `usId`, `status`, `requestedAt`, `processedAt`) VALUES
-(1, 1, 'accepted', '2026-07-28 11:40:19', '2026-07-28 11:41:25'),
-(2, 4, 'pending', '2026-07-28 11:41:48', NULL),
-(3, 2, 'pending', '2026-07-28 11:52:25', NULL),
-(4, 8, 'accepted', '2026-07-28 15:52:16', '2026-07-28 17:34:30');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `orders`
 --
 
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
   `oId` int NOT NULL AUTO_INCREMENT,
-  `proId` int NOT NULL,
+  `proId` int DEFAULT NULL,
+  `servId` int DEFAULT NULL,
   `cId` int NOT NULL,
   `status` enum('en_attente','en_cours','annulee','livee','expediee') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'en_attente',
   `quantity` int NOT NULL,
@@ -209,6 +184,26 @@ INSERT INTO `product` (`proId`, `proName`, `price`, `prodescription`, `image`, `
 (12, 'Montre', 15000, 'Pour homme', 'prod_6a673ae6271cf2.66802444.jpg', 11),
 (13, 'Bague', 2000, 'Pour femme', 'prod_6a673b0f7ea666.64972376.jpg', 11),
 (14, 'Detergeant', 1000, 'en poudre(le kilo)', 'prod_6a673cc752c742.45621639.jpg', 12);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `service`
+--
+
+DROP TABLE IF EXISTS `service`;
+CREATE TABLE IF NOT EXISTS `service` (
+  `servId` int NOT NULL AUTO_INCREMENT,
+  `servName` varchar(255) NOT NULL,
+  `description` text,
+  `priceHours` decimal(10,0) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `disponible` enum('disponible','indisponible','en_conge') NOT NULL DEFAULT 'disponible',
+  `prestataire` varchar(255) DEFAULT NULL,
+  `catId` int NOT NULL,
+  PRIMARY KEY (`servId`),
+  KEY `catId` (`catId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 

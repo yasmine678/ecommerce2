@@ -1,13 +1,14 @@
 <?php
 require_once(__DIR__ . "/../config/db.php");
 
-function creerCommande(int $userId, int $prodId, int $quantity, PDO $pdo, ?string $note = null)
+function creerCommande(int $userId, ?int $prodId, ?int $servId, int $quantity, PDO $pdo, ?string $note = null)
 {
-    $req = "INSERT INTO orders (usId, proId, quantity, note, status) VALUES (:usId, :proId, :quantity, :note, 'en_attente')";
+    $req = "INSERT INTO orders (usId, proId, servId, quantity, note, status) VALUES (:usId, :proId, :servId, :quantity, :note, 'en_attente')";
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
         ':usId' => $userId,
         ':proId' => $prodId,
+        ':servId' => $servId,
         ':quantity' => $quantity,
         ':note' => $note
     ]);
@@ -17,9 +18,12 @@ function creerCommande(int $userId, int $prodId, int $quantity, PDO $pdo, ?strin
 function getCommandesByUser(int $userId, PDO $pdo)
 {
     $req = "SELECT orders.oId, orders.quantity, orders.status,
-                   product.proId, product.proName, product.price
+                   COALESCE(product.proId, service.servId) AS proId,
+                   COALESCE(product.proName, service.servName) AS proName,
+                   COALESCE(product.price, service.priceHours) AS price
             FROM orders
-            JOIN product ON orders.proId = product.proId
+            LEFT JOIN product ON orders.proId = product.proId
+            LEFT JOIN service ON orders.servId = service.servId
             WHERE orders.usId = :usId
             ORDER BY orders.oId DESC";
 
@@ -33,11 +37,13 @@ function getCommandesByUser(int $userId, PDO $pdo)
 function getToutesLesCommandes(PDO $pdo)
 {
     $req = "SELECT orders.oId, orders.quantity, orders.status, orders.note,
-                   product.proName, product.price,
+                   COALESCE(product.proName, service.servName) AS proName,
+                   COALESCE(product.price, service.priceHours) AS price,
                    users.lastName AS clientNom,
                    users.firstname AS clientPrenom
             FROM orders
-            JOIN product ON orders.proId = product.proId
+            LEFT JOIN product ON orders.proId = product.proId
+            LEFT JOIN service ON orders.servId = service.servId
             JOIN users ON orders.usId = users.usId
             ORDER BY orders.oId DESC";
 
@@ -61,8 +67,6 @@ function getCountCommandesActives(PDO $pdo)
 {
     $req = "SELECT COUNT(*)
             FROM orders
-            JOIN product ON orders.proId = product.proId
-            JOIN users ON orders.usId = users.usId
             WHERE orders.status NOT IN ('livee', 'annulee')";
     return $pdo->query($req)->fetchColumn();
 }

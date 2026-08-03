@@ -1,8 +1,6 @@
 <?php
-require_once(__DIR__ . "/../requests/controller.php");
 require_once(__DIR__ . "/../order/controller.php");
 require_once(__DIR__ . "/../config/db.php");
-$nombreDemandes = count(getPendingRequests($pdo));
 $nombreCommandesEnAttente = getCountCommandesActives($pdo);
 ?>
 <div class="responsive d-flex flex-column flex-shrink-0 p-3 text-white bg-primary" style="width: 250px; min-height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000;">
@@ -37,6 +35,13 @@ $nombreCommandesEnAttente = getCountCommandesActives($pdo);
             </a>
         </li>
         <li>
+            <a href="../services/index.php" class="nav-link text-white d-flex align-items-center gap-2">
+                <i class="bi bi-briefcase"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
+                        <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.681c.955.192 1.994-.14 2.646-.802.63-.63.833-1.479.833-2.25 0-.678-.157-1.324-.406-1.848a1 1 0 0 0-1.6-.259L11.6 2.8l-1.6-.4-.4-1.6.802-.803a1 1 0 0 0-.259-1.6C9.616.157 8.97 0 8.292 0c-.771 0-1.62.203-2.25.833-.662.662-.994 1.699-.802 2.646L2.588 6.15a1 1 0 0 0-1.023-.242l-.305.914-.968-.968 2.617-2.654A3.003 3.003 0 0 0 5.878.851 3 3 0 0 0 3 0z" />
+                    </svg></i> Services
+            </a>
+        </li>
+        <li>
             <a href="../admin/orders.php" class="nav-link text-white d-flex align-items-center gap-2">
                 <i class="bi bi-cart3"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
                         <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z" />
@@ -53,9 +58,6 @@ $nombreCommandesEnAttente = getCountCommandesActives($pdo);
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                     </svg>
                 </i> Utilisateurs
-                <?php if ($nombreDemandes > 0): ?>
-                    <span class="badge bg-warning text-dark ms-auto"><?= $nombreDemandes ?></span>
-                <?php endif; ?>
             </a>
         </li>
     </ul>
