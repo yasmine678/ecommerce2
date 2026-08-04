@@ -70,3 +70,27 @@ function getCountCommandesActives(PDO $pdo)
             WHERE orders.status NOT IN ('livee', 'annulee')";
     return $pdo->query($req)->fetchColumn();
 }
+
+function getDerniereCommandeId(PDO $pdo)
+{
+    return (int) $pdo->query("SELECT COALESCE(MAX(oId), 0) FROM orders")->fetchColumn();
+}
+
+function getNouvellesCommandes(int $afterId, PDO $pdo)
+{
+    $req = "SELECT orders.oId, orders.quantity,
+                   COALESCE(product.proName, service.servName) AS proName,
+                   CASE WHEN orders.proId IS NOT NULL THEN 'produit' ELSE 'service' END AS type,
+                   users.firstName AS clientPrenom,
+                   users.lastName AS clientNom
+            FROM orders
+            LEFT JOIN product ON orders.proId = product.proId
+            LEFT JOIN service ON orders.servId = service.servId
+            JOIN users ON orders.usId = users.usId
+            WHERE orders.oId > :afterId
+            ORDER BY orders.oId ASC";
+    $stmt = $pdo->prepare($req);
+    $stmt->execute([':afterId' => $afterId]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
