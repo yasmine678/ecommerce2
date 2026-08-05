@@ -47,8 +47,54 @@ function urlAvecPages(int $page, int $pageServices): string
     <!-- HERO -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Bienvenue chez <span>YosiShop</span></h1>
-            <p>Découvrez les meilleurs produits aux meilleurs prix.</p>
+            <span class="hero-badge">✨ Nouveautés chaque semaine</span>
+            <h1>Bienvenue chez <span>YosiDShop</span></h1>
+            <p>Découvrez les meilleurs produits et services aux meilleurs prix.</p>
+            <div>
+                <a href="./products/index.php" class="btn btn-warning btn-lg">Voir les produits</a>
+                <a href="./services/index.php" class="btn btn-outline-light btn-lg">Nos services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ATOUTS -->
+    <section class="hero-features py-2">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-3 g-3">
+                <div class="col">
+                    <div class="feature-item">
+                        <span class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12z"/></svg>
+                        </span>
+                        <span class="feature-text">
+                            <strong>Livraison rapide</strong>
+                            <span>Partout dans la ville</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="feature-item">
+                        <span class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/></svg>
+                        </span>
+                        <span class="feature-text">
+                            <strong>Paiement sécurisé</strong>
+                            <span>Vos données protégées</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="feature-item">
+                        <span class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/></svg>
+                        </span>
+                        <span class="feature-text">
+                            <strong>Qualité garantie</strong>
+                            <span>Produits vérifiés</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -92,7 +138,7 @@ function urlAvecPages(int $page, int $pageServices): string
 
     <!-- PRODUITS + PAGINATION -->
     <section class="container my-5">
-        <h2 class="mb-4 fs-3">Nos produits</h2>
+        <h2 class="section-title">Nos produits</h2>
 
         <?php if (empty($produitsAffiches)): ?>
             <p class="text-muted">Aucun produit pour le moment.</p>
@@ -168,7 +214,7 @@ function urlAvecPages(int $page, int $pageServices): string
 
     <!-- SERVICES + PAGINATION -->
     <section class="container my-5">
-        <h2 class="mb-4 fs-3">Nos services</h2>
+        <h2 class="section-title">Nos services</h2>
 
         <?php if (empty($servicesAffiches)): ?>
             <p class="text-muted">Aucun service disponible pour le moment.</p>
