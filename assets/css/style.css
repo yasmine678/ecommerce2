@@ -27,6 +27,7 @@ body.admin .main-content {
 .logo-yosishop {
     height: 55px;
     width: auto;
+    border-radius: 5px;
 }
 @media (min-width: 992px) {
     .logo-yosishop {
@@ -193,6 +194,37 @@ body.admin .main-content {
 .produit-clickable:focus-visible {
     outline: 2px solid #cb964b;
     outline-offset: 2px;
+}
+
+/* ===== ANIMATION D'APPARITION (pages index.php) ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cartes-animees > [class*="col"] {
+    animation: fadeInUp 0.5s ease both;
+}
+.cartes-animees > [class*="col"]:nth-child(2) { animation-delay: 0.05s; }
+.cartes-animees > [class*="col"]:nth-child(3) { animation-delay: 0.1s; }
+.cartes-animees > [class*="col"]:nth-child(4) { animation-delay: 0.15s; }
+.cartes-animees > [class*="col"]:nth-child(5) { animation-delay: 0.2s; }
+.cartes-animees > [class*="col"]:nth-child(6) { animation-delay: 0.25s; }
+.cartes-animees > [class*="col"]:nth-child(7) { animation-delay: 0.3s; }
+.cartes-animees > [class*="col"]:nth-child(8) { animation-delay: 0.35s; }
+.cartes-animees > [class*="col"]:nth-child(9) { animation-delay: 0.4s; }
+.cartes-animees > [class*="col"]:nth-child(10) { animation-delay: 0.45s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .cartes-animees > [class*="col"] {
+        animation: none;
+    }
 }
 
 /* ===== PAGINATION NUMEROTEE ===== */

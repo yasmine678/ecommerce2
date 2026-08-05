@@ -5,7 +5,7 @@ require_once(__DIR__ . "/../cart/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 if (!isset($_SESSION['user'])) {
-    header("Location: /ecommerce/auth/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -13,7 +13,7 @@ $userId = $_SESSION['user']['usId'];
 $lignesCart = getCartByUser($userId, $pdo);
 
 if (empty($lignesCart)) {
-    header("Location: /ecommerce/cart/index.php?erreur=panier_vide");
+    header("Location: ../cart/index.php?erreur=panier_vide");
     exit();
 }
 
@@ -26,5 +26,5 @@ foreach ($lignesCart as $ligne) {
 
 viderCart($userId, $pdo);
 
-header("Location: /ecommerce/order/index.php?succes=1");
+header("Location: index.php?succes=1");
 exit();

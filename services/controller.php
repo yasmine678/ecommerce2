@@ -27,17 +27,17 @@ function getModiService(int $id, PDO $pdo)
 
 function createService(array $data, PDO $pdo)
 {
-    $req = "INSERT INTO service(servName, description, priceHours, image, disponible, prestataire, catId)
-            VALUES (:servName, :description, :priceHours, :image, :disponible, :prestataire, :catId)";
+    $req = "INSERT INTO service(servName, description, priceHours, serImage, available, provider, catId)
+            VALUES (:servName, :description, :priceHours, :serImage, :available, :provider, :catId)";
 
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
         ':servName' => $data['servName'],
         ':description' => $data['description'],
         ':priceHours' => $data['priceHours'],
-        ':image' => $data['image'] ?? null,
-        ':disponible' => $data['disponible'],
-        ':prestataire' => $data['prestataire'],
+        ':serImage' => $data['serImage'] ?? null,
+        ':available' => $data['available'] ? 1 : 0,
+        ':provider' => $data['provider'],
         ':catId' => $data['catId']
     ]);
 }
@@ -54,17 +54,17 @@ function deleteService(int $id, PDO $pdo)
 
 function updateService(int $id, array $data, PDO $pdo)
 {
-    if (!empty($data['image'])) {
+    if (!empty($data['serImage'])) {
         $req = "UPDATE service
                 SET servName = :servName, description = :description, priceHours = :priceHours,
-                    disponible = :disponible,
-                    prestataire = :prestataire, catId = :catId, image = :image
+                    available = :available,
+                    provider = :provider, catId = :catId, serImage = :serImage
                 WHERE servId = :servId";
     } else {
         $req = "UPDATE service
                 SET servName = :servName, description = :description, priceHours = :priceHours,
-                    disponible = :disponible,
-                    prestataire = :prestataire, catId = :catId
+                    available = :available,
+                    provider = :provider, catId = :catId
                 WHERE servId = :servId";
     }
 
@@ -74,17 +74,31 @@ function updateService(int $id, array $data, PDO $pdo)
         ':servName' => $data['servName'],
         ':description' => $data['description'],
         ':priceHours' => $data['priceHours'],
-        ':disponible' => $data['disponible'],
-        ':prestataire' => $data['prestataire'],
+        ':available' => $data['available'] ? 1 : 0,
+        ':provider' => $data['provider'],
         ':catId' => $data['catId'],
         ':servId' => $id
     ];
 
-    if (!empty($data['image'])) {
-        $params[':image'] = $data['image'];
+    if (!empty($data['serImage'])) {
+        $params[':serImage'] = $data['serImage'];
     }
 
     return $stmt->execute($params);
+}
+
+function getServicesRecents(PDO $pdo, int $jours = 14)
+{
+    $req = "SELECT service.*, category.name
+            FROM service
+            LEFT JOIN category ON service.catId = category.catId
+            WHERE service.createdAt >= (NOW() - INTERVAL :jours DAY)
+            ORDER BY service.createdAt DESC";
+
+    $stmt = $pdo->prepare($req);
+    $stmt->bindValue(':jours', $jours, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getCountServices(PDO $pdo)

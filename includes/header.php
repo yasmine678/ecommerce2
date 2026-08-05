@@ -53,7 +53,7 @@ $loggedin = isset($user);
 
                     <!-- CLIENT CONNECTE -->
                     <li class="nav-item my-1 my-lg-0 me-lg-3">
-                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/products/index.php">
+                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/nouveautes.php">
                             Nouveau
                         </a>
                     </li>

@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
     $action = $_POST['validate'] ?? null;
 
     // Dossier de destination pour les images
-    $uploadDir = __DIR__ . '/../assets/images/';
+    $uploadDir = __DIR__ . '../uploads/products/';
 
     // S'assurer que le dossier existe
     if (!is_dir($uploadDir)) {

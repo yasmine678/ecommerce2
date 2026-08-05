@@ -21,15 +21,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         mkdir($uploadDir, 0755, true);
     }
 
-    $statutsDisponibiliteValides = ['disponible', 'indisponible', 'en_conge'];
-
     if ($action === 'Creer') {
         $servName     = trim($_POST['servName'] ?? '');
         $description  = trim($_POST['description'] ?? '');
         $priceHours   = floatval($_POST['priceHours'] ?? 0);
-        $prestataire  = trim($_POST['prestataire'] ?? '');
-        $disponible   = in_array($_POST['disponible'] ?? '', $statutsDisponibiliteValides, true)
-            ? $_POST['disponible'] : 'disponible';
+        $provider    = trim($_POST['provider'] ?? '');
+        $available    = ($_POST['available'] ?? '1') === '1';
         $catId        = intval($_POST['catId'] ?? 0);
         $imageName    = null;
 
@@ -41,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
             'servName' => $servName,
             'description' => $description,
             'priceHours' => $priceHours,
-            'image' => $imageName,
-            'disponible' => $disponible,
-            'prestataire' => $prestataire,
+            'serImage' => $imageName,
+            'available' => $available,
+            'provider' => $provider,
             'catId' => $catId,
         ], $pdo);
 
@@ -53,17 +50,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         $servName     = trim($_POST['servName'] ?? '');
         $description  = trim($_POST['description'] ?? '');
         $priceHours   = floatval($_POST['priceHours'] ?? 0);
-        $prestataire  = trim($_POST['prestataire'] ?? '');
-        $disponible   = in_array($_POST['disponible'] ?? '', $statutsDisponibiliteValides, true)
-            ? $_POST['disponible'] : 'disponible';
+        $provider    = trim($_POST['provider'] ?? '');
+        $available    = ($_POST['available'] ?? '1') === '1';
         $catId        = intval($_POST['catId'] ?? 0);
         $imageName    = null;
 
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             // Supprimer l'ancienne image sur le disque
             $ancien = getModiService($servId, $pdo);
-            if ($ancien && !empty($ancien['image']) && file_exists($uploadDir . $ancien['image'])) {
-                unlink($uploadDir . $ancien['image']);
+            if ($ancien && !empty($ancien['serImage']) && file_exists($uploadDir . $ancien['serImage'])) {
+                unlink($uploadDir . $ancien['serImage']);
             }
             $imageName = uploadProductImage($_FILES['image'], $uploadDir);
         }
@@ -72,9 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
             'servName' => $servName,
             'description' => $description,
             'priceHours' => $priceHours,
-            'image' => $imageName,
-            'disponible' => $disponible,
-            'prestataire' => $prestataire,
+            'serImage' => $imageName,
+            'available' => $available,
+            'provider' => $provider,
             'catId' => $catId,
         ], $pdo);
 
@@ -83,8 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         $servId = intval($_POST['servId'] ?? 0);
 
         $service = getModiService($servId, $pdo);
-        if ($service && !empty($service['image'])) {
-            $filePath = $uploadDir . $service['image'];
+        if ($service && !empty($service['serImage'])) {
+            $filePath = $uploadDir . $service['serImage'];
             if (file_exists($filePath)) {
                 unlink($filePath);
             }

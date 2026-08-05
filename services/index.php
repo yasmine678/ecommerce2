@@ -21,14 +21,8 @@ if ($categoryId) {
 
 // Côté client, on ne montre que les services disponibles
 $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServices, function ($s) {
-    return $s['disponible'] === 'disponible';
+    return (bool) $s['available'];
 }));
-
-$statutsDisponibilite = [
-    'disponible' => ['label' => 'Disponible', 'classe' => 'success'],
-    'indisponible' => ['label' => 'Indisponible', 'classe' => 'danger'],
-    'en_conge' => ['label' => 'En congé', 'classe' => 'warning'],
-];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -94,7 +88,7 @@ $statutsDisponibilite = [
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Prestataire</label>
-                                            <input type="text" name="prestataire" class="form-control" placeholder="Nom de l'employé assigné">
+                                            <input type="text" name="provider" class="form-control" placeholder="Nom de l'employé assigné">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Catégorie</label>
@@ -113,10 +107,9 @@ $statutsDisponibilite = [
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Statut</label>
-                                            <select name="disponible" class="form-select">
-                                                <option value="disponible" selected>Disponible</option>
-                                                <option value="indisponible">Indisponible</option>
-                                                <option value="en_conge">En congé</option>
+                                            <select name="available" class="form-select">
+                                                <option value="1" selected>Disponible</option>
+                                                <option value="0">Indisponible</option>
                                             </select>
                                         </div>
                                     </div>
@@ -147,15 +140,15 @@ $statutsDisponibilite = [
 
                 <?php if ($isAdmin): ?>
                     <!-- VUE ADMINISTRATEUR -->
-                    <div class="row g-3">
+                    <div class="row g-3 cartes-animees">
                         <?php foreach ($services as $service): ?>
                             <div class="col-12">
                                 <div class="card border-0 shadow-sm p-3">
                                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
 
                                         <span class="d-inline-flex align-items-center justify-content-center">
-                                            <?php if (!empty($service['image'])): ?>
-                                                <img src="../assets/images/<?= htmlspecialchars($service['image']) ?>" alt="Image service" class="rounded border" width="50" height="50" style="object-fit: cover;">
+                                            <?php if (!empty($service['serImage'])): ?>
+                                                <img src="../assets/images/<?= htmlspecialchars($service['serImage']) ?>" alt="Image service" class="rounded border" width="50" height="50" style="object-fit: cover;">
                                             <?php else: ?>
                                                 <span class="badge bg-secondary text-white p-3 rounded border">No Img</span>
                                             <?php endif; ?>
@@ -174,12 +167,12 @@ $statutsDisponibilite = [
                                         </span>
 
                                         <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2">
-                                            <?= !empty($service['prestataire']) ? htmlspecialchars($service['prestataire']) : 'Prestataire non précisé' ?>
+                                            <?= !empty($service['provider']) ? htmlspecialchars($service['provider']) : 'Prestataire non précisé' ?>
                                         </span>
 
-                                        <?php $statutInfo = $statutsDisponibilite[$service['disponible']] ?? ['label' => $service['disponible'], 'classe' => 'secondary']; ?>
-                                        <span class="badge bg-<?= $statutInfo['classe'] ?> bg-opacity-10 text-<?= $statutInfo['classe'] ?> border border-<?= $statutInfo['classe'] ?> border-opacity-25 px-3 py-2">
-                                            <?= $statutInfo['label'] ?>
+                                        <?php $estDisponible = (bool) $service['available']; ?>
+                                        <span class="badge bg-<?= $estDisponible ? 'success' : 'danger' ?> bg-opacity-10 text-<?= $estDisponible ? 'success' : 'danger' ?> border border-<?= $estDisponible ? 'success' : 'danger' ?> border-opacity-25 px-3 py-2">
+                                            <?= $estDisponible ? 'Disponible' : 'Indisponible' ?>
                                         </span>
 
                                         <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 fs-6">
@@ -229,7 +222,7 @@ $statutsDisponibilite = [
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Prestataire :</label>
-                                                    <input type="text" name="prestataire" class="form-control" value="<?= htmlspecialchars($service['prestataire'] ?? ''); ?>">
+                                                    <input type="text" name="provider" class="form-control" value="<?= htmlspecialchars($service['provider'] ?? ''); ?>">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Catégorie :</label>
@@ -247,10 +240,9 @@ $statutsDisponibilite = [
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Statut :</label>
-                                                    <select name="disponible" class="form-select">
-                                                        <option value="disponible" <?= $service['disponible'] === 'disponible' ? 'selected' : '' ?>>Disponible</option>
-                                                        <option value="indisponible" <?= $service['disponible'] === 'indisponible' ? 'selected' : '' ?>>Indisponible</option>
-                                                        <option value="en_conge" <?= $service['disponible'] === 'en_conge' ? 'selected' : '' ?>>En congé</option>
+                                                    <select name="available" class="form-select">
+                                                        <option value="1" <?= $service['available'] ? 'selected' : '' ?>>Disponible</option>
+                                                        <option value="0" <?= !$service['available'] ? 'selected' : '' ?>>Indisponible</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -268,14 +260,14 @@ $statutsDisponibilite = [
                 <?php else: ?>
 
                     <!-- VUE CLIENT -->
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 cartes-animees">
                         <?php foreach ($services as $service): ?>
                             <div class="col">
                                 <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden d-flex flex-column">
 
                                     <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
-                                        <?php if (!empty($service['image'])): ?>
-                                            <img src="../assets/images/<?= htmlspecialchars($service['image']) ?>"
+                                        <?php if (!empty($service['serImage'])): ?>
+                                            <img src="../assets/images/<?= htmlspecialchars($service['serImage']) ?>"
                                                 class="card-img-top w-100 h-100"
                                                 alt="<?= htmlspecialchars($service['servName'] ?? 'Service') ?>"
                                                 style="object-fit: cover;">
@@ -299,9 +291,9 @@ $statutsDisponibilite = [
                                         <p class="text-muted small mb-1">
                                             <?= htmlspecialchars($service['description'] ?? 'Aucune description disponible.') ?>
                                         </p>
-                                        <?php if (!empty($service['prestataire'])): ?>
+                                        <?php if (!empty($service['provider'])): ?>
                                             <p class="text-muted small mb-0">
-                                                Par <?= htmlspecialchars($service['prestataire']) ?>
+                                                Par <?= htmlspecialchars($service['provider']) ?>
                                             </p>
                                         <?php endif; ?>
                                     </div>

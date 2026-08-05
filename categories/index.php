@@ -129,7 +129,7 @@ if ($isAdmin) {
                                 <?php if (empty($produitsCategorie)): ?>
                                     <p class="text-muted">Aucun produit pour le moment.</p>
                                 <?php else: ?>
-                                    <div class="row row-cols-2 row-cols-md-3 g-3">
+                                    <div class="row row-cols-2 row-cols-md-3 g-3 cartes-animees">
                                         <?php foreach ($produitsCategorie as $produit): ?>
                                             <div class="col">
                                                 <div class="card h-100">
@@ -214,7 +214,7 @@ if ($isAdmin) {
                                     <?php if (empty($produitsCategorie)): ?>
                                         <p class="text-muted">Aucun produit pour le moment.</p>
                                     <?php else: ?>
-                                        <div class="row row-cols-2 row-cols-md-3 g-3">
+                                        <div class="row row-cols-2 row-cols-md-3 g-3 cartes-animees">
                                             <?php foreach ($produitsCategorie as $produit): ?>
                                                 <div class="col">
                                                     <div class="card h-100 border-0 shadow-sm">

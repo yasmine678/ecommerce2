@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../users/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'manager') {
-    header("Location: /ecommerce/auth/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -17,12 +17,12 @@ if ($action === 'ChangerRole') {
     $role = $_POST['role'] ?? '';
 
     if (!$usId || !in_array($role, ['client', 'manager']) || $usId == $monId) {
-        header("Location: /ecommerce/admin/users.php?erreur=1");
+        header("Location: users.php?erreur=1");
         exit();
     }
 
     updateUserRole($usId, $role, $pdo);
-    header("Location: /ecommerce/admin/users.php?succes=1");
+    header("Location: users.php?succes=1");
     exit();
 
 } else if ($action === 'Supprimer') {
@@ -30,15 +30,15 @@ if ($action === 'ChangerRole') {
     $usId = intval($_POST['usId'] ?? 0);
 
     if (!$usId || $usId == $monId) {
-        header("Location: /ecommerce/admin/users.php?erreur=1");
+        header("Location: users.php?erreur=1");
         exit();
     }
 
     deleteUser($usId, $pdo);
-    header("Location: /ecommerce/admin/users.php?succes=1");
+    header("Location: users.php?succes=1");
     exit();
 
 } else {
-    header("Location: /ecommerce/admin/users.php?erreur=1");
+    header("Location: users.php?erreur=1");
     exit();
 }

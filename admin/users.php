@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../users/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'manager') {
-    header("Location: /ecommerce/auth/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 

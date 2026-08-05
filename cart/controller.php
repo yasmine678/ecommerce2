@@ -6,7 +6,7 @@ function getCartByUser(int $userId, PDO $pdo)
     $req = "SELECT cart.cId, cart.cquantity, cart.prodId, cart.servId,
                    COALESCE(product.proName, service.servName) AS proName,
                    COALESCE(product.price, service.priceHours) AS price,
-                   COALESCE(product.image, service.image) AS image,
+                   COALESCE(product.image, service.serimage) AS simage,
                    CASE WHEN cart.servId IS NOT NULL THEN 'service' ELSE 'product' END AS itemType
             FROM cart
             LEFT JOIN product ON cart.prodId = product.proId

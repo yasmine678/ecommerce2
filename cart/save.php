@@ -4,7 +4,7 @@ require_once(__DIR__ . "/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 if (!isset($_SESSION['user'])) {
-    header("Location: /ecommerce/auth/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -18,19 +18,19 @@ if (isset($_POST['validate']) && $_POST['validate'] !== '') {
         $quantite = (int) $_POST['cquantity'];
 
         if ($quantite < 1) {
-            header("Location: /ecommerce/cart/index.php?erreur=quantite_invalide");
+            header("Location: index.php?erreur=quantite_invalide");
             exit();
         }
 
         mettreAJourQuantiteCart($cartId, $quantite, $pdo);
-        header("Location: /ecommerce/cart/index.php?succes=1");
+        header("Location: index.php?succes=1");
         exit();
 
     } else if ($validate == "Supprimer") {
 
         $cartId = $_POST['cId'];
         supprimerLigneCart($cartId, $pdo);
-        header("Location: /ecommerce/cart/index.php?succes=1");
+        header("Location: index.php?succes=1");
         exit();
 
     } else {

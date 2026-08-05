@@ -3,18 +3,26 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 require_once(__DIR__ . "/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
-if (!isset($_SESSION['user'])) {
-    header("Location: /ecommerce/auth/login.php");
-    exit();
-}
-
-$userId = $_SESSION['user']['usId'];
 $prodId = !empty($_POST['proId']) ? (int) $_POST['proId'] : null;
 $servId = !empty($_POST['servId']) ? (int) $_POST['servId'] : null;
 $quantite = (int) ($_POST['cquantity'] ?? 1);
 
+if (!isset($_SESSION['user'])) {
+    if (($prodId || $servId) && $quantite >= 1) {
+        $_SESSION['pending_cart'] = [
+            'proId' => $prodId,
+            'servId' => $servId,
+            'quantity' => $quantite,
+        ];
+    }
+    header("Location: ../auth/login.php");
+    exit();
+}
+
+$userId = $_SESSION['user']['usId'];
+
 if ((!$prodId && !$servId) || $quantite < 1) {
-    header("Location: /ecommerce/products/index.php?erreur=donnees_invalides");
+    header("Location: ../products/index.php?erreur=donnees_invalides");
     exit();
 }
 
@@ -26,5 +34,5 @@ if ($ligneExistante) {
     insererLigneCart($userId, $prodId, $servId, $quantite, $pdo);
 }
 
-header("Location: /ecommerce/cart/index.php?succes=1");
+header("Location: index.php?succes=1");
 exit();

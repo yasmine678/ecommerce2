@@ -95,6 +95,20 @@ function updateProd(int $id, array $data, PDO $pdo) {
         return false;
     }
 }
+function getProduitsRecents(PDO $pdo, int $jours = 14)
+{
+    $req = "SELECT product.*, category.name
+            FROM product
+            LEFT JOIN category ON product.catId = category.catId
+            WHERE product.createdAt >= (NOW() - INTERVAL :jours DAY)
+            ORDER BY product.createdAt DESC";
+
+    $stmt = $pdo->prepare($req);
+    $stmt->bindValue(':jours', $jours, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getCountProduits(PDO $pdo)
 {
     $req = "SELECT COUNT(*) FROM product";

@@ -39,12 +39,31 @@ function getToutesLesCommandes(PDO $pdo)
     $req = "SELECT orders.oId, orders.quantity, orders.status, orders.note,
                    COALESCE(product.proName, service.servName) AS proName,
                    COALESCE(product.price, service.priceHours) AS price,
-                   users.lastName AS clientNom,
-                   users.firstname AS clientPrenom
+                   COALESCE(users.lastName, 'inconnu') AS clientNom,
+                   COALESCE(users.firstname, 'Client') AS clientPrenom
             FROM orders
             LEFT JOIN product ON orders.proId = product.proId
             LEFT JOIN service ON orders.servId = service.servId
-            JOIN users ON orders.usId = users.usId
+            LEFT JOIN users ON orders.usId = users.usId
+            ORDER BY orders.oId DESC";
+
+    $stmt = $pdo->query($req);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getCommandesActives(PDO $pdo)
+{
+    $req = "SELECT orders.oId, orders.quantity, orders.status, orders.note,
+                   COALESCE(product.proName, service.servName) AS proName,
+                   COALESCE(product.price, service.priceHours) AS price,
+                   COALESCE(users.lastName, 'inconnu') AS clientNom,
+                   COALESCE(users.firstname, 'Client') AS clientPrenom
+            FROM orders
+            LEFT JOIN product ON orders.proId = product.proId
+            LEFT JOIN service ON orders.servId = service.servId
+            LEFT JOIN users ON orders.usId = users.usId
+            WHERE orders.status NOT IN ('livee', 'annulee')
             ORDER BY orders.oId DESC";
 
     $stmt = $pdo->query($req);
@@ -81,12 +100,12 @@ function getNouvellesCommandes(int $afterId, PDO $pdo)
     $req = "SELECT orders.oId, orders.quantity,
                    COALESCE(product.proName, service.servName) AS proName,
                    CASE WHEN orders.proId IS NOT NULL THEN 'produit' ELSE 'service' END AS type,
-                   users.firstName AS clientPrenom,
-                   users.lastName AS clientNom
+                   COALESCE(users.firstName, 'Client') AS clientPrenom,
+                   COALESCE(users.lastName, 'inconnu') AS clientNom
             FROM orders
             LEFT JOIN product ON orders.proId = product.proId
             LEFT JOIN service ON orders.servId = service.servId
-            JOIN users ON orders.usId = users.usId
+            LEFT JOIN users ON orders.usId = users.usId
             WHERE orders.oId > :afterId
             ORDER BY orders.oId ASC";
     $stmt = $pdo->prepare($req);

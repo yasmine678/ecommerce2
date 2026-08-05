@@ -4,7 +4,7 @@ require_once(__DIR__ . "/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 if (!isset($_SESSION['user'])) {
-    header("Location: /ecommerce/auth/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -37,7 +37,7 @@ foreach ($lignesCart as $ligne) {
 
         <?php if (empty($lignesCart)): ?>
             <p class="text-muted">Votre panier est vide.</p>
-            <a href="/ecommerce/products/index.php" class="btn btn-warning">Voir les produits</a>
+            <a href="../products/index.php" class="btn btn-warning">Voir les produits</a>
         <?php else: ?>
             <div class="table-responsive">
                 <table class="table align-middle">
@@ -95,7 +95,7 @@ foreach ($lignesCart as $ligne) {
                 </table>
             </div>
 
-            <form action="/ecommerce/order/create.php" method="POST">
+            <form action="../order/create.php" method="POST">
                 <div class="mb-3">
                     <label for="note" class="form-label">
                         Une précision pour le vendeur ? (optionnel)

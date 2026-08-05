@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 // require_once("./controller.php");
 require_once("../auth/controller.php");
 require_once(__DIR__ . "/../order/controller.php");
+require_once(__DIR__ . "/../cart/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 if (isset($_POST['validate']) && $_POST['validate'] !== '') {
@@ -17,7 +18,7 @@ if (isset($_POST['validate']) && $_POST['validate'] !== '') {
         $password = $_POST['password'];
 
         if (empty($email) || empty($password)) {
-            header("Location: /ecommerce/auth/login.php?erreur=champs_vides");
+            header("Location: ../auth/login.php?erreur=champs_vides");
             exit();
         }
 
@@ -26,21 +27,36 @@ if (isset($_POST['validate']) && $_POST['validate'] !== '') {
         // die();
 
         if (!$user || !password_verify($password, $user['password'])) {
-            header("Location: /ecommerce/auth/login.php?erreur=identifiants_incorrects");
+            header("Location: ../auth/login.php?erreur=identifiants_incorrects");
             exit();
         }
 
         $_SESSION['user'] = $user;
 
+        if (!empty($_SESSION['pending_cart'])) {
+            $pending = $_SESSION['pending_cart'];
+            unset($_SESSION['pending_cart']);
+
+            $ligneExistante = getLigneCart($user['usId'], $pending['proId'], $pending['servId'], $pdo);
+            if ($ligneExistante) {
+                mettreAJourQuantiteCart($ligneExistante['cId'], $ligneExistante['cquantity'] + $pending['quantity'], $pdo);
+            } else {
+                insererLigneCart($user['usId'], $pending['proId'], $pending['servId'], $pending['quantity'], $pdo);
+            }
+
+            header("Location: ../cart/index.php?succes=1");
+            exit();
+        }
+
         if ($user["role"] === "manager") {
             $nouvellesCommandes = getCountCommandesActives($pdo) > 0 ? '?nouvelles_commandes=1' : '';
-            header("Location: /ecommerce/admin/dashboard.php" . $nouvellesCommandes);
+            header("Location: ../admin/dashboard.php" . $nouvellesCommandes);
             exit();
         } else if ($user["role"] === "client") {
-            header("Location: /ecommerce/index.php");
+            header("Location: ../index.php");
             exit();
         } else {
-            header("Location: /ecommerce/auth/login.php?erreur=role_inconnu");
+            header("Location: ../auth/login.php?erreur=role_inconnu");
             exit();
         }
     } else if ($validate == "Inscription") {
@@ -53,27 +69,27 @@ if (isset($_POST['validate']) && $_POST['validate'] !== '') {
         $role = 'client';
 
         if (empty($nom) || empty($prenom) || empty($email) || empty($password)) {
-            header("Location: /ecommerce/auth/register.php?erreur=champs_vides");
+            header("Location: ../auth/register.php?erreur=champs_vides");
             exit();
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            header("Location: /ecommerce/auth/register.php?erreur=email_invalide");
+            header("Location: ../auth/register.php?erreur=email_invalide");
             exit();
         }
 
         if (strlen($password) < 6) {
-            header("Location: /ecommerce/auth/register.php?erreur=mdp_court");
+            header("Location: ../auth/register.php?erreur=mdp_court");
             exit();
         }
 
         if ($password !== $passwordConfirm) {
-            header("Location: /ecommerce/auth/register.php?erreur=mdp_differents");
+            header("Location: ../auth/register.php?erreur=mdp_differents");
             exit();
         }
 
         if (getUserByEmail($email, $pdo)) {
-            header("Location: /ecommerce/auth/register.php?erreur=email_existe");
+            header("Location: ../auth/register.php?erreur=email_existe");
             exit();
         }
 
@@ -90,13 +106,13 @@ if (isset($_POST['validate']) && $_POST['validate'] !== '') {
             $_SESSION['user'] = $user;
 
             if ($user['role'] === 'manager') {
-                header("Location: /ecommerce/admin/dashboard.php");
+                header("Location: ../admin/dashboard.php");
             } else {
-                header("Location: /ecommerce/index.php");
+                header("Location: ../index.php");
             }
             exit();
         } else {
-            header("Location: /ecommerce/auth/register.php?erreur=inscription_echouee");
+            header("Location: ../auth/register.php?erreur=inscription_echouee");
             exit();
         }
     } else {
@@ -114,12 +130,12 @@ if ($action === 'ChangerRole') {
     $role = $_POST['role'] ?? '';
 
     if (!$usId || !in_array($role, ['client', 'manager']) || $usId == $monId) {
-        header("Location: /ecommerce/admin/users.php?erreur=1");
+        header("Location: ../admin/users.php?erreur=1");
         exit();
     }
 
     updateUserRole($usId, $role, $pdo);
-    header("Location: /ecommerce/admin/users.php?succes=1");
+    header("Location: ../admin/users.php?succes=1");
     exit();
 
 } else if ($action === 'Supprimer') {
@@ -127,12 +143,12 @@ if ($action === 'ChangerRole') {
     $usId = intval($_POST['usId'] ?? 0);
 
     if (!$usId || $usId == $monId) {
-        header("Location: /ecommerce/admin/users.php?erreur=1");
+        header("Location: ../admin/users.php?erreur=1");
         exit();
     }
 
     deleteUser($usId, $pdo);
-    header("Location: /ecommerce/admin/users.php?succes=1");
+    header("Location: ../admin/users.php?succes=1");
     exit();
 
 } else {

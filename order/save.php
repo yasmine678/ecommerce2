@@ -4,7 +4,7 @@ require_once(__DIR__ . "/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'manager') {
-    header("Location: /ecommerce/auth/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -18,12 +18,12 @@ if ($action === 'Mise à jour') {
     $statutsValides = ['en_attente', 'en_cours', 'expediee', 'livee', 'annulee'];
 
     if (!$orderId || !in_array($statut, $statutsValides)) {
-        header("Location: /ecommerce/admin/orders.php?erreur=1");
+        header("Location: ../admin/orders.php?erreur=1");
         exit();
     }
 
     mettreAJourStatutCommande($orderId, $statut, $pdo);
-    header("Location: /ecommerce/admin/orders.php?succes=1");
+    header("Location: ../admin/orders.php?succes=1");
     exit();
 
 } else {

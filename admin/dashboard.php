@@ -9,7 +9,7 @@ require_once(__DIR__ . "/../config/db.php");
 
 // Protection : seul un utilisateur connecté peut accéder à cette page
 if (!isset($_SESSION['user'])) {
-    header("Location: /ecommerce/auth/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
