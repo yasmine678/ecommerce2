@@ -355,7 +355,7 @@ body.admin .main-content {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(22, 24, 28, .85), rgba(42, 47, 56, .7));
+    background: linear-gradient(135deg, rgba(183, 203, 243, 0.85), rgba(188, 201, 228, 0.7));
     z-index: -1;
 }
 
@@ -368,7 +368,7 @@ body.admin .main-content {
 }
 
 .hero-content > * {
-    opacity: 0;
+    opacity: 1;
     animation: fadeInUp .5s ease both;
 }
 .hero-badge { animation-delay: .05s; }
