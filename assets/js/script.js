@@ -1,3 +1,25 @@
+// ===== RÉVÉLATION AU DÉFILEMENT (sections avec la classe .reveal / .reveal-stagger) =====
+(function () {
+    const cibles = document.querySelectorAll(".reveal, .reveal-stagger");
+    if (!cibles.length) return;
+
+    if (!("IntersectionObserver" in window)) {
+        cibles.forEach(function (el) { el.classList.add("in-view"); });
+        return;
+    }
+
+    const observateur = new IntersectionObserver(function (entrees) {
+        entrees.forEach(function (entree) {
+            if (entree.isIntersecting) {
+                entree.target.classList.add("in-view");
+                observateur.unobserve(entree.target);
+            }
+        });
+    }, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
+
+    cibles.forEach(function (el) { observateur.observe(el); });
+})();
+
 const liste = document.getElementById("listeCategories");
 const boutonDroite = document.getElementById("droite");
 const boutonGauche = document.getElementById("gauche");

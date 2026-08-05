@@ -51,7 +51,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
 
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h2 class="fw-bold text-dark mb-1">
+                    <h2 class="page-title text-dark mb-1">
                         <?= $isAdmin ? "Gestion des Services" : "Nos Services" ?>
                     </h2>
                     <p class="text-muted mb-0">
@@ -143,7 +143,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                     <div class="row g-3 cartes-animees">
                         <?php foreach ($services as $service): ?>
                             <div class="col-12">
-                                <div class="card border-0 shadow-sm p-3">
+                                <div class="card admin-row-card border-0 shadow-sm p-3">
                                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
 
                                         <span class="d-inline-flex align-items-center justify-content-center">

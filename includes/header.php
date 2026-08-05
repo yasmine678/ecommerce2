@@ -7,8 +7,8 @@ $user = $_SESSION['user'] ?? null;
 $loggedin = isset($user);
 ?>
 
-<nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark fixed-top px-3 px-lg-4" style="background-color: #022f4e;">
-    <div class="container-fluid px-0">
+<nav id="mainNavbar" class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid px-0 d-flex justify-content-between align-items-center">
 
         <a href="<?= BASE_URL ?>/index.php" class="navbar-brand p-0">
             <img src="<?= BASE_URL ?>/assets/images/Logo YosiShop.png" class="logo-yosishop" alt="YosiShop">
@@ -19,11 +19,11 @@ $loggedin = isset($user);
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav ms-lg-auto align-items-start align-items-lg-center mt-3 mt-lg-0">
+        <div class="collapse navbar-collapse flex-grow-0" id="navbarText">
+            <ul class="navbar-nav align-items-start align-items-lg-center gap-lg-1">
 
-                <li class="nav-item my-1 my-lg-0 me-lg-3">
-                    <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/categories/index.php">
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/categories/index.php">
                         Categories
                     </a>
                 </li>
@@ -31,45 +31,45 @@ $loggedin = isset($user);
                 <?php if (!$loggedin): ?>
 
                     <!-- VISITEUR NON CONNECTE -->
-                    <li class="nav-item my-1 my-lg-0 me-lg-3">
-                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/products/index.php">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/products/index.php">
                             Produits
                         </a>
                     </li>
-                    <li class="nav-item my-1 my-lg-0 me-lg-3">
-                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/services/index.php">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/services/index.php">
                             Services
                         </a>
                     </li>
-                    <li class="nav-item my-1 my-lg-0">
-                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/auth/login.php">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/auth/login.php">
                             Connexion
                         </a>
                     </li>
 
-               
+
 
                 <?php else: ?>
 
                     <!-- CLIENT CONNECTE -->
-                    <li class="nav-item my-1 my-lg-0 me-lg-3">
-                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/nouveautes.php">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/nouveautes.php">
                             Nouveau
                         </a>
                     </li>
-                    <li class="nav-item my-1 my-lg-0 me-lg-3">
-                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/services/index.php">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/services/index.php">
                             Services
                         </a>
                     </li>
-                    <li class="nav-item my-1 my-lg-0 me-lg-3">
-                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/cart/index.php">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/cart/index.php">
                             Panier
                         </a>
                     </li>
 
-                    <li class="nav-item my-1 my-lg-0">
-                        <a class="nav-link border border-light rounded px-3 py-2" href="<?= BASE_URL ?>/auth/logout.php">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/auth/logout.php">
                             Déconnexion
                         </a>
                     </li>

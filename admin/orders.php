@@ -32,7 +32,7 @@ $statutsDisponibles = [
 
     <main class="container-fluid px-4 my-4" style="margin-left: 250px; width: calc(100% - 250px);">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
-            <h2 class="fw-bold m-0">Commandes en cours</h2>
+            <h2 class="page-title m-0">Commandes en cours</h2>
             <div class="btn-group" role="group">
                 <a href="orders.php" class="btn btn-primary d-flex align-items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">

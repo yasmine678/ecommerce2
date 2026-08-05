@@ -41,7 +41,7 @@ if ($isAdmin) {
     <!-- En-tête conditionnel -->
     <div class=" d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h2 class="fw-bold text-dark mb-0">
+            <h2 class="page-title text-dark mb-0">
                 <?= $isAdmin ? "Gestion des catégories" : "Nos Catégories" ?>
             </h2>
             <p class="text-muted small mb-0">
@@ -74,7 +74,7 @@ if ($isAdmin) {
                 ?>
                 <div class="col">
                     <!-- Carte Catégorie -->
-                    <div class="card h-100 shadow-sm border-0 rounded-3 <?= !$isAdmin ? 'categorie-card' : '' ?>"
+                    <div class="card h-100 shadow-sm border-0 rounded-3 <?= !$isAdmin ? 'categorie-card' : 'admin-row-card' ?>"
                         <?= !$isAdmin ? 'data-bs-toggle="modal" data-bs-target="#modalDetailCategorie' . $category['catId'] . '" style="cursor: pointer;"' : '' ?>>
 
                         <div class="card-body d-flex flex-column justify-content-between p-3">

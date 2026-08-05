@@ -2,10 +2,15 @@
 require_once(__DIR__ . "/../order/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 $nombreCommandesEnAttente = getCountCommandesActives($pdo);
+$pageActuelle = basename($_SERVER['SCRIPT_NAME']);
+function navActive(string $fichier, string $pageActuelle): string
+{
+    return $fichier === $pageActuelle ? 'active' : '';
+}
 ?>
 <div class="responsive d-flex flex-column flex-shrink-0 p-3 text-white bg-primary" style="width: 250px; min-height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000;">
     <!-- Logo -->
-    <a href="../index.php" class="d-flex align-items-center mb-4 me-md-auto text-white text-decoration-none bg-white p-2 rounded w-100 justify-content-center">
+    <a href="../index.php" class="brand-pill d-flex align-items-center mb-4 me-md-auto text-white text-decoration-none bg-white p-2 rounded w-100 justify-content-center">
         <img src="../assets/images/Logo YosiShop.png" alt="YosiShop" style="max-height: 40px;">
     </a>
 
@@ -14,48 +19,48 @@ $nombreCommandesEnAttente = getCountCommandesActives($pdo);
     <!-- Navigation -->
     <ul class="nav nav-pills flex-column mb-auto gap-1">
         <li class="nav-item">
-            <a href="../admin/dashboard.php" class="nav-link text-white d-flex align-items-center gap-2">
-                <i class="bi bi-speedometer2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
+            <a href="../admin/dashboard.php" class="nav-link text-white d-flex align-items-center gap-2 <?= navActive('dashboard.php', $pageActuelle) ?>">
+                <span class="icon-chip icon-chip-light"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z" />
-                    </svg></i> Dashboard
+                    </svg></span> Dashboard
             </a>
         </li>
         <li>
-            <a href="../categories/index.php" class="nav-link text-white d-flex align-items-center gap-2">
-                <i class="bi bi-folder2-open"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-archive text-warning mb-2" viewBox="0 0 16 16">
+            <a href="../categories/index.php" class="nav-link text-white d-flex align-items-center gap-2 <?= str_ends_with($_SERVER['SCRIPT_NAME'], '/categories/index.php') ? 'active' : '' ?>">
+                <span class="icon-chip icon-chip-light"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M0 2a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v7.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 12.5V5a1 1 0 0 1-1-1zm2 3v7.5A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5V5zm13-3H1v2h14zM5 7.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
-                    </svg></i> Catégories
+                    </svg></span> Catégories
             </a>
         </li>
         <li>
-            <a href="../products/index.php" class="nav-link text-white d-flex align-items-center gap-2">
-                <i class="bi bi-box-seam"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-box2" viewBox="0 0 16 16">
+            <a href="../products/index.php" class="nav-link text-white d-flex align-items-center gap-2 <?= str_ends_with($_SERVER['SCRIPT_NAME'], '/products/index.php') ? 'active' : '' ?>">
+                <span class="icon-chip icon-chip-light"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M2.95.4a1 1 0 0 1 .8-.4h8.5a1 1 0 0 1 .8.4l2.85 3.8a.5.5 0 0 1 .1.3V15a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4.5a.5.5 0 0 1 .1-.3zM7.5 1H3.75L1.5 4h6zm1 0v3h6l-2.25-3zM15 5H1v10h14z" />
-                    </svg></i> Produits
+                    </svg></span> Produits
             </a>
         </li>
         <li>
-            <a href="../services/index.php" class="nav-link text-white d-flex align-items-center gap-2">
-                <i class="bi bi-briefcase"> <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-tools" viewBox="0 0 16 16">
+            <a href="../services/index.php" class="nav-link text-white d-flex align-items-center gap-2 <?= str_ends_with($_SERVER['SCRIPT_NAME'], '/services/index.php') ? 'active' : '' ?>">
+                <span class="icon-chip icon-chip-light"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.681c.955.192 1.994-.14 2.646-.802.63-.63.833-1.479.833-2.25 0-.678-.157-1.324-.406-1.848a1 1 0 0 0-1.6-.259L11.6 2.8l-1.6-.4-.4-1.6.802-.803a1 1 0 0 0-.259-1.6C9.616.157 8.97 0 8.292 0c-.771 0-1.62.203-2.25.833-.662.662-.994 1.699-.802 2.646L2.588 6.15a1 1 0 0 0-1.023-.242l-.305.914-.968-.968 2.617-2.654A3.003 3.003 0 0 0 5.878.851 3 3 0 0 0 3 0z" />
-                    </svg></i> Services
+                    </svg></span> Services
             </a>
         </li>
         <li>
-            <a href="../admin/orders.php" class="nav-link text-white d-flex align-items-center gap-2">
-                <i class="bi bi-cart3"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-boxes" viewBox="0 0 16 16">
+            <a href="../admin/orders.php" class="nav-link text-white d-flex align-items-center gap-2 <?= navActive('orders.php', $pageActuelle) ?> <?= navActive('orders_history.php', $pageActuelle) ?>">
+                <span class="icon-chip icon-chip-light"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M7.752.066a.5.5 0 0 1 .496 0l3.75 2.143a.5.5 0 0 1 .252.434v3.995l3.498 2A.5.5 0 0 1 16 9.07v4.286a.5.5 0 0 1-.252.434l-3.75 2.143a.5.5 0 0 1-.496 0l-3.502-2-3.502 2.001a.5.5 0 0 1-.496 0l-3.75-2.143A.5.5 0 0 1 0 13.357V9.071a.5.5 0 0 1 .252-.434L3.75 6.638V2.643a.5.5 0 0 1 .252-.434zM4.25 7.504 1.508 9.071l2.742 1.567 2.742-1.567zM7.5 9.933l-2.75 1.571v3.134l2.75-1.571zm1 3.134 2.75 1.571v-3.134L8.5 9.933zm.508-3.996 2.742 1.567 2.742-1.567-2.742-1.567zm2.242-2.433V3.504L8.5 5.076V8.21zM7.5 8.21V5.076L4.75 3.504v3.134zM5.258 2.643 8 4.21l2.742-1.567L8 1.076zM15 9.933l-2.75 1.571v3.134L15 13.067zM3.75 14.638v-3.134L1 9.933v3.134z" />
-                    </svg></i> Commandes
+                    </svg></span> Commandes
                 <span id="commandesBadge" class="badge bg-warning text-dark ms-auto <?= $nombreCommandesEnAttente > 0 ? '' : 'd-none' ?>"><?= $nombreCommandesEnAttente ?></span>
             </a>
         </li>
         <li>
-            <a href="../admin/users.php" class="nav-link text-white d-flex align-items-center gap-2">
-                <i class="bi bi-people">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            <a href="../admin/users.php" class="nav-link text-white d-flex align-items-center gap-2 <?= navActive('users.php', $pageActuelle) ?>">
+                <span class="icon-chip icon-chip-light">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                     </svg>
-                </i> Utilisateurs
+                </span> Utilisateurs
             </a>
         </li>
     </ul>

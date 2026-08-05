@@ -46,19 +46,44 @@ function urlAvecPages(int $page, int $pageServices): string
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-content">
-            <span class="hero-badge">✨ Nouveautés chaque semaine</span>
-            <h1>Bienvenue chez <span>YosiDShop</span></h1>
-            <p>Découvrez les meilleurs produits et services aux meilleurs prix.</p>
-            <div>
-                <a href="./products/index.php" class="btn btn-warning btn-lg">Voir les produits</a>
-                <a href="./services/index.php" class="btn btn-outline-light btn-lg">Nos services</a>
+        <div class="container">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <span class="hero-badge">Nouveautés chaque semaine</span>
+                        <h1>Votre boutique <span>tout-en-un</span><br>pour acheter mieux</h1>
+                        <p>Découvrez des produits et services choisis avec soin,<br>à des prix qui font plaisir.</p>
+                        <div>
+                            <a href="./products/index.php" class="btn btn-hero-primary btn-lg">Voir les produits</a>
+                            <a href="./services/index.php" class="btn btn-hero-ghost btn-lg">Nos services</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-visual">
+                        <div class="hero-blob"></div>
+                        <div class="hero-floating-dot"></div>
+                        <div class="hero-floating-card">
+                            <span class="hero-floating-card-image">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .687-.172z" />
+                                </svg>
+                            </span>
+                            <span class="hero-floating-card-body">
+                                <strong>Nouvelle collection</strong>
+                                <span class="text-muted small">Sélection de la semaine</span>
+                                <span class="price">Dès 5 000 FCFA</span>
+                            </span>
+                        </div>
+                        <span class="hero-floating-badge">★ Qualité vérifiée</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- ATOUTS -->
-    <section class="hero-features py-2">
+    <section class="hero-features">
         <div class="container">
             <div class="row row-cols-1 row-cols-sm-3 g-3">
                 <div class="col">
@@ -99,7 +124,7 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
     <!-- BARRE UNIQUE : CATEGORIES DÉFILANTES + RECHERCHE -->
-    <section class="container my-4">
+    <section class="container my-4 reveal">
         <div class="row g-3 align-items-center">
 
             <!-- Zone des Catégories en mode défilement horizontal -->
@@ -137,7 +162,7 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
     <!-- PRODUITS + PAGINATION -->
-    <section class="container my-5">
+    <section class="container my-5 reveal">
         <h2 class="section-title">Nos produits</h2>
 
         <?php if (empty($produitsAffiches)): ?>
@@ -213,7 +238,7 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
     <!-- SERVICES + PAGINATION -->
-    <section class="container my-5">
+    <section class="container my-5 reveal">
         <h2 class="section-title">Nos services</h2>
 
         <?php if (empty($servicesAffiches)): ?>

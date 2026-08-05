@@ -53,7 +53,7 @@ if ($categoryId) {
             <!-- En-tête de page conditionnel -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h2 class="fw-bold text-dark mb-1">
+                    <h2 class="page-title text-dark mb-1">
                         <?= $isAdmin ? "Gestion des Produits" : "Nos Produits" ?>
                     </h2>
                     <p class="text-muted mb-0">
@@ -137,10 +137,10 @@ if ($categoryId) {
                     <div class="row g-3 cartes-animees">
                         <?php foreach ($products as $product): ?>
                             <div class="col-12">
-                                <div class="card border-0 shadow-sm p-3">
+                                <div class="card admin-row-card border-0 shadow-sm p-3">
                                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
 
-                                       
+
                                         <span class="d-inline-flex align-items-center justify-content-center">
                                             <?php if (!empty($product['image'])): ?>
                                                 <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>" alt="Image produit" class="rounded border" width="50" height="50" style="object-fit: cover;">
