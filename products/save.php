@@ -12,8 +12,8 @@ if (!isset($_SESSION['user']['role']) || strtolower(trim($_SESSION['user']['role
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
     $action = $_POST['validate'] ?? null;
 
-    // Dossier de destination pour les images
-    $uploadDir = __DIR__ . '../uploads/products/';
+    // Dossier de destination pour les images (doit correspondre au dossier lu par les pages d'affichage)
+    $uploadDir = __DIR__ . '/../assets/images/';
 
     // S'assurer que le dossier existe
     if (!is_dir($uploadDir)) {
