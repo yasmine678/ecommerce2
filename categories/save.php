@@ -1,9 +1,9 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 
-require_once(__DIR__ . "../config/db.php");
+require_once(__DIR__ . "/../config/db.php");
 require_once(__DIR__ . "./controller.php");
-require_once(__DIR__ . "../products/controller.php");
+require_once(__DIR__ . "/../products/controller.php");
 
 // Protection : vérifier si l'utilisateur est connecté
 if (!isset($_SESSION['user'])) {
@@ -12,7 +12,7 @@ if (!isset($_SESSION['user'])) {
 }
 
 // Dossier de destination pour les images de catégorie (même dossier que les produits)
-$uploadDir = __DIR__ . '../uploads/categories/';
+$uploadDir = __DIR__ . '/../uploads/categories/';
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
 }
