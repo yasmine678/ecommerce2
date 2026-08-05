@@ -37,7 +37,7 @@ if ($categoryId) {
     <script src="../assets/js/bootstrap.js" defer></script>
 </head>
 
-<body class="<?= $isAdmin ? 'bg-light' : 'client' ?>" style="<?= !$isAdmin ? 'background-color: #f8f9fa;' : '' ?>">
+<body class="<?= $isAdmin ? 'bg-light' : 'client' ?>">
 
     <?php if ($isAdmin): ?>
         <!-- Barre latérale d'administration -->

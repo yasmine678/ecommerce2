@@ -5,6 +5,11 @@ require_once(__DIR__ . "/../config/db.php");
 
 $user = $_SESSION['user'] ?? null;
 $loggedin = isset($user);
+
+function navActiveSi(string $suffixe): string
+{
+    return str_ends_with($_SERVER['SCRIPT_NAME'], $suffixe) ? 'active' : '';
+}
 ?>
 
 <nav id="mainNavbar" class="navbar navbar-expand-lg fixed-top">
@@ -23,7 +28,7 @@ $loggedin = isset($user);
             <ul class="navbar-nav align-items-start align-items-lg-center gap-lg-1">
 
                 <li class="nav-item">
-                    <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/categories/index.php">
+                    <a class="nav-link px-3 py-2 <?= navActiveSi('/categories/index.php') ?>" href="<?= BASE_URL ?>/categories/index.php">
                         Categories
                     </a>
                 </li>
@@ -32,17 +37,17 @@ $loggedin = isset($user);
 
                     <!-- VISITEUR NON CONNECTE -->
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/products/index.php">
+                        <a class="nav-link px-3 py-2 <?= navActiveSi('/products/index.php') ?>" href="<?= BASE_URL ?>/products/index.php">
                             Produits
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/services/index.php">
+                        <a class="nav-link px-3 py-2 <?= navActiveSi('/services/index.php') ?>" href="<?= BASE_URL ?>/services/index.php">
                             Services
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/auth/login.php">
+                        <a class="nav-link px-3 py-2 <?= navActiveSi('/auth/login.php') ?>" href="<?= BASE_URL ?>/auth/login.php">
                             Connexion
                         </a>
                     </li>
@@ -53,17 +58,17 @@ $loggedin = isset($user);
 
                     <!-- CLIENT CONNECTE -->
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/nouveautes.php">
+                        <a class="nav-link px-3 py-2 <?= navActiveSi('/nouveautes.php') ?>" href="<?= BASE_URL ?>/nouveautes.php">
                             Nouveau
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/services/index.php">
+                        <a class="nav-link px-3 py-2 <?= navActiveSi('/services/index.php') ?>" href="<?= BASE_URL ?>/services/index.php">
                             Services
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/cart/index.php">
+                        <a class="nav-link px-3 py-2 <?= navActiveSi('/cart/index.php') ?>" href="<?= BASE_URL ?>/cart/index.php">
                             Panier
                         </a>
                     </li>
