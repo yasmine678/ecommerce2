@@ -39,7 +39,7 @@ if ($isAdmin) {
     style="<?= $isAdmin ? 'margin-left: 250px; width: calc(100% - 250px);' : '' ?>">
 
     <!-- En-tête conditionnel -->
-    <div class=" d-flex justify-content-between align-items-center mb-4">
+    <div class="<?= $isAdmin ? '' : 'page-banner' ?> d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="page-title text-dark mb-0">
                 <?= $isAdmin ? "Gestion des catégories" : "Nos Catégories" ?>

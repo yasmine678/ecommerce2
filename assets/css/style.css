@@ -479,6 +479,46 @@ body.admin .main-content {
         margin: 6px auto;
     }
 }
+/* ===== BANNIÈRE DE PAGE (catégories / produits / services) ===== */
+.page-banner {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    padding: 36px 28px;
+    margin-bottom: 28px !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.page-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("../images/télécharger (18).jpg");
+    background-size: cover;
+    background-position: center;
+    filter: blur(5px) brightness(.5);
+    transform: scale(1.08);
+    z-index: -2;
+}
+.page-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(246, 246, 247, 0.82), rgba(42, 47, 56, .68));
+    z-index: -1;
+}
+.page-banner .page-title {
+    color: #fff !important;
+}
+.page-banner .page-title::after {
+    background: var(--accent);
+}
+.page-banner .text-muted {
+    color: rgba(255, 255, 255, .78) !important;
+}
 
 .category-icon {
     width: 80px;

@@ -51,7 +51,6 @@ $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder
                     <tbody>
                         <?php foreach ($utilisateurs as $utilisateur): ?>
                             <tr>
-                                <td><?= $utilisateur['usId'] ?></td>
                                 <td><?= htmlspecialchars(($utilisateur['firstName'] ?? '') . ' ' . ($utilisateur['lastName'] ?? '')) ?></td>
                                 <td><?= htmlspecialchars($utilisateur['email']) ?></td>
                                 <td>

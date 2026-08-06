@@ -49,7 +49,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
     <main style="<?= $isAdmin ? 'margin-left: 250px;' : '' ?>" class="p-4<?= $isAdmin ? '' : ' below-header' ?>">
         <div class="container<?= $isAdmin ? '-fluid' : '' ?>">
 
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="<?= $isAdmin ? '' : 'page-banner' ?> d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h2 class="page-title text-dark mb-1">
                         <?= $isAdmin ? "Gestion des Services" : "Nos Services" ?>

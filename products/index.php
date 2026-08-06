@@ -51,7 +51,7 @@ if ($categoryId) {
         <div class="container<?= $isAdmin ? '-fluid' : '' ?>">
 
             <!-- En-tête de page conditionnel -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="<?= $isAdmin ? '' : 'page-banner' ?> d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h2 class="page-title text-dark mb-1">
                         <?= $isAdmin ? "Gestion des Produits" : "Nos Produits" ?>
