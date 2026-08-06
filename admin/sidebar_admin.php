@@ -9,11 +9,7 @@ function navActive(string $fichier, string $pageActuelle): string
 }
 ?>
 <div class="responsive d-flex flex-column flex-shrink-0 p-3 text-white bg-primary" style="width: 250px; min-height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000;">
-    <!-- Logo -->
-    <a href="../index.php" class="brand-pill d-flex align-items-center mb-4 me-md-auto text-white text-decoration-none bg-white p-2 rounded w-100 justify-content-center">
-        <img src="../assets/images/Logo YosiShop.png" alt="YosiShop" style="max-height: 40px;">
-    </a>
-
+   
     <hr class="text-secondary">
 
     <!-- Navigation -->

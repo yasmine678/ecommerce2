@@ -133,7 +133,7 @@ if ($categoryId) {
             <?php else: ?>
 
                 <?php if ($isAdmin): ?>
-                    <!-- VUE ADMINISTRATEUR (Lignes synthétiques) -->
+                    <!-- ADMINISTRATEUR  -->
                     <div class="row g-3 cartes-animees">
                         <?php foreach ($products as $product): ?>
                             <div class="col-12">
@@ -143,7 +143,7 @@ if ($categoryId) {
 
                                         <span class="d-inline-flex align-items-center justify-content-center">
                                             <?php if (!empty($product['image'])): ?>
-                                                <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>" alt="Image produit" class="rounded border" width="50" height="50" style="object-fit: cover;">
+                                                <img src="../uploads/products/<?= htmlspecialchars($product['image']) ?>" alt="Image produit" class="rounded border" width="50" height="50" style="object-fit: cover;">
                                             <?php else: ?>
                                                 <span class="badge bg-secondary text-white p-3 rounded border">No Img</span>
                                             <?php endif; ?>
@@ -238,7 +238,7 @@ if ($categoryId) {
 
                 <?php else: ?>
 
-                    <!-- VUE CLIENT -->
+                    <!-- CLIENT -->
                     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 cartes-animees">
                         <?php foreach ($products as $product): ?>
                             <div class="col">
@@ -249,12 +249,12 @@ if ($categoryId) {
                                         data-name="<?= htmlspecialchars($product['proName'] ?? $product['name'] ?? '', ENT_QUOTES) ?>"
                                         data-desc="<?= htmlspecialchars($product['prodescription'] ?? 'Aucune description disponible.', ENT_QUOTES) ?>"
                                         data-price="<?= number_format($product['price'] ?? 0, 0, ',', ' ') ?>"
-                                        data-image="<?= !empty($product['image']) ? '../assets/images/' . htmlspecialchars($product['image'], ENT_QUOTES) : '' ?>"
+                                        data-image="<?= !empty($product['image']) ? '../uploads/' . htmlspecialchars($product['image'], ENT_QUOTES) : '' ?>"
                                         data-cat="<?= htmlspecialchars($product['catName'] ?? $product['name'] ?? '', ENT_QUOTES) ?>">
                                         <!-- Image produit ou placeholder avec hauteur fixe -->
                                         <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
                                             <?php if (!empty($product['image'])): ?>
-                                                <img src="../assets/images/<?= htmlspecialchars($product['image']) ?>"
+                                                <img src="../uploads/<?= htmlspecialchars($product['image']) ?>"
                                                     class="card-img-top w-100 h-100 "
                                                     alt="<?= htmlspecialchars($product['proName'] ?? 'Produit') ?>"
                                                     style="object-fit: cover;">
