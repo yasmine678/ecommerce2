@@ -77,7 +77,7 @@ if (($_GET['format'] ?? '') === 'json') {
                         <div class="card h-100 shadow-sm produit-card">
                             <?php if (!empty($produit['image'])): ?>
                                 <a href="./products/detail.php?id=<?= $produit['proId'] ?>">
-                                    <img src="./assets/images/<?= htmlspecialchars($produit['image']) ?>"
+                                    <img src="./uploads/products/<?= htmlspecialchars($produit['image']) ?>"
                                          class="card-img-top produit-image"
                                          alt="<?= htmlspecialchars($produit['proName']) ?>">
                                 </a>

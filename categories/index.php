@@ -58,7 +58,7 @@ if ($isAdmin) {
     </div>
 
     <!-- Liste des catégories -->
-    <div class=" row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+    <div class=" row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3">
         <?php if (empty($categories)): ?>
             <div class="col-12">
                 <div class="alert alert-info text-center py-4">
@@ -80,7 +80,7 @@ if ($isAdmin) {
                         <div class="card-body d-flex flex-column justify-content-between p-3">
                             <div>
                                 <?php if (!empty($category['catImage'])): ?>
-                                    <img src="../assets/images/<?= htmlspecialchars($category['catImage']) ?>"
+                                    <img src="../uploads/categories/<?= htmlspecialchars($category['catImage']) ?>"
                                         class="w-100 rounded mb-1" style="height: 190px; object-fit: cover;" alt="<?= htmlspecialchars($category['name']) ?>">
                                 <?php endif; ?>
 
@@ -142,7 +142,7 @@ if ($isAdmin) {
                                             <div class="col">
                                                 <div class="card h-100">
                                                     <?php if (!empty($produit['image'])): ?>
-                                                        <img src="../assets/images/<?= htmlspecialchars($produit['image']) ?>"
+                                                        <img src="../uploads/products/<?= htmlspecialchars($produit['image']) ?>"
                                                             class="card-img-top" style="height: 100px; object-fit: cover;">
                                                     <?php endif; ?>
                                                     <div class="card-body p-2">
@@ -190,7 +190,7 @@ if ($isAdmin) {
                                             <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($category['description'] ?? ''); ?></textarea>
                                         </div>
                                         <?php if (!empty($category['catImage'])): ?>
-                                            <img src="../assets/images/<?= htmlspecialchars($category['catImage']) ?>"
+                                            <img src="../uploads/categories/<?= htmlspecialchars($category['catImage']) ?>"
                                                 class="w-100 rounded mb-2" style="height: 100px; object-fit: cover;" alt="">
                                         <?php endif; ?>
                                         <div class="mb-3">
@@ -227,7 +227,7 @@ if ($isAdmin) {
                                                 <div class="col">
                                                     <div class="card h-100 border-0 shadow-sm">
                                                         <?php if (!empty($produit['image'])): ?>
-                                                            <img src="../assets/images/<?= htmlspecialchars($produit['image']) ?>"
+                                                            <img src="../uploads/products/<?= htmlspecialchars($produit['image']) ?>"
                                                                 class="card-img-top" style="height: 100px; object-fit: cover;" alt="<?= htmlspecialchars($produit['proName']) ?>">
                                                         <?php endif; ?>
                                                         <div class="card-body p-2">

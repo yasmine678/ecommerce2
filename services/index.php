@@ -148,7 +148,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
 
                                         <span class="d-inline-flex align-items-center justify-content-center">
                                             <?php if (!empty($service['serImage'])): ?>
-                                                <img src="../assets/images/<?= htmlspecialchars($service['serImage']) ?>" alt="Image service" class="rounded border" width="50" height="50" style="object-fit: cover;">
+                                                <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>" alt="Image service" class="rounded border" width="50" height="50" style="object-fit: cover;">
                                             <?php else: ?>
                                                 <span class="badge bg-secondary text-white p-3 rounded border">No Img</span>
                                             <?php endif; ?>
@@ -260,14 +260,14 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                 <?php else: ?>
 
                     <!-- VUE CLIENT -->
-                    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 cartes-animees">
+                    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 cartes-animees">
                         <?php foreach ($services as $service): ?>
                             <div class="col">
                                 <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden d-flex flex-column">
 
                                     <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
                                         <?php if (!empty($service['serImage'])): ?>
-                                            <img src="../assets/images/<?= htmlspecialchars($service['serImage']) ?>"
+                                            <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
                                                 class="card-img-top w-100 h-100"
                                                 alt="<?= htmlspecialchars($service['servName'] ?? 'Service') ?>"
                                                 style="object-fit: cover;">

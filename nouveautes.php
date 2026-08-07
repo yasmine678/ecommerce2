@@ -54,7 +54,7 @@ function urlAvecPages(int $page, int $pageServices): string
                 <?php foreach ($produitsAffiches as $produit): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
-                            <img src="./assets/images/<?php echo htmlspecialchars($produit['image']); ?>"
+                            <img src="./uploads/products/<?php echo htmlspecialchars($produit['image']); ?>"
                                 class="card-img-top produit-image"
                                 alt="<?php echo htmlspecialchars($produit['proName']); ?>">
 
@@ -121,7 +121,7 @@ function urlAvecPages(int $page, int $pageServices): string
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
                             <?php if (!empty($service['serImage'])): ?>
-                                <img src="./assets/images/<?php echo htmlspecialchars($service['serImage']); ?>"
+                                <img src="./uploads/services/<?php echo htmlspecialchars($service['serImage']); ?>"
                                     class="card-img-top produit-image"
                                     alt="<?php echo htmlspecialchars($service['servName']); ?>">
                             <?php endif; ?>

@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
     $action = $_POST['validate'] ?? null;
 
     // Dossier de destination pour les images
-    $uploadDir = __DIR__ . '/../assets/images/';
+    $uploadDir = __DIR__ . '/../uploads/services/';
 
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0755, true);

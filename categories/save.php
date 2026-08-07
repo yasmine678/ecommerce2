@@ -11,8 +11,8 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-// Dossier de destination pour les images de catégorie (même dossier que les produits et les pages d'affichage)
-$uploadDir = __DIR__ . '/../assets/images/';
+// Dossier de destination pour les images de catégorie
+$uploadDir = __DIR__ . '/../uploads/categories/';
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
 }

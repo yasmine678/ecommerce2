@@ -54,8 +54,8 @@ foreach ($lignesCart as $ligne) {
                         <?php foreach ($lignesCart as $ligne): ?>
                             <tr>
                                 <td class="d-flex align-items-center gap-2">
-                                    <?php if (!empty($ligne['image'])): ?>
-                                        <img src="../assets/images/<?= htmlspecialchars($ligne['image']) ?>"
+                                    <?php if (!empty($ligne['simage'])): ?>
+                                        <img src="../uploads/<?= $ligne['itemType'] === 'service' ? 'services' : 'products' ?>/<?= htmlspecialchars($ligne['simage']) ?>"
                                              style="width: 50px; height: 50px; object-fit: cover;" class="rounded">
                                     <?php endif; ?>
                                     <?= htmlspecialchars($ligne['proName']) ?>

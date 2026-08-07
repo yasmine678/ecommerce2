@@ -9,7 +9,7 @@ require_once(__DIR__ . "/services/controller.php");
 $categories = getAll($pdo);
 $produits = getAllPro($pdo);
 
-$produitsParPage = 10;
+$produitsParPage = 8;
 $pagesProduits = array_chunk($produits, $produitsParPage);
 $totalPages = count($pagesProduits);
 $page = isset($_GET['page']) ? max(1, min($totalPages, (int) $_GET['page'])) : 1;
@@ -36,7 +36,7 @@ function urlAvecPages(int $page, int $pageServices): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YosiShop</title>
+    <title>YosiDShop</title>
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
     <link rel="stylesheet" href="./assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/assets/css/style.css'); ?>">
 </head>
@@ -151,7 +151,7 @@ function urlAvecPages(int $page, int $pageServices): string
         <?php if (empty($produitsAffiches)): ?>
             <p class="text-muted">Aucun produit pour le moment.</p>
         <?php else: ?>
-            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-3 cartes-animees">
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3 cartes-animees">
                 <?php foreach ($produitsAffiches as $produit): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
@@ -227,7 +227,7 @@ function urlAvecPages(int $page, int $pageServices): string
         <?php if (empty($servicesAffiches)): ?>
             <p class="text-muted">Aucun service disponible pour le moment.</p>
         <?php else: ?>
-            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-3 cartes-animees">
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3 cartes-animees">
                 <?php foreach ($servicesAffiches as $service): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">

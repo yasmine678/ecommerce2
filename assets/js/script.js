@@ -143,7 +143,7 @@ document.addEventListener("submit", function (e) {
 
 // ===== CARTE PRODUIT REUTILISABLE (modales catégorie / recherche) =====
 function creerCarteProduit(produit) {
-    const image = produit.image ? baseUrl() + "/assets/images/" + encodeURIComponent(produit.image) : "";
+    const image = produit.image ? baseUrl() + "/uploads/products/" + encodeURIComponent(produit.image) : "";
     const prix = formaterPrix(produit.price);
 
     const col = document.createElement("div");
