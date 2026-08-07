@@ -97,11 +97,23 @@ if (produitModalEl) {
 }
 
 // ===== AJOUT AU PANIER SANS QUITTER LA PAGE (délégation : fonctionne aussi pour les cartes injectées) =====
+const ICONE_SUCCES =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">' +
+    '<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>' +
+    '</svg>';
+const ICONE_ERREUR =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">' +
+    '<path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>' +
+    '</svg>';
+
 function afficherMessagePanier(texte, erreur) {
     const div = document.createElement("div");
-    div.className = "alert " + (erreur ? "alert-danger" : "alert-success") + " position-fixed shadow";
-    div.style.cssText = "top: 100px; right: 20px; z-index: 2000; min-width: 250px;";
-    div.textContent = texte;
+    div.className = "alert " + (erreur ? "alert-danger" : "alert-success") +
+        " position-fixed shadow d-flex align-items-center justify-content-center";
+    div.style.cssText = "top: 100px; right: 20px; z-index: 2000; width: 52px; height: 52px; padding: 0; border-radius: 50%;";
+    div.innerHTML = erreur ? ICONE_ERREUR : ICONE_SUCCES;
+    div.setAttribute("role", "status");
+    div.setAttribute("aria-label", texte);
     document.body.appendChild(div);
     setTimeout(function () {
         div.remove();
@@ -122,7 +134,7 @@ document.addEventListener("submit", function (e) {
                 window.location.href = baseUrl() + "/auth/login.php";
                 return;
             }
-            afficherMessagePanier("Produit ajouté au panier ✅");
+            afficherMessagePanier("Produit ajouté au panier");
         })
         .catch(function () {
             afficherMessagePanier("Erreur lors de l'ajout au panier.", true);
@@ -156,7 +168,12 @@ function creerCarteProduit(produit) {
         '      <span class="fw-bold text-warning">' + prix + ' FCFA</span>' +
         '      <form action="' + baseUrl() + '/cart/add.php" method="POST" class="m-0 ajout-panier">' +
         '        <input type="hidden" name="proId" value="' + echapperHtml(produit.proId) + '">' +
-        '        <button type="submit" class="btn btn-sm btn-outline-warning">🛒</button>' +
+        '        <button type="submit" class="btn btn-sm btn-outline-warning" aria-label="Ajouter au panier" title="Ajouter au panier">' +
+        '          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket2" viewBox="0 0 16 16">' +
+        '            <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />' +
+        '            <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />' +
+        '          </svg>' +
+        '        </button>' +
         '      </form>' +
         '    </div>' +
         '  </div>' +
