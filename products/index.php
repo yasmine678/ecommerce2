@@ -283,7 +283,7 @@ if ($categoryId) {
                                                     <?= htmlspecialchars($product['catName'] ?? $product['name'] ?? 'Général') ?>
                                                 </span>
                                             </div>
-                                            <p class="text-muted small mb-0">
+                                            <p class="text-muted small mb-0 produit-description">
                                                 <?= htmlspecialchars($product['prodescription'] ?? 'Aucune description disponible.') ?>
                                             </p>
                                         </div>

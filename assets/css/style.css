@@ -625,7 +625,11 @@ body.admin .main-content {
 .produit-description {
     display: -webkit-box;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     overflow: hidden;
+    line-height: 1.4em;
+    max-height: 2.8em;
 }
 
 .produit-card {
