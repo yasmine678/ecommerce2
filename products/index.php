@@ -101,8 +101,14 @@ if ($categoryId) {
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="image" class="form-label">Image du produit</label>
-                                            <input type="file" name="image" id="image" class="form-control" accept="image/*">
+                                            <label for="image" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2 mb-0">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
+                                                </svg>
+                                                Ajouter une image
+                                            </label>
+                                            <input type="file" name="image" id="image" accept="image/*" class="visually-hidden">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -229,8 +235,14 @@ if ($categoryId) {
                                                     </select>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label d-block mt-2">Changer l'image :</label>
-                                                    <input type="file" name="image" class="form-control" accept="image/*">
+                                                    <label for="image_prod_<?= $product['proId'] ?>" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2 mt-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                                            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                                            <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
+                                                        </svg>
+                                                        Ajouter une image
+                                                    </label>
+                                                    <input type="file" name="image" id="image_prod_<?= $product['proId'] ?>" accept="image/*" class="visually-hidden">
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
