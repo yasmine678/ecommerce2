@@ -634,10 +634,11 @@ body.admin .main-content {
 
 .produit-card {
     box-shadow: none !important;
+    border-color: var(--accent) !important;
 }
 .produit-card:hover {
     box-shadow: var(--shadow-hover) !important;
-    border-color: var(--border-strong);
+    border-color: var(--accent-dark) !important;
 }
 
 .produit-clickable {
