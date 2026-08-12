@@ -281,37 +281,45 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                             <div class="col">
                                 <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden d-flex flex-column">
 
-                                    <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
-                                        <?php if (!empty($service['serImage'])): ?>
-                                            <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
-                                                class="card-img-top w-100 h-100"
-                                                alt="<?= htmlspecialchars($service['servName'] ?? 'Service') ?>"
-                                                style="object-fit: cover;">
-                                        <?php else: ?>
-                                            <div class="text-center text-muted">
-                                                <span class="fs-1">S</span>
-                                                <p class="small mb-0">Pas d'image</p>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-
-                                    <div class="card-body pb-0">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h5 class="fw-bold text-dark mb-0">
-                                                <?= htmlspecialchars($service['servName'] ?? '') ?>
-                                            </h5>
-                                            <span class="badge bg-info text-dark bg-opacity-25 border border-info border-opacity-25 rounded-pill">
-                                                <?= htmlspecialchars($service['name'] ?? 'Général') ?>
-                                            </span>
+                                    <div class="service-clickable" role="button" tabindex="0"
+                                        data-servid="<?= $service['servId'] ?>"
+                                        data-name="<?= htmlspecialchars($service['servName'] ?? '', ENT_QUOTES) ?>"
+                                        data-desc="<?= htmlspecialchars($service['description'] ?? 'Aucune description disponible.', ENT_QUOTES) ?>"
+                                        data-price="<?= number_format($service['priceHours'] ?? 0, 0, ',', ' ') ?>"
+                                        data-provider="<?= htmlspecialchars($service['provider'] ?? '', ENT_QUOTES) ?>"
+                                        data-cat="<?= htmlspecialchars($service['name'] ?? '', ENT_QUOTES) ?>">
+                                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
+                                            <?php if (!empty($service['serImage'])): ?>
+                                                <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
+                                                    class="card-img-top w-100 h-100"
+                                                    alt="<?= htmlspecialchars($service['servName'] ?? 'Service') ?>"
+                                                    style="object-fit: cover;">
+                                            <?php else: ?>
+                                                <div class="text-center text-muted">
+                                                    <span class="fs-1">S</span>
+                                                    <p class="small mb-0">Pas d'image</p>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
-                                        <p class="text-muted small mb-1">
-                                            <?= htmlspecialchars($service['description'] ?? 'Aucune description disponible.') ?>
-                                        </p>
-                                        <?php if (!empty($service['provider'])): ?>
-                                            <p class="text-muted small mb-0">
-                                                Par <?= htmlspecialchars($service['provider']) ?>
+
+                                        <div class="card-body pb-0">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h5 class="fw-bold text-dark mb-0">
+                                                    <?= htmlspecialchars($service['servName'] ?? '') ?>
+                                                </h5>
+                                                <span class="badge bg-info text-dark bg-opacity-25 border border-info border-opacity-25 rounded-pill">
+                                                    <?= htmlspecialchars($service['name'] ?? 'Général') ?>
+                                                </span>
+                                            </div>
+                                            <p class="text-muted small mb-1 produit-description">
+                                                <?= htmlspecialchars($service['description'] ?? 'Aucune description disponible.') ?>
                                             </p>
-                                        <?php endif; ?>
+                                            <?php if (!empty($service['provider'])): ?>
+                                                <p class="text-muted small mb-0">
+                                                    Par <?= htmlspecialchars($service['provider']) ?>
+                                                </p>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
 
                                     <div class="card-body pt-2 mt-auto">
@@ -342,6 +350,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
     </main>
 
     <?php if (!$isAdmin): ?>
+        <?php include(__DIR__ . "/../includes/service-modal.php"); ?>
         <script src="../assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/script.js'); ?>" defer></script>
     <?php endif; ?>
 

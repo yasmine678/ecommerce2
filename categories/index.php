@@ -89,7 +89,7 @@ if ($isAdmin) {
                                 <h5 class="fw-bold text-dark mb-1">
                                     <?= htmlspecialchars($category['name'] ?? '') ?>
                                 </h5>
-                                <p class="text-muted small mb-1">
+                                <p class="text-muted small mb-1 produit-description">
                                     <?= htmlspecialchars($category['description'] ?? 'Aucune description disponible.') ?>
                                 </p>
 

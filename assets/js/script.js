@@ -96,6 +96,54 @@ if (produitModalEl) {
     });
 }
 
+// ===== MODAL DETAIL SERVICE (clic sur une carte service, y compris injectée dynamiquement) =====
+const serviceModalEl = document.getElementById("serviceModal");
+
+if (serviceModalEl) {
+    const serviceModal = new bootstrap.Modal(serviceModalEl);
+    const serviceModalTitle = document.getElementById("serviceModalTitle");
+    const serviceModalCat = document.getElementById("serviceModalCat");
+    const serviceModalDesc = document.getElementById("serviceModalDesc");
+    const serviceModalProvider = document.getElementById("serviceModalProvider");
+    const serviceModalPrice = document.getElementById("serviceModalPrice");
+
+    function ouvrirServiceModal(carte) {
+        serviceModalTitle.textContent = carte.dataset.name;
+        serviceModalDesc.textContent = carte.dataset.desc;
+        serviceModalPrice.textContent = carte.dataset.price + " FCFA/heure";
+
+        if (carte.dataset.cat) {
+            serviceModalCat.textContent = carte.dataset.cat;
+            serviceModalCat.style.display = "inline-block";
+        } else {
+            serviceModalCat.style.display = "none";
+        }
+
+        if (carte.dataset.provider) {
+            serviceModalProvider.textContent = "Par " + carte.dataset.provider;
+            serviceModalProvider.style.display = "block";
+        } else {
+            serviceModalProvider.style.display = "none";
+        }
+
+        serviceModal.show();
+    }
+
+    document.addEventListener("click", function (e) {
+        const carte = e.target.closest(".service-clickable");
+        if (carte) ouvrirServiceModal(carte);
+    });
+
+    document.addEventListener("keydown", function (e) {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        const carte = e.target.closest(".service-clickable");
+        if (carte) {
+            e.preventDefault();
+            ouvrirServiceModal(carte);
+        }
+    });
+}
+
 // ===== AJOUT AU PANIER SANS QUITTER LA PAGE (délégation : fonctionne aussi pour les cartes injectées) =====
 const ICONE_SUCCES =
     '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">' +
