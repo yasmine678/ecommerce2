@@ -8,7 +8,7 @@ require_once(__DIR__ . "/config/db.php");
 $joursNouveaute = 14;
 
 $produits = getProduitsRecents($pdo, $joursNouveaute);
-$produitsParPage = 10;
+$produitsParPage = 8;
 $pagesProduits = array_chunk($produits, $produitsParPage);
 $totalPages = count($pagesProduits);
 $page = isset($_GET['page']) ? max(1, min($totalPages, (int) $_GET['page'])) : 1;
@@ -17,7 +17,7 @@ $produitsAffiches = $pagesProduits[$page - 1] ?? [];
 $services = array_values(array_filter(getServicesRecents($pdo, $joursNouveaute), function ($s) {
     return (bool) $s['available'];
 }));
-$servicesParPage = 6;
+$servicesParPage = 8;
 $pagesServices = array_chunk($services, $servicesParPage);
 $totalPagesServices = count($pagesServices);
 $pageServices = isset($_GET['page_services']) ? max(1, min($totalPagesServices, (int) $_GET['page_services'])) : 1;
