@@ -50,7 +50,7 @@ function urlAvecPages(int $page, int $pageServices): string
             <p class="text-muted">Aucun nouveau produit pour le moment.</p>
         <?php else: ?>
             <h5 class="mb-3">Produits</h5>
-            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-3">
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3">
                 <?php foreach ($produitsAffiches as $produit): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
@@ -116,7 +116,7 @@ function urlAvecPages(int $page, int $pageServices): string
             <p class="text-muted">Aucun nouveau service pour le moment.</p>
         <?php else: ?>
             <h5 class="mb-3">Services</h5>
-            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-3">
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3">
                 <?php foreach ($servicesAffiches as $service): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
