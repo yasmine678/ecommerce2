@@ -21,7 +21,7 @@ $note = trim($_POST['note'] ?? '');
 $note = $note !== '' ? $note : null;
 
 foreach ($lignesCart as $ligne) {
-    creerCommande($userId, $ligne['prodId'], $ligne['servId'], $ligne['cquantity'], $pdo, $note);
+    creerCommande($userId, $ligne['prodId'], $ligne['servId'], $ligne['cquantity'], $ligne['cId'], $pdo, $note);
 }
 
 viderCart($userId, $pdo);

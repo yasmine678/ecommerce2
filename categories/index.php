@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once(__DIR__ . "/../config/db.php");
 require_once(__DIR__ . "/controller.php");
+require_once(__DIR__ . "/../services/controller.php");
 
 // 1. Détection du rôle d'administration
 $isAdmin = isset($_SESSION['user']) && isset($_SESSION['user']['role']) && ($_SESSION['user']['role'] === 'manager');
@@ -67,9 +68,11 @@ if ($isAdmin) {
         <?php else: ?>
             <?php foreach ($categories as $category): ?>
                 <?php
-                // Chargement des produits de la catégorie pour la vue client
+                // Chargement des produits et services de la catégorie pour la vue client
                 $produitsCategorie = !$isAdmin ? getProduitsByCategorie($category['catId'], $pdo) : [];
+                $servicesCategorie = !$isAdmin ? getServicesByCategorie($category['catId'], $pdo) : [];
                 $nombreProduits = count($produitsCategorie);
+                $nombreServices = count($servicesCategorie);
                 ?>
                 <div class="col">
                     <!-- Carte Catégorie -->
@@ -92,6 +95,7 @@ if ($isAdmin) {
 
                                 <?php if (!$isAdmin): ?>
                                     <span class="badge bg-secondary"><?= $nombreProduits ?> produit(s)</span>
+                                    <span class="badge bg-secondary"><?= $nombreServices ?> service(s)</span>
                                 <?php endif; ?>
                             </div>
 
@@ -155,10 +159,39 @@ if ($isAdmin) {
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endif; ?>
+
+                                <hr>
+                                <p class="fw-bold"><?= $nombreServices ?> service<?= $nombreServices > 1 ? 's' : '' ?> dans cette catégorie</p>
+
+                                <?php if (empty($servicesCategorie)): ?>
+                                    <p class="text-muted">Aucun service pour le moment.</p>
+                                <?php else: ?>
+                                    <div class="row row-cols-2 row-cols-md-3 g-3 cartes-animees">
+                                        <?php foreach ($servicesCategorie as $service): ?>
+                                            <div class="col">
+                                                <div class="card h-100">
+                                                    <?php if (!empty($service['serImage'])): ?>
+                                                        <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
+                                                            class="card-img-top" style="height: 100px; object-fit: cover;">
+                                                    <?php endif; ?>
+                                                    <div class="card-body p-2">
+                                                        <p class="mb-1 small fw-semibold"><?= htmlspecialchars($service['servName']) ?></p>
+                                                        <p class="mb-0 small text-primary fw-bold">
+                                                            <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/h
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                             <div class="modal-footer">
                                 <a href="../products/index.php?catId=<?= $category['catId'] ?>" class="btn btn-warning">
                                     Voir tous les produits
+                                </a>
+                                <a href="../services/index.php?catId=<?= $category['catId'] ?>" class="btn btn-outline-warning">
+                                    Voir tous les services
                                 </a>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                             </div>

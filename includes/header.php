@@ -32,6 +32,11 @@ function navActiveSi(string $suffixe): string
                         Categories
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2 <?= navActiveSi('/nouveautes.php') ?>" href="<?= BASE_URL ?>/nouveautes.php">
+                        Nouveau
+                    </a>
+                </li>
 
                 <?php if (!$loggedin): ?>
 
@@ -57,11 +62,6 @@ function navActiveSi(string $suffixe): string
                 <?php else: ?>
 
                     <!-- CLIENT CONNECTE -->
-                    <li class="nav-item">
-                        <a class="nav-link px-3 py-2 <?= navActiveSi('/nouveautes.php') ?>" href="<?= BASE_URL ?>/nouveautes.php">
-                            Nouveau
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link px-3 py-2 <?= navActiveSi('/services/index.php') ?>" href="<?= BASE_URL ?>/services/index.php">
                             Services

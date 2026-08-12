@@ -32,6 +32,14 @@ function getProduitsByCategorie(int $id, PDO $pdo)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getServicesByCategorie(int $id, PDO $pdo)
+{
+    $req = "SELECT * FROM service WHERE catId = :catId";
+    $stmt = $pdo->prepare($req);
+    $stmt->execute([':catId' => $id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 
 

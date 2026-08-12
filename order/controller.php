@@ -1,14 +1,15 @@
 <?php
 require_once(__DIR__ . "/../config/db.php");
 
-function creerCommande(int $userId, ?int $prodId, ?int $servId, int $quantity, PDO $pdo, ?string $note = null)
+function creerCommande(int $userId, ?int $prodId, ?int $servId, int $quantity, int $cartId, PDO $pdo, ?string $note = null)
 {
-    $req = "INSERT INTO orders (usId, proId, servId, quantity, note, status) VALUES (:usId, :proId, :servId, :quantity, :note, 'en_attente')";
+    $req = "INSERT INTO orders (usId, proId, servId, cId, quantity, note, status) VALUES (:usId, :proId, :servId, :cId, :quantity, :note, 'en_attente')";
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
         ':usId' => $userId,
         ':proId' => $prodId,
         ':servId' => $servId,
+        ':cId' => $cartId,
         ':quantity' => $quantity,
         ':note' => $note
     ]);
