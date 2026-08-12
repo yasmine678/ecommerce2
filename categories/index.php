@@ -35,8 +35,7 @@ if ($isAdmin) {
 }
 ?>
 
-<main class="<?= $isAdmin ? 'container-fluid px-4' : 'container below-header' ?> my-4"
-    style="<?= $isAdmin ? 'margin-left: 250px; width: calc(100% - 250px);' : '' ?>">
+<main class="<?= $isAdmin ? 'admin-main container-fluid px-4' : 'container below-header' ?> my-4">
 
     <!-- En-tête conditionnel -->
     <div class="<?= $isAdmin ? '' : 'page-banner' ?> d-flex justify-content-between align-items-center mb-4">

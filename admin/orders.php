@@ -30,7 +30,7 @@ $statutsDisponibles = [
 <body>
     <?php include(__DIR__ . "/../admin/sidebar_admin.php"); ?>
 
-    <main class="container-fluid px-4 my-4" style="margin-left: 250px; width: calc(100% - 250px);">
+    <main class="admin-main container-fluid px-4 my-4">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
             <h2 class="page-title m-0">Commandes en cours</h2>
             <div class="btn-group" role="group">

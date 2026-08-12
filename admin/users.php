@@ -23,7 +23,7 @@ $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder
 <body>
     <?php include(__DIR__ . "/../admin/sidebar_admin.php"); ?>
 
-    <main class="container-fluid px-4 my-4" style="margin-left: 250px; width: calc(100% - 250px);">
+    <main class="admin-main container-fluid px-4 my-4">
         <h2 class="page-title mb-4">Gestion des utilisateurs</h2>
 
         <?php if (isset($_GET['succes'])): ?>

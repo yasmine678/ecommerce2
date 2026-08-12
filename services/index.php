@@ -46,7 +46,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
         <?php include(__DIR__ . "/../includes/header.php"); ?>
     <?php endif; ?>
 
-    <main style="<?= $isAdmin ? 'margin-left: 250px;' : '' ?>" class="p-4<?= $isAdmin ? '' : ' below-header' ?>">
+    <main class="p-4<?= $isAdmin ? ' admin-main' : ' below-header' ?>">
         <div class="container<?= $isAdmin ? '-fluid' : '' ?>">
 
             <div class="<?= $isAdmin ? '' : 'page-banner' ?> d-flex justify-content-between align-items-center mb-4">

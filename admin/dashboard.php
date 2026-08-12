@@ -3,6 +3,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once(__DIR__ . "/../products/controller.php");
 require_once(__DIR__ . "/../categories/controller.php");
+require_once(__DIR__ . "/../services/controller.php");
 require_once(__DIR__ . "/../auth/controller.php");
 require_once(__DIR__ . "/../order/controller.php");
 require_once(__DIR__ . "/../config/db.php");
@@ -18,8 +19,8 @@ $nombreCategories = getCountCategories($pdo);
 $nombreClients = getCountClients($pdo);
 $topProduits = getProduitsPlusVendus($pdo, 5);
 $nombreCommandesActives = getCountCommandesActives($pdo);
-$categoriesProduits = getCategoriesAvecNombreProduits($pdo);
-$totalProduitsCategories = array_sum(array_column($categoriesProduits, 'nombre'));
+$servicesCommandes = getServicesLesPlusCommandes($pdo, 8);
+$totalServicesCommandes = array_sum(array_column($servicesCommandes, 'nombre'));
 $couleursCamembert = ['#066a95', '#022f4e', '#3498db', '#0a591c', '#049729', '#300f64', '#851306', '#16a085'];
 ?>
 <!DOCTYPE html>
@@ -39,7 +40,7 @@ $couleursCamembert = ['#066a95', '#022f4e', '#3498db', '#0a591c', '#049729', '#3
     <?php include(__DIR__ . "/sidebar_admin.php"); ?>
 
     <!-- Zone principale décalee de 250px vers la droite -->
-    <main style="margin-left: 250px;" class="p-4">
+    <main class="admin-main p-4">
         <div class="container-fluid">
 
             <!-- En-tête du Dashboard -->
@@ -221,16 +222,16 @@ $couleursCamembert = ['#066a95', '#022f4e', '#3498db', '#0a591c', '#049729', '#3
             <div class="col-lg-6">
           
             <div class="card border-0 shadow-sm p-4 h-100">
-                <h5 class="fw-bold mb-4">Catégories par nombre de produits</h5>
+                <h5 class="fw-bold mb-4">Services les plus commandés</h5>
 
-                <?php if (empty($categoriesProduits) || $totalProduitsCategories === 0): ?>
-                    <p class="text-muted m-0">Aucune catégorie avec des produits pour le moment.</p>
+                <?php if (empty($servicesCommandes) || $totalServicesCommandes === 0): ?>
+                    <p class="text-muted m-0">Aucun service commandé pour le moment.</p>
                 <?php else: ?>
                     <?php
                     $degrades = [];
                     $cumule = 0;
-                    foreach ($categoriesProduits as $i => $cat) {
-                        $part = ($cat['nombre'] / $totalProduitsCategories) * 100;
+                    foreach ($servicesCommandes as $i => $serv) {
+                        $part = ($serv['nombre'] / $totalServicesCommandes) * 100;
                         $debut = $cumule;
                         $cumule += $part;
                         $couleur = $couleursCamembert[$i % count($couleursCamembert)];
@@ -249,14 +250,14 @@ $couleursCamembert = ['#066a95', '#022f4e', '#3498db', '#0a591c', '#049729', '#3
                         </div>
 
                         <ul class="list-unstyled m-0 w-100">
-                            <?php foreach ($categoriesProduits as $i => $cat): ?>
+                            <?php foreach ($servicesCommandes as $i => $serv): ?>
                                 <li class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="d-flex align-items-center gap-2">
                                         <span class="rounded-circle d-inline-block"
                                             style="width: 12px; height: 12px; background-color: <?= $couleursCamembert[$i % count($couleursCamembert)] ?>;"></span>
-                                        <?= htmlspecialchars($cat['name']) ?>
+                                        <?= htmlspecialchars($serv['name']) ?>
                                     </span>
-                                    <span class="text-muted"><?= $cat['nombre'] ?></span>
+                                    <span class="text-muted"><?= $serv['nombre'] ?></span>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

@@ -8,8 +8,16 @@ function navActive(string $fichier, string $pageActuelle): string
     return $fichier === $pageActuelle ? 'active' : '';
 }
 ?>
-<div class="responsive d-flex flex-column flex-shrink-0 p-3 text-white bg-primary" style="width: 250px; min-height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000;">
-   
+<!-- Bouton d'ouverture de la sidebar (visible uniquement sous 992px) -->
+<button type="button" id="adminSidebarToggle" class="admin-toggle" aria-label="Ouvrir le menu" aria-controls="adminSidebar" aria-expanded="false">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+    </svg>
+</button>
+<div id="adminSidebarBackdrop" class="admin-backdrop"></div>
+
+<div id="adminSidebar" class="responsive d-flex flex-column flex-shrink-0 p-3 text-white bg-primary" style="width: 250px; min-height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000;">
+
     <hr class="text-secondary">
 
     <!-- Navigation -->
@@ -77,3 +85,33 @@ function navActive(string $fichier, string $pageActuelle): string
 </div>
 
 <script src="../assets/js/admin-notifications.js" defer></script>
+<script>
+    (function () {
+        var toggle = document.getElementById("adminSidebarToggle");
+        var sidebar = document.getElementById("adminSidebar");
+        var backdrop = document.getElementById("adminSidebarBackdrop");
+        if (!toggle || !sidebar || !backdrop) return;
+
+        function ouvrir() {
+            sidebar.classList.add("show");
+            backdrop.classList.add("show");
+            toggle.setAttribute("aria-expanded", "true");
+            document.body.style.overflow = "hidden";
+        }
+        function fermer() {
+            sidebar.classList.remove("show");
+            backdrop.classList.remove("show");
+            toggle.setAttribute("aria-expanded", "false");
+            document.body.style.overflow = "";
+        }
+
+        toggle.addEventListener("click", function () {
+            sidebar.classList.contains("show") ? fermer() : ouvrir();
+        });
+        backdrop.addEventListener("click", fermer);
+
+        window.addEventListener("resize", function () {
+            if (window.innerWidth >= 992) fermer();
+        });
+    })();
+</script>

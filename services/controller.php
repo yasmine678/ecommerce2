@@ -108,4 +108,20 @@ function getCountServices(PDO $pdo)
     return $stmt->fetchColumn();
 }
 
+function getServicesLesPlusCommandes(PDO $pdo, int $limite = 8)
+{
+    $req = "SELECT service.servName AS name, SUM(orders.quantity) AS nombre
+            FROM orders
+            JOIN service ON orders.servId = service.servId
+            WHERE orders.status != 'annulee'
+            GROUP BY orders.servId, service.servName
+            ORDER BY nombre DESC
+            LIMIT :limite";
+
+    $stmt = $pdo->prepare($req);
+    $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 ?>
