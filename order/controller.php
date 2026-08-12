@@ -78,6 +78,19 @@ function mettreAJourStatutCommande(int $orderId, string $statut, PDO $pdo)
     return $stmt->execute([':status' => $statut, ':oId' => $orderId]);
 }
 
+function getCommandeById(int $orderId, PDO $pdo)
+{
+    $stmt = $pdo->prepare("SELECT * FROM orders WHERE oId = :oId");
+    $stmt->execute([':oId' => $orderId]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function supprimerCommande(int $orderId, PDO $pdo)
+{
+    $stmt = $pdo->prepare("DELETE FROM orders WHERE oId = :oId");
+    return $stmt->execute([':oId' => $orderId]);
+}
+
 function getCountCommandes(PDO $pdo)
 {
     return $pdo->query("SELECT COUNT(*) FROM orders")->fetchColumn();
