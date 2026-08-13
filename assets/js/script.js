@@ -229,7 +229,47 @@ function creerCarteProduit(produit) {
     return col;
 }
 
-// ===== MODAL CATEGORIE : affiche 4 produits de la categorie cliquée =====
+// ===== CARTE SERVICE REUTILISABLE (modales catégorie / recherche) =====
+function creerCarteService(service) {
+    const image = service.serImage ? baseUrl() + "/uploads/services/" + encodeURIComponent(service.serImage) : "";
+    const prix = formaterPrix(service.priceHours);
+
+    const col = document.createElement("div");
+    col.className = "col";
+    col.innerHTML =
+        '<div class="card h-100 shadow-sm produit-card d-flex flex-column">' +
+        '  <div class="service-clickable" role="button" tabindex="0"' +
+        '       data-servid="' + echapperHtml(service.servId) + '"' +
+        '       data-name="' + echapperHtml(service.servName) + '"' +
+        '       data-desc="' + echapperHtml(service.description) + '"' +
+        '       data-price="' + prix + '"' +
+        '       data-provider="' + echapperHtml(service.provider || "") + '"' +
+        '       data-cat="' + echapperHtml(service.catName || service.name || "") + '">' +
+        (image ? '    <img src="' + echapperHtml(image) + '" class="card-img-top produit-image" alt="' + echapperHtml(service.servName) + '">' : '') +
+        '    <div class="card-body pb-0">' +
+        '      <h6 class="card-title mb-1">' + echapperHtml(service.servName) + '</h6>' +
+        '      <p class="card-text text-muted small mb-0 produit-description">' + echapperHtml(service.description) + '</p>' +
+        '    </div>' +
+        '  </div>' +
+        '  <div class="card-body pt-2 mt-auto">' +
+        '    <div class="d-flex justify-content-between align-items-center">' +
+        '      <span class="fw-bold text-warning">' + prix + ' FCFA/heure</span>' +
+        '      <form action="' + baseUrl() + '/cart/add.php" method="POST" class="m-0 ajout-panier">' +
+        '        <input type="hidden" name="servId" value="' + echapperHtml(service.servId) + '">' +
+        '        <button type="submit" class="btn btn-sm btn-outline-warning" aria-label="Ajouter au panier" title="Ajouter au panier">' +
+        '          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket2" viewBox="0 0 16 16">' +
+        '            <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z" />' +
+        '            <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z" />' +
+        '          </svg>' +
+        '        </button>' +
+        '      </form>' +
+        '    </div>' +
+        '  </div>' +
+        '</div>';
+    return col;
+}
+
+// ===== MODAL CATEGORIE : affiche 4 produits et 4 services de la categorie cliquée =====
 const categorieModalEl = document.getElementById("categorieModal");
 
 if (categorieModalEl) {
@@ -237,6 +277,7 @@ if (categorieModalEl) {
     const categorieModalTitle = document.getElementById("categorieModalTitle");
     const categorieModalBody = document.getElementById("categorieModalBody");
     const categorieModalVoirPlus = document.getElementById("categorieModalVoirPlus");
+    const categorieModalVoirPlusServices = document.getElementById("categorieModalVoirPlusServices");
 
     document.addEventListener("click", function (e) {
         const bouton = e.target.closest(".categorie-trigger");
@@ -248,6 +289,7 @@ if (categorieModalEl) {
         categorieModalTitle.textContent = catName;
         categorieModalBody.innerHTML = '<p class="text-muted mb-0">Chargement...</p>';
         categorieModalVoirPlus.href = baseUrl() + "/products/index.php?catId=" + encodeURIComponent(catId);
+        categorieModalVoirPlusServices.href = baseUrl() + "/services/index.php?catId=" + encodeURIComponent(catId);
         categorieModal.show();
 
         fetch(baseUrl() + "/categories/produits.php?format=json&catId=" + encodeURIComponent(catId))
@@ -257,19 +299,28 @@ if (categorieModalEl) {
             .then(function (data) {
                 categorieModalBody.innerHTML = "";
 
-                if (!data.produits || data.produits.length === 0) {
-                    categorieModalBody.innerHTML = '<p class="text-muted mb-0">Aucun produit dans cette catégorie pour le moment.</p>';
+                const produits = data.produits || [];
+                const services = data.services || [];
+
+                if (produits.length === 0 && services.length === 0) {
+                    categorieModalBody.innerHTML = '<p class="text-muted mb-0">Aucun produit ni service dans cette catégorie pour le moment.</p>';
+                    categorieModalVoirPlus.style.display = "none";
+                    categorieModalVoirPlusServices.style.display = "none";
                     return;
                 }
 
-                data.produits.forEach(function (produit) {
+                produits.forEach(function (produit) {
                     categorieModalBody.appendChild(creerCarteProduit(produit));
                 });
+                services.forEach(function (service) {
+                    categorieModalBody.appendChild(creerCarteService(service));
+                });
 
-                categorieModalVoirPlus.style.display = data.total > data.produits.length ? "" : "none";
+                categorieModalVoirPlus.style.display = produits.length > 0 ? "" : "none";
+                categorieModalVoirPlusServices.style.display = services.length > 0 ? "" : "none";
             })
             .catch(function () {
-                categorieModalBody.innerHTML = '<p class="text-danger mb-0">Impossible de charger les produits pour le moment.</p>';
+                categorieModalBody.innerHTML = '<p class="text-danger mb-0">Impossible de charger cette catégorie pour le moment.</p>';
             });
     });
 }
@@ -303,13 +354,19 @@ if (rechercheModalEl) {
                     rechercheModalTitle.textContent =
                         data.total + (data.total > 1 ? " résultats" : " résultat") + " pour « " + motCle + " »";
 
-                    if (!data.produits || data.produits.length === 0) {
-                        rechercheModalBody.innerHTML = '<p class="text-muted mb-0">Aucun produit ne correspond à votre recherche.</p>';
+                    const produits = data.produits || [];
+                    const services = data.services || [];
+
+                    if (produits.length === 0 && services.length === 0) {
+                        rechercheModalBody.innerHTML = '<p class="text-muted mb-0">Aucun produit ni service ne correspond à votre recherche.</p>';
                         return;
                     }
 
-                    data.produits.forEach(function (produit) {
+                    produits.forEach(function (produit) {
                         rechercheModalBody.appendChild(creerCarteProduit(produit));
+                    });
+                    services.forEach(function (service) {
+                        rechercheModalBody.appendChild(creerCarteService(service));
                     });
                 })
                 .catch(function () {

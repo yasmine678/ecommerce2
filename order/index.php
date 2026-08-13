@@ -36,9 +36,6 @@ $libelles = [
         <?php if (isset($_GET['succes'])): ?>
             <div class="alert alert-success">Votre commande a bien été enregistrée !</div>
         <?php endif; ?>
-        <?php if (isset($_GET['erreur'])): ?>
-            <div class="alert alert-danger">Une erreur est survenue. Veuillez réessayer.</div>
-        <?php endif; ?>
 
         <?php if (empty($commandes)): ?>
             <p class="text-muted">Vous n'avez pas encore passé de commande.</p>
@@ -53,7 +50,6 @@ $libelles = [
                             <th>Quantité</th>
                             <th>Total</th>
                             <th>Statut</th>
-                            <th class="text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,21 +62,6 @@ $libelles = [
                                 <td><?= number_format($commande['price'] * $commande['quantity'], 0, ',', ' ') ?> FCFA</td>
                                 <td>
                                     <span class="badge bg-<?= $statutInfo['classe'] ?>"><?= $statutInfo['label'] ?></span>
-                                </td>
-                                <td class="text-end">
-                                    <form action="./save.php" method="POST"
-                                          onsubmit="return confirm('Supprimer cette commande de votre historique ?');">
-                                        <input type="hidden" name="oId" value="<?= $commande['oId'] ?>">
-                                        <input type="hidden" name="redirect" value="client">
-                                        <button type="submit" name="validate" value="Supprimer"
-                                                class="btn btn-sm btn-outline-danger"
-                                                aria-label="Supprimer" title="Supprimer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L13.882 4zM2.5 3h11V2h-11z" />
-                                            </svg>
-                                        </button>
-                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

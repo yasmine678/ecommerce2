@@ -99,7 +99,7 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
     <!-- BARRE UNIQUE : CATEGORIES DÉFILANTES + RECHERCHE -->
-    <section class="container my-4 reveal">
+    <section id="categories" class="container my-4 reveal">
         <div class="row g-3 align-items-center">
 
             <!-- Zone des Catégories en mode défilement horizontal -->
@@ -134,7 +134,7 @@ function urlAvecPages(int $page, int $pageServices): string
             <!-- Barre de recherche alignée sur la même ligne -->
             <div class="col-12 col-md-5 col-lg-4">
                 <form action="./researsh.php" method="GET" class="d-flex recherche-form">
-                    <input type="search" name="q" class="form-control me-2" placeholder="Rechercher un produit..." required>
+                    <input type="search" name="q" class="form-control me-2" placeholder="Rechercher un produit ou un service..." required>
                     <button class="btn btn-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
                         </svg></button>
@@ -145,7 +145,7 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
     <!-- PRODUITS + PAGINATION -->
-    <section class="container my-5 reveal">
+    <section id="produits" class="container my-5 reveal">
         <h2 class="section-title">Nos produits</h2>
 
         <?php if (empty($produitsAffiches)): ?>
@@ -221,7 +221,7 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
     <!-- SERVICES + PAGINATION -->
-    <section class="container my-5 reveal">
+    <section id="services" class="container my-5 reveal">
         <h2 class="section-title">Nos services</h2>
 
         <?php if (empty($servicesAffiches)): ?>
@@ -331,7 +331,8 @@ function urlAvecPages(int $page, int $pageServices): string
                     <div id="categorieModalBody" class="row row-cols-2 row-cols-md-4 g-3"></div>
                 </div>
                 <div class="modal-footer">
-                    <a id="categorieModalVoirPlus" href="#" class="btn btn-warning">Voir plus</a>
+                    <a id="categorieModalVoirPlus" href="#" class="btn btn-warning">Voir tous les produits</a>
+                    <a id="categorieModalVoirPlusServices" href="#" class="btn btn-outline-warning">Voir tous les services</a>
                 </div>
             </div>
         </div>

@@ -90,6 +90,13 @@ h1, h2, h3, h4, h5, h6,
     background: var(--accent);
 }
 
+/* ===== ANCRES DE NAVIGATION (onglets header -> sections page d'accueil) ===== */
+#categories,
+#produits,
+#services {
+    scroll-margin-top: var(--header-height, 90px);
+}
+
 /* ===== TITRES DE SECTION ===== */
 .section-title {
     position: relative;

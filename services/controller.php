@@ -108,6 +108,21 @@ function getCountServices(PDO $pdo)
     return $stmt->fetchColumn();
 }
 
+function searchServices(string $keyword, PDO $pdo)
+{
+    $req = "SELECT service.*, category.name AS catName
+            FROM service
+            LEFT JOIN category ON service.catId = category.catId
+            WHERE service.servName LIKE :keyword
+               OR service.description LIKE :keyword
+               OR category.name LIKE :keyword
+            ORDER BY service.servName ASC";
+
+    $stmt = $pdo->prepare($req);
+    $stmt->execute([':keyword' => '%' . $keyword . '%']);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getServicesLesPlusCommandes(PDO $pdo, int $limite = 8)
 {
     $req = "SELECT service.servName AS name, SUM(orders.quantity) AS nombre
