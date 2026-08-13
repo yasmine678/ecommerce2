@@ -16,6 +16,7 @@ if (!isset($_SESSION['user'])) {
 
 $nombreProduits = getCountProduits($pdo);
 $nombreCategories = getCountCategories($pdo);
+$nombreServices = getCountServices($pdo);
 $nombreClients = getCountClients($pdo);
 $topProduits = getProduitsPlusVendus($pdo, 5);
 $nombreCommandesActives = getCountCommandesActives($pdo);
@@ -54,7 +55,7 @@ $couleursCamembert = ['#066a95', '#022f4e', '#3498db', '#0a591c', '#049729', '#3
             <?php endif; ?>
 
             <!-- Cartes statistiques -->
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mb-4">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-3 mb-4">
 
                 <!-- Carte Produits -->
                 <div class="col">
@@ -82,6 +83,21 @@ $couleursCamembert = ['#066a95', '#022f4e', '#3498db', '#0a591c', '#049729', '#3
                             </span>
                             <h3 class="fw-bold mb-0"><?= $nombreCategories; ?></h3>
                             <p class="text-muted mb-0">Catégories</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carte Services -->
+                <div class="col">
+                    <div class="card text-center shadow-sm border-0 dashboard-card p-3">
+                        <div class="card-body">
+                            <span class="icon-chip icon-chip-navy">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 6.978V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V6.978l6.614 1.936a1.5 1.5 0 0 0 .772 0zM1.5 4h13a.5.5 0 0 1 .5.5v1.464L8.129 7.87a.5.5 0 0 1-.258 0L1 5.964V4.5a.5.5 0 0 1 .5-.5" />
+                                </svg>
+                            </span>
+                            <h3 class="fw-bold mb-0"><?= $nombreServices; ?></h3>
+                            <p class="text-muted mb-0">Services</p>
                         </div>
                     </div>
                 </div>

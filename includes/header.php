@@ -28,7 +28,7 @@ function navActiveSi(string $suffixe): string
             <ul class="navbar-nav align-items-start align-items-lg-center gap-lg-1">
 
                 <li class="nav-item">
-                    <a class="nav-link px-3 py-2 <?= $loggedin ? navActiveSi('/categories/index.php') : navActiveSi('/index.php') ?>"
+                    <a class="nav-link px-3 py-2 <?= $loggedin ? navActiveSi('/categories/index.php') : '' ?>"
                         href="<?= $loggedin ? BASE_URL . '/categories/index.php' : BASE_URL . '/index.php#categories' ?>">
                         Categories
                     </a>
@@ -38,12 +38,12 @@ function navActiveSi(string $suffixe): string
 
                     <!-- VISITEUR NON CONNECTE -->
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2 <?= navActiveSi('/index.php') ?>" href="<?= BASE_URL ?>/index.php#produits">
+                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/index.php#produits">
                             Produits
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2 <?= navActiveSi('/index.php') ?>" href="<?= BASE_URL ?>/index.php#services">
+                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/index.php#services">
                             Services
                         </a>
                     </li>

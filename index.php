@@ -19,7 +19,7 @@ $services = array_values(array_filter(getAllServices($pdo), function ($s) {
     return (bool) $s['available'];
 }));
 
-$servicesParPage = 6;
+$servicesParPage = 8;
 $pagesServices = array_chunk($services, $servicesParPage);
 $totalPagesServices = count($pagesServices);
 $pageServices = isset($_GET['page_services']) ? max(1, min($totalPagesServices, (int) $_GET['page_services'])) : 1;
