@@ -110,6 +110,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                                 Ajouter une image
                                             </label>
                                             <input type="file" name="image" id="image_add_service" accept="image/*" class="visually-hidden">
+                                            <div class="form-text small text-muted mt-1 fichier-nom"></div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Statut</label>
@@ -253,6 +254,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                                         Changer l'image
                                                     </label>
                                                     <input type="file" name="image" id="image_serv_<?= $service['servId'] ?>" accept="image/*" class="visually-hidden">
+                                                    <div class="form-text small text-muted mt-1 fichier-nom"></div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Statut :</label>

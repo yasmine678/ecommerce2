@@ -238,6 +238,7 @@ if ($isAdmin) {
                                                 Changer l'image
                                             </label>
                                             <input type="file" name="catImage" id="catImage_<?= $category['catId'] ?>" accept="image/*" class="visually-hidden">
+                                            <div class="form-text small text-muted mt-1 fichier-nom"></div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -325,6 +326,7 @@ if ($isAdmin) {
                                     Ajouter une image
                                 </label>
                                 <input type="file" name="catImage" id="catImage" accept="image/*" class="visually-hidden">
+                                <div class="form-text small text-muted mt-1 fichier-nom"></div>
                             </div>
                         </div>
                         <div class="modal-footer">

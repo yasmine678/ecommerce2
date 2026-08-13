@@ -109,6 +109,7 @@ if ($categoryId) {
                                                 Ajouter une image
                                             </label>
                                             <input type="file" name="image" id="image" accept="image/*" class="visually-hidden">
+                                            <div class="form-text small text-muted mt-1 fichier-nom"></div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -247,6 +248,7 @@ if ($categoryId) {
                                                         Changer l'image
                                                     </label>
                                                     <input type="file" name="image" id="image_prod_<?= $product['proId'] ?>" accept="image/*" class="visually-hidden">
+                                                    <div class="form-text small text-muted mt-1 fichier-nom"></div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

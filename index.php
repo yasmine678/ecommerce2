@@ -231,17 +231,25 @@ function urlAvecPages(int $page, int $pageServices): string
                 <?php foreach ($servicesAffiches as $service): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
-                            <?php if (!empty($service['serImage'])): ?>
-                                <img src="./uploads/services/<?php echo htmlspecialchars($service['serImage']); ?>"
-                                    class="card-img-top produit-image"
-                                    alt="<?php echo htmlspecialchars($service['servName']); ?>">
-                            <?php endif; ?>
+                            <div class="service-clickable" role="button" tabindex="0"
+                                data-servid="<?php echo $service['servId']; ?>"
+                                data-name="<?php echo htmlspecialchars($service['servName'], ENT_QUOTES); ?>"
+                                data-desc="<?php echo htmlspecialchars($service['description'] ?? 'Aucune description disponible.', ENT_QUOTES); ?>"
+                                data-price="<?php echo number_format($service['priceHours'], 0, ',', ' '); ?>"
+                                data-provider="<?php echo htmlspecialchars($service['provider'] ?? '', ENT_QUOTES); ?>"
+                                data-cat="<?php echo htmlspecialchars($service['name'] ?? '', ENT_QUOTES); ?>">
+                                <?php if (!empty($service['serImage'])): ?>
+                                    <img src="./uploads/services/<?php echo htmlspecialchars($service['serImage']); ?>"
+                                        class="card-img-top produit-image"
+                                        alt="<?php echo htmlspecialchars($service['servName']); ?>">
+                                <?php endif; ?>
 
-                            <div class="card-body pb-0">
-                                <h6 class="card-title mb-1"><?php echo htmlspecialchars($service['servName']); ?></h6>
-                                <p class="card-text text-muted small mb-0 produit-description">
-                                    <?php echo htmlspecialchars($service['description'] ?? ''); ?>
-                                </p>
+                                <div class="card-body pb-0">
+                                    <h6 class="card-title mb-1"><?php echo htmlspecialchars($service['servName']); ?></h6>
+                                    <p class="card-text text-muted small mb-0 produit-description">
+                                        <?php echo htmlspecialchars($service['description'] ?? ''); ?>
+                                    </p>
+                                </div>
                             </div>
 
                             <div class="card-body pt-2 mt-auto">
@@ -308,6 +316,8 @@ function urlAvecPages(int $page, int $pageServices): string
             </div>
         </div>
     </div>
+
+    <?php include(__DIR__ . "/includes/service-modal.php"); ?>
 
     <!-- Modal catégorie : 4 produits de la catégorie cliquée, rempli en JS -->
     <div class="modal fade" id="categorieModal" tabindex="-1" aria-hidden="true">

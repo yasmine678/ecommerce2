@@ -114,4 +114,11 @@ function navActive(string $fichier, string $pageActuelle): string
             if (window.innerWidth >= 992) fermer();
         });
     })();
+
+    document.addEventListener("change", function (e) {
+        if (!e.target.matches('input[type="file"]')) return;
+        var zoneNom = e.target.parentElement.querySelector(".fichier-nom");
+        if (!zoneNom) return;
+        zoneNom.textContent = e.target.files.length ? e.target.files[0].name : "";
+    });
 </script>
