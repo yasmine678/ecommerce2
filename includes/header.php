@@ -109,3 +109,7 @@ function navActiveSi(string $suffixe): string
         }
     })();
 </script>
+
+<?php if ($loggedin): ?>
+    <script src="<?= BASE_URL ?>/assets/js/client-notifications.js?v=<?= filemtime(__DIR__ . '/../assets/js/client-notifications.js') ?>" defer></script>
+<?php endif; ?>

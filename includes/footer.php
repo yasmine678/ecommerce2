@@ -7,7 +7,7 @@ $categories = getAll($pdo);
     <div class="container">
         <div class="row g-4">
             <div class="col-12 col-md-4">
-                <h6 class="fw-bold mb-3 fs-5">YosiShop</h6>
+                <h6 class="fw-bold mb-3 fs-5">YosiDShop</h6>
                 <p class="small mb-3">
                     Votre boutique en ligne pour des produits et services de qualité, livrés vite et bien.
                 </p>
@@ -46,6 +46,6 @@ $categories = getAll($pdo);
             </div>
         </div>
         <hr>
-        <p class="text-center small mb-0 text-muted">&copy; <?php echo date('Y'); ?> YosiShop. Tous droits réservés.</p>
+        <p class="text-center small mb-0 text-muted">&copy; <?php echo date('Y'); ?> YosiDShop. Tous droits réservés.</p>
     </div>
 </footer>
