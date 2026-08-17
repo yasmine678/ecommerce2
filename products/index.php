@@ -102,6 +102,19 @@ if ($categoryId) {
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
+                                        <div class="row g-3 mb-3">
+                                            <div class="col-sm-6">
+                                                <label for="color" class="form-label">Couleur (optionnel)</label>
+                                                <input type="text" name="color" id="color" class="form-control" placeholder="Ex : Rouge">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="capacite" class="form-label">Capacité (optionnel)</label>
+                                                <input type="text" name="capacite" id="capacite" class="form-control" placeholder="Ex : 128 Go">
+                                            </div>
+                                        </div>
+                                        <div class="form-text small text-muted mb-3">
+                                            Si un produit du même nom existe déjà avec une autre couleur/capacité, ils apparaîtront comme des exemplaires du même produit.
+                                        </div>
                                         <div class="mb-3">
                                             <label for="image" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2 mb-0">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
@@ -237,6 +250,16 @@ if ($categoryId) {
                                                         <?php endforeach; ?>
                                                     </select>
                                                 </div>
+                                                <div class="row g-3 mb-3">
+                                                    <div class="col-sm-6">
+                                                        <label class="form-label">Couleur (optionnel) :</label>
+                                                        <input type="text" name="color" class="form-control" value="<?= htmlspecialchars($product['color'] ?? ''); ?>" placeholder="Ex : Rouge">
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label class="form-label">Capacité (optionnel) :</label>
+                                                        <input type="text" name="capacite" class="form-control" value="<?= htmlspecialchars($product['capacite'] ?? ''); ?>" placeholder="Ex : 128 Go">
+                                                    </div>
+                                                </div>
                                                 <div class="mb-3">
                                                     <label class="form-label d-block mb-1">
                                                         Image actuelle :
@@ -275,13 +298,7 @@ if ($categoryId) {
                                     <?php $qte = $quantitesPanier['produit_' . $product['proId']] ?? 0; ?>
                                     <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="produit_<?= $product['proId'] ?>">×<?= $qte ?></span>
 
-                                    <div class="produit-clickable" role="button" tabindex="0"
-                                        data-proid="<?= $product['proId'] ?>"
-                                        data-name="<?= htmlspecialchars($product['proName'] ?? $product['name'] ?? '', ENT_QUOTES) ?>"
-                                        data-desc="<?= htmlspecialchars($product['prodescription'] ?? 'Aucune description disponible.', ENT_QUOTES) ?>"
-                                        data-price="<?= number_format($product['price'] ?? 0, 0, ',', ' ') ?>"
-                                        data-image="<?= !empty($product['image']) ? '../uploads/products/' . htmlspecialchars($product['image'], ENT_QUOTES) : '' ?>"
-                                        data-cat="<?= htmlspecialchars($product['catName'] ?? $product['name'] ?? '', ENT_QUOTES) ?>">
+                                    <a href="./detail.php?id=<?= $product['proId'] ?>" class="text-decoration-none text-dark">
                                         <!-- Image produit ou placeholder avec hauteur fixe -->
                                         <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
                                             <?php if (!empty($product['image'])): ?>
@@ -310,7 +327,7 @@ if ($categoryId) {
                                                 <?= htmlspecialchars($product['prodescription'] ?? 'Aucune description disponible.') ?>
                                             </p>
                                         </div>
-                                    </div>
+                                    </a>
 
                                     <div class="card-body pt-2 mt-auto">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -339,7 +356,6 @@ if ($categoryId) {
     </main>
 
     <?php if (!$isAdmin): ?>
-        <?php include(__DIR__ . "/../includes/produit-modal.php"); ?>
         <script src="../assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/script.js'); ?>" defer></script>
     <?php endif; ?>
 

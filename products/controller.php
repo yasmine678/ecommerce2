@@ -24,26 +24,29 @@ function getModiPro( int $id, PDO $pdo)
 
 }
 
-
-
-
-
-function createProd(array $data, PDO $pdo)
+function getProduitAvecCategorie(int $id, PDO $pdo)
 {
-    $req = "INSERT INTO product(proName, prodescription, price, catId) VALUES (:proName, :prodescription, :price, :catId)";
-
+    $req = "SELECT product.*, category.name AS catName
+            FROM product
+            LEFT JOIN category ON product.catId = category.catId
+            WHERE product.proId = :proId";
     $stmt = $pdo->prepare($req);
-    return $stmt->execute([
-        ':proName' => $data['proName'],
-        ':prodescription' => $data['prodescription'],
-        ':price' => $data['price'],
-        ':catId' => $data['catId']
-    ]);
-
-
-
-
+    $stmt->execute([':proId' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+function getVariantesProduit(string $proName, int $excludeProId, PDO $pdo)
+{
+    $req = "SELECT * FROM product WHERE proName = :proName AND proId != :excludeProId ORDER BY proId ASC";
+    $stmt = $pdo->prepare($req);
+    $stmt->execute([':proName' => $proName, ':excludeProId' => $excludeProId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
+
+
 function deleteProd( int $id, PDO $pdo)
 {
     $req = "DELETE FROM product WHERE proId = :proId ";
@@ -54,46 +57,6 @@ function deleteProd( int $id, PDO $pdo)
     ]);
 
 
-}
-function updateProd(int $id, array $data, PDO $pdo) {
-    try {
-        // Si une nouvelle image est envoyée, on l'inclut dans la requête SQL
-        if (!empty($data['image'])) {
-            $sql = "UPDATE product 
-                    SET proName = :proName, 
-                        prodescription = :prodescription, 
-                        price = :price, 
-                        catId = :catId, 
-                        image = :image 
-                    WHERE proId = :proId";
-        } else {
-            // Sinon, on conserve l'ancienne image
-            $sql = "UPDATE product
-                    SET proName = :proName, 
-                        prodescription = :prodescription, 
-                        price = :price, 
-                        catId = :catId 
-                    WHERE proId = :proId";
-        }
-
-        $stmt = $pdo->prepare($sql);
-
-        $params = [
-            ':proName'        => $data['proName'],
-            ':prodescription' => $data['prodescription'],
-            ':price'          => $data['price'],
-            ':catId'          => $data['catId'],
-            ':proId'          => $id
-        ];
-
-        if (!empty($data['image'])) {
-            $params[':image'] = $data['image'];
-        }
-
-        return $stmt->execute($params);
-    } catch (PDOException $e) {
-        return false;
-    }
 }
 function getProduitsRecents(PDO $pdo, int $jours = 14)
 {

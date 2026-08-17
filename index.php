@@ -160,13 +160,7 @@ function urlAvecPages(int $page, int $pageServices): string
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
                             <?php $qte = $quantitesPanier['produit_' . $produit['proId']] ?? 0; ?>
                             <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="produit_<?= $produit['proId'] ?>">×<?= $qte ?></span>
-                            <div class="produit-clickable" role="button" tabindex="0"
-                                data-proid="<?php echo $produit['proId']; ?>"
-                                data-name="<?php echo htmlspecialchars($produit['proName'], ENT_QUOTES); ?>"
-                                data-desc="<?php echo htmlspecialchars($produit['prodescription'], ENT_QUOTES); ?>"
-                                data-price="<?php echo number_format($produit['price'], 0, ',', ' '); ?>"
-                                data-image="./uploads/products/<?php echo htmlspecialchars($produit['image'], ENT_QUOTES); ?>"
-                                data-cat="<?php echo htmlspecialchars($produit['name'] ?? '', ENT_QUOTES); ?>">
+                            <a href="./products/detail.php?id=<?php echo $produit['proId']; ?>" class="text-decoration-none text-dark">
                                 <img src="./uploads/products/<?php echo htmlspecialchars($produit['image']); ?>"
                                     class="card-img-top produit-image"
                                     alt="<?php echo htmlspecialchars($produit['proName']); ?>">
@@ -177,7 +171,7 @@ function urlAvecPages(int $page, int $pageServices): string
                                         <?php echo htmlspecialchars($produit['prodescription']); ?>
                                     </p>
                                 </div>
-                            </div>
+                            </a>
 
                             <div class="card-body pt-2 mt-auto">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -238,13 +232,7 @@ function urlAvecPages(int $page, int $pageServices): string
                         <div class="card h-100 shadow-sm produit-card service-card d-flex flex-column">
                             <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
                             <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
-                            <div class="service-clickable" role="button" tabindex="0"
-                                data-servid="<?php echo $service['servId']; ?>"
-                                data-name="<?php echo htmlspecialchars($service['servName'], ENT_QUOTES); ?>"
-                                data-desc="<?php echo htmlspecialchars($service['description'] ?? 'Aucune description disponible.', ENT_QUOTES); ?>"
-                                data-price="<?php echo number_format($service['priceHours'], 0, ',', ' '); ?>"
-                                data-provider="<?php echo htmlspecialchars($service['provider'] ?? '', ENT_QUOTES); ?>"
-                                data-cat="<?php echo htmlspecialchars($service['name'] ?? '', ENT_QUOTES); ?>">
+                            <a href="./services/detail.php?id=<?php echo $service['servId']; ?>" class="text-decoration-none text-dark">
                                 <?php if (!empty($service['serImage'])): ?>
                                     <img src="./uploads/services/<?php echo htmlspecialchars($service['serImage']); ?>"
                                         class="card-img-top produit-image"
@@ -257,7 +245,7 @@ function urlAvecPages(int $page, int $pageServices): string
                                         <?php echo htmlspecialchars($service['description'] ?? ''); ?>
                                     </p>
                                 </div>
-                            </div>
+                            </a>
 
                             <div class="card-body pt-2 mt-auto">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -306,25 +294,6 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
     <?php include("./includes/footer.php"); ?>
-
-    <!-- Modal détail produit : rempli dynamiquement en JS au clic sur une carte produit -->
-    <div class="modal fade" id="produitModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="produitModalTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <span id="produitModalCat" class="badge bg-info text-dark bg-opacity-25 border border-info border-opacity-25 rounded-pill mb-2"></span>
-                    <p id="produitModalDesc" class="text-muted"></p>
-                    <p class="fw-bold text-warning fs-5" id="produitModalPrice"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <?php include(__DIR__ . "/includes/service-modal.php"); ?>
 
     <!-- Modal catégorie : 4 produits de la catégorie cliquée, rempli en JS -->
     <div class="modal fade" id="categorieModal" tabindex="-1" aria-hidden="true">

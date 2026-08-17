@@ -25,6 +25,17 @@ function getModiService(int $id, PDO $pdo)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+function getServiceAvecCategorie(int $id, PDO $pdo)
+{
+    $req = "SELECT service.*, category.name AS catName
+            FROM service
+            LEFT JOIN category ON service.catId = category.catId
+            WHERE service.servId = :servId";
+    $stmt = $pdo->prepare($req);
+    $stmt->execute([':servId' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 function createService(array $data, PDO $pdo)
 {
     $req = "INSERT INTO service(servName, description, priceHours, serImage, available, provider, catId)

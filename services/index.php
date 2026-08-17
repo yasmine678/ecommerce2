@@ -296,13 +296,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                     <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
                                     <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
 
-                                    <div class="service-clickable" role="button" tabindex="0"
-                                        data-servid="<?= $service['servId'] ?>"
-                                        data-name="<?= htmlspecialchars($service['servName'] ?? '', ENT_QUOTES) ?>"
-                                        data-desc="<?= htmlspecialchars($service['description'] ?? 'Aucune description disponible.', ENT_QUOTES) ?>"
-                                        data-price="<?= number_format($service['priceHours'] ?? 0, 0, ',', ' ') ?>"
-                                        data-provider="<?= htmlspecialchars($service['provider'] ?? '', ENT_QUOTES) ?>"
-                                        data-cat="<?= htmlspecialchars($service['name'] ?? '', ENT_QUOTES) ?>">
+                                    <a href="./detail.php?id=<?= $service['servId'] ?>" class="text-decoration-none text-dark">
                                         <div class="bg-light d-flex align-items-center justify-content-center" style="height: 200px; width: 100%;">
                                             <?php if (!empty($service['serImage'])): ?>
                                                 <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
@@ -335,7 +329,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                                 </p>
                                             <?php endif; ?>
                                         </div>
-                                    </div>
+                                    </a>
 
                                     <div class="card-body pt-2 mt-auto">
                                         <div class="d-flex justify-content-between align-items-center">
@@ -365,7 +359,6 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
     </main>
 
     <?php if (!$isAdmin): ?>
-        <?php include(__DIR__ . "/../includes/service-modal.php"); ?>
         <script src="../assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/../assets/js/script.js'); ?>" defer></script>
     <?php endif; ?>
 

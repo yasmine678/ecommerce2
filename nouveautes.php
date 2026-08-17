@@ -59,16 +59,18 @@ function urlAvecPages(int $page, int $pageServices): string
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
                             <?php $qte = $quantitesPanier['produit_' . $produit['proId']] ?? 0; ?>
                             <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="produit_<?= $produit['proId'] ?>">×<?= $qte ?></span>
-                            <img src="./uploads/products/<?php echo htmlspecialchars($produit['image']); ?>"
-                                class="card-img-top produit-image"
-                                alt="<?php echo htmlspecialchars($produit['proName']); ?>">
+                            <a href="./products/detail.php?id=<?php echo $produit['proId']; ?>" class="text-decoration-none text-dark">
+                                <img src="./uploads/products/<?php echo htmlspecialchars($produit['image']); ?>"
+                                    class="card-img-top produit-image"
+                                    alt="<?php echo htmlspecialchars($produit['proName']); ?>">
 
-                            <div class="card-body pb-0">
-                                <h6 class="card-title mb-1"><?php echo htmlspecialchars($produit['proName']); ?></h6>
-                                <p class="card-text text-muted small mb-0 produit-description">
-                                    <?php echo htmlspecialchars($produit['prodescription']); ?>
-                                </p>
-                            </div>
+                                <div class="card-body pb-0">
+                                    <h6 class="card-title mb-1"><?php echo htmlspecialchars($produit['proName']); ?></h6>
+                                    <p class="card-text text-muted small mb-0 produit-description">
+                                        <?php echo htmlspecialchars($produit['prodescription']); ?>
+                                    </p>
+                                </div>
+                            </a>
 
                             <div class="card-body pt-2 mt-auto">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -127,13 +129,7 @@ function urlAvecPages(int $page, int $pageServices): string
                         <div class="card h-100 shadow-sm produit-card service-card d-flex flex-column">
                             <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
                             <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
-                            <div class="service-clickable" role="button" tabindex="0"
-                                data-servid="<?php echo $service['servId']; ?>"
-                                data-name="<?php echo htmlspecialchars($service['servName'], ENT_QUOTES); ?>"
-                                data-desc="<?php echo htmlspecialchars($service['description'] ?? 'Aucune description disponible.', ENT_QUOTES); ?>"
-                                data-price="<?php echo number_format($service['priceHours'], 0, ',', ' '); ?>"
-                                data-provider="<?php echo htmlspecialchars($service['provider'] ?? '', ENT_QUOTES); ?>"
-                                data-cat="<?php echo htmlspecialchars($service['name'] ?? '', ENT_QUOTES); ?>">
+                            <a href="./services/detail.php?id=<?php echo $service['servId']; ?>" class="text-decoration-none text-dark">
                                 <?php if (!empty($service['serImage'])): ?>
                                     <img src="./uploads/services/<?php echo htmlspecialchars($service['serImage']); ?>"
                                         class="card-img-top produit-image"
@@ -146,7 +142,7 @@ function urlAvecPages(int $page, int $pageServices): string
                                         <?php echo htmlspecialchars($service['description'] ?? ''); ?>
                                     </p>
                                 </div>
-                            </div>
+                            </a>
 
                             <div class="card-body pt-2 mt-auto">
                                 <div class="d-flex justify-content-between align-items-center">
@@ -194,8 +190,6 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
     <?php include("./includes/footer.php"); ?>
-
-    <?php include(__DIR__ . "/includes/service-modal.php"); ?>
 
     <script src="./assets/js/bootstrap.js"></script>
     <script src="./assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/assets/js/script.js'); ?>" defer></script>
