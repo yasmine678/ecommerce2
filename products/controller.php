@@ -117,11 +117,12 @@ function getCountProduits(PDO $pdo)
 }
 function getProduitsPlusVendus(PDO $pdo, $limite = 5)
 {
-    $req = "SELECT product.proName, SUM(orders.quantity) AS total_vendu
-            FROM orders
-            JOIN product ON orders.proId = product.proId
-            WHERE orders.status != 'annulee'
-            GROUP BY orders.proId, product.proName
+    $req = "SELECT product.proName, SUM(commande_lignes.quantity) AS total_vendu
+            FROM commande_lignes
+            JOIN commandes ON commande_lignes.cmdId = commandes.cmdId
+            JOIN product ON commande_lignes.proId = product.proId
+            WHERE commandes.status != 'annulee'
+            GROUP BY commande_lignes.proId, product.proName
             ORDER BY total_vendu DESC
             LIMIT :limite";
 

@@ -67,56 +67,68 @@ $libellesMethodePaiement = [
         <?php if (empty($commandes)): ?>
             <div class="alert alert-info">Aucune commande enregistrée pour le moment.</div>
         <?php else: ?>
-            <div class="table-responsive">
-                <table class="table table-striped align-middle">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Client</th>
-                            <th>Produit / Service</th>
-                            <th>Quantité</th>
-                            <th>Total</th>
-                            <th>Note client</th>
-                            <th>Statut</th>
-                            <th>Paiement</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($commandes as $commande): ?>
-                            <tr>
-                                <td>#<?= $commande['oId'] ?></td>
-                                <td><?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?></td>
-                                <td><?= htmlspecialchars($commande['proName']) ?></td>
-                                <td><?= $commande['quantity'] ?></td>
-                                <td><?= number_format($commande['price'] * $commande['quantity'], 0, ',', ' ') ?> FCFA</td>
-                                <td>
-                                    <?php if (!empty($commande['note'])): ?>
-                                        <span class="text-truncate d-inline-block" style="max-width: 180px;" title="<?= htmlspecialchars($commande['note']) ?>">
-                                            <?= htmlspecialchars($commande['note']) ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <span class="text-muted">—</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <span class="badge <?= $statutsBadge[$commande['status']] ?? 'bg-secondary' ?>">
-                                        <?= $statutsDisponibles[$commande['status']] ?? $commande['status'] ?>
-                                    </span>
-                                </td>
-                                <td>
-                                    <?php if (($commande['paymentStatus'] ?? 'non_payee') === 'payee'): ?>
-                                        <span class="badge bg-success">
-                                            Payée<?= !empty($commande['paymentMethod']) ? ' · ' . htmlspecialchars($libellesMethodePaiement[$commande['paymentMethod']] ?? $commande['paymentMethod']) : '' ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <span class="badge bg-secondary">Non payée</span>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+            <?php foreach ($commandes as $commande): ?>
+                <?php
+                $lignes = getLignesCommande($commande['cmdId'], $pdo);
+                $total = 0;
+                foreach ($lignes as $ligne) {
+                    $total += $ligne['price'] * $ligne['quantity'];
+                }
+                ?>
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <div>
+                            <span class="fw-bold">Commande #<?= $commande['cmdId'] ?></span>
+                            <span class="text-muted small"> — <?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?></span>
+                            <span class="text-muted small">— <?= date('d/m/Y à H:i', strtotime($commande['createdAt'])) ?></span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <span class="badge <?= $statutsBadge[$commande['status']] ?? 'bg-secondary' ?>">
+                                <?= $statutsDisponibles[$commande['status']] ?? $commande['status'] ?>
+                            </span>
+                            <?php if (($commande['paymentStatus'] ?? 'non_payee') === 'payee'): ?>
+                                <span class="badge bg-success">
+                                    Payée<?= !empty($commande['paymentMethod']) ? ' · ' . htmlspecialchars($libellesMethodePaiement[$commande['paymentMethod']] ?? $commande['paymentMethod']) : '' ?>
+                                </span>
+                            <?php else: ?>
+                                <span class="badge bg-secondary">Non payée</span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Article</th>
+                                    <th>Quantité</th>
+                                    <th class="text-end">Sous-total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($lignes as $ligne): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($ligne['proName'] ?? 'Article supprimé') ?></td>
+                                        <td><?= $ligne['quantity'] ?></td>
+                                        <td class="text-end"><?= number_format($ligne['price'] * $ligne['quantity'], 0, ',', ' ') ?> FCFA</td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2" class="text-end fw-bold">Total :</td>
+                                    <td class="text-end fw-bold text-warning"><?= number_format($total, 0, ',', ' ') ?> FCFA</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <?php if (!empty($commande['note'])): ?>
+                            <div class="px-3 pb-3">
+                                <strong class="small">Note du client :</strong>
+                                <span class="text-muted small"><?= nl2br(htmlspecialchars($commande['note'])) ?></span>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         <?php endif; ?>
     </main>
 

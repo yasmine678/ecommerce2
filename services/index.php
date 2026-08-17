@@ -4,9 +4,11 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 require_once(__DIR__ . "/../config/db.php");
 require_once(__DIR__ . "/controller.php");
 require_once(__DIR__ . "/../categories/controller.php");
+require_once(__DIR__ . "/../cart/controller.php");
 
 // 1. Vérification du rôle Administrateur
 $isAdmin = isset($_SESSION['user']['role']) && (strtolower(trim($_SESSION['user']['role'])) === 'manager');
+$quantitesPanier = (!$isAdmin && isset($_SESSION['user'])) ? getCartQuantitiesByUser($_SESSION['user']['usId'], $pdo) : [];
 
 // 2. Gestion des données et du filtre par catégorie
 $categories = getAll($pdo);
@@ -290,6 +292,9 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                         <?php foreach ($services as $service): ?>
                             <div class="col">
                                 <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden d-flex flex-column service-card">
+
+                                    <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
+                                    <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
 
                                     <div class="service-clickable" role="button" tabindex="0"
                                         data-servid="<?= $service['servId'] ?>"

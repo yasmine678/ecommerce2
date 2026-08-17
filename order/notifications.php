@@ -15,10 +15,8 @@ $commandes = getCommandesByUser($_SESSION['user']['usId'], $pdo);
 
 $resultat = array_map(function ($c) {
     return [
-        'oId' => (int) $c['oId'],
+        'cmdId' => (int) $c['cmdId'],
         'status' => $c['status'],
-        'proName' => $c['proName'],
-        'quantity' => (int) $c['quantity'],
     ];
 }, $commandes);
 

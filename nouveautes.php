@@ -4,6 +4,9 @@ session_start();
 require_once(__DIR__ . "/products/controller.php");
 require_once(__DIR__ . "/services/controller.php");
 require_once(__DIR__ . "/config/db.php");
+require_once(__DIR__ . "/cart/controller.php");
+
+$quantitesPanier = isset($_SESSION['user']) ? getCartQuantitiesByUser($_SESSION['user']['usId'], $pdo) : [];
 
 $joursNouveaute = 14;
 
@@ -54,6 +57,8 @@ function urlAvecPages(int $page, int $pageServices): string
                 <?php foreach ($produitsAffiches as $produit): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
+                            <?php $qte = $quantitesPanier['produit_' . $produit['proId']] ?? 0; ?>
+                            <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="produit_<?= $produit['proId'] ?>">×<?= $qte ?></span>
                             <img src="./uploads/products/<?php echo htmlspecialchars($produit['image']); ?>"
                                 class="card-img-top produit-image"
                                 alt="<?php echo htmlspecialchars($produit['proName']); ?>">
@@ -120,6 +125,8 @@ function urlAvecPages(int $page, int $pageServices): string
                 <?php foreach ($servicesAffiches as $service): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card service-card d-flex flex-column">
+                            <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
+                            <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
                             <div class="service-clickable" role="button" tabindex="0"
                                 data-servid="<?php echo $service['servId']; ?>"
                                 data-name="<?php echo htmlspecialchars($service['servName'], ENT_QUOTES); ?>"

@@ -4,9 +4,11 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 require_once(__DIR__ . "/../config/db.php");
 require_once(__DIR__ . "/controller.php");
 require_once(__DIR__ . "/../services/controller.php");
+require_once(__DIR__ . "/../cart/controller.php");
 
 // 1. Détection du rôle d'administration
 $isAdmin = isset($_SESSION['user']) && isset($_SESSION['user']['role']) && ($_SESSION['user']['role'] === 'manager');
+$quantitesPanier = (!$isAdmin && isset($_SESSION['user'])) ? getCartQuantitiesByUser($_SESSION['user']['usId'], $pdo) : [];
 
 // 2. Récupération de toutes les catégories
 $categories = getAll($pdo);
@@ -143,7 +145,9 @@ if ($isAdmin) {
                                     <div class="row row-cols-2 row-cols-md-3 g-3 cartes-animees">
                                         <?php foreach ($produitsCategorie as $produit): ?>
                                             <div class="col">
-                                                <div class="card h-100">
+                                                <div class="card h-100" style="position: relative;">
+                                                    <?php $qte = $quantitesPanier['produit_' . $produit['proId']] ?? 0; ?>
+                                                    <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="produit_<?= $produit['proId'] ?>">×<?= $qte ?></span>
                                                     <?php if (!empty($produit['image'])): ?>
                                                         <img src="../uploads/products/<?= htmlspecialchars($produit['image']) ?>"
                                                             class="card-img-top" style="height: 100px; object-fit: cover;">
@@ -170,6 +174,8 @@ if ($isAdmin) {
                                         <?php foreach ($servicesCategorie as $service): ?>
                                             <div class="col">
                                                 <div class="card h-100 service-card">
+                                                    <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
+                                                    <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
                                                     <?php if (!empty($service['serImage'])): ?>
                                                         <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
                                                             class="card-img-top" style="height: 100px; object-fit: cover;">

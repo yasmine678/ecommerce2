@@ -5,6 +5,9 @@ require_once(__DIR__ . "/products/controller.php");
 require_once(__DIR__ . "/config/db.php");
 require_once(__DIR__ . "/categories/controller.php");
 require_once(__DIR__ . "/services/controller.php");
+require_once(__DIR__ . "/cart/controller.php");
+
+$quantitesPanier = isset($_SESSION['user']) ? getCartQuantitiesByUser($_SESSION['user']['usId'], $pdo) : [];
 
 $categories = getAll($pdo);
 $produits = getAllPro($pdo);
@@ -155,6 +158,8 @@ function urlAvecPages(int $page, int $pageServices): string
                 <?php foreach ($produitsAffiches as $produit): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card d-flex flex-column">
+                            <?php $qte = $quantitesPanier['produit_' . $produit['proId']] ?? 0; ?>
+                            <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="produit_<?= $produit['proId'] ?>">×<?= $qte ?></span>
                             <div class="produit-clickable" role="button" tabindex="0"
                                 data-proid="<?php echo $produit['proId']; ?>"
                                 data-name="<?php echo htmlspecialchars($produit['proName'], ENT_QUOTES); ?>"
@@ -231,6 +236,8 @@ function urlAvecPages(int $page, int $pageServices): string
                 <?php foreach ($servicesAffiches as $service): ?>
                     <div class="col">
                         <div class="card h-100 shadow-sm produit-card service-card d-flex flex-column">
+                            <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
+                            <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
                             <div class="service-clickable" role="button" tabindex="0"
                                 data-servid="<?php echo $service['servId']; ?>"
                                 data-name="<?php echo htmlspecialchars($service['servName'], ENT_QUOTES); ?>"

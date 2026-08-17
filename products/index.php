@@ -5,9 +5,11 @@ require_once(__DIR__ . "/../config/db.php");
 require_once(__DIR__ . "/controller.php");
 require_once(__DIR__ . "/../categories/controller.php");
 require_once(__DIR__ . "/../auth/controller.php");
+require_once(__DIR__ . "/../cart/controller.php");
 
 // 1. Vérification du rôle Administrateur
 $isAdmin = isset($_SESSION['user']['role']) && (strtolower(trim($_SESSION['user']['role'])) === 'manager');
+$quantitesPanier = (!$isAdmin && isset($_SESSION['user'])) ? getCartQuantitiesByUser($_SESSION['user']['usId'], $pdo) : [];
 
 // 2. Gestion des données et du filtre par catégorie
 $categories = getAll($pdo);
@@ -269,6 +271,9 @@ if ($categoryId) {
                         <?php foreach ($products as $product): ?>
                             <div class="col">
                                 <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden d-flex flex-column produit-card">
+
+                                    <?php $qte = $quantitesPanier['produit_' . $product['proId']] ?? 0; ?>
+                                    <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="produit_<?= $product['proId'] ?>">×<?= $qte ?></span>
 
                                     <div class="produit-clickable" role="button" tabindex="0"
                                         data-proid="<?= $product['proId'] ?>"

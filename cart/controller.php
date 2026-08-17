@@ -52,3 +52,28 @@ function viderCart(int $userId, PDO $pdo)
     $stmt = $pdo->prepare("DELETE FROM cart WHERE usId = :usId");
     return $stmt->execute([':usId' => $userId]);
 }
+
+function getCartCountByUser(int $userId, PDO $pdo): int
+{
+    $stmt = $pdo->prepare("SELECT COALESCE(SUM(cquantity), 0) FROM cart WHERE usId = :usId");
+    $stmt->execute([':usId' => $userId]);
+    return (int) $stmt->fetchColumn();
+}
+
+function getCartQuantitiesByUser(int $userId, PDO $pdo): array
+{
+    $req = "SELECT prodId, servId, cquantity FROM cart WHERE usId = :usId";
+    $stmt = $pdo->prepare($req);
+    $stmt->execute([':usId' => $userId]);
+
+    $quantites = [];
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $ligne) {
+        if ($ligne['prodId'] !== null) {
+            $quantites['produit_' . $ligne['prodId']] = (int) $ligne['cquantity'];
+        }
+        if ($ligne['servId'] !== null) {
+            $quantites['service_' . $ligne['servId']] = (int) $ligne['cquantity'];
+        }
+    }
+    return $quantites;
+}

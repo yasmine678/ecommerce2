@@ -28,9 +28,7 @@ if (!in_array($paymentMethod, $methodesValides, true)) {
 $note = trim($_POST['note'] ?? '');
 $note = $note !== '' ? $note : null;
 
-foreach ($lignesCart as $ligne) {
-    creerCommande($userId, $ligne['prodId'], $ligne['servId'], $ligne['cquantity'], $ligne['cId'], $pdo, $note, $paymentMethod, 'payee');
-}
+creerCommande($userId, $lignesCart, $pdo, $note, $paymentMethod, 'payee');
 
 viderCart($userId, $pdo);
 

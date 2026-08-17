@@ -3,6 +3,9 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 require_once(__DIR__ . "/products/controller.php");
 require_once(__DIR__ . "/services/controller.php");
 require_once(__DIR__ . "/config/db.php");
+require_once(__DIR__ . "/cart/controller.php");
+
+$quantitesPanier = isset($_SESSION['user']) ? getCartQuantitiesByUser($_SESSION['user']['usId'], $pdo) : [];
 
 $motCle = trim($_GET['q'] ?? '');
 function searchProducts(string $keyword, PDO $pdo)
@@ -83,6 +86,8 @@ if (($_GET['format'] ?? '') === 'json') {
                     <?php foreach ($resultats as $produit): ?>
                         <div class="col">
                             <div class="card h-100 shadow-sm produit-card">
+                                <?php $qte = $quantitesPanier['produit_' . $produit['proId']] ?? 0; ?>
+                                <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="produit_<?= $produit['proId'] ?>">×<?= $qte ?></span>
                                 <?php if (!empty($produit['image'])): ?>
                                     <a href="./products/detail.php?id=<?= $produit['proId'] ?>">
                                         <img src="./uploads/products/<?= htmlspecialchars($produit['image']) ?>"
@@ -130,6 +135,8 @@ if (($_GET['format'] ?? '') === 'json') {
                     <?php foreach ($resultatsServices as $service): ?>
                         <div class="col">
                             <div class="card h-100 shadow-sm produit-card service-card">
+                                <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
+                                <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
                                 <div class="service-clickable" role="button" tabindex="0"
                                     data-servid="<?= $service['servId'] ?>"
                                     data-name="<?= htmlspecialchars($service['servName'], ENT_QUOTES) ?>"

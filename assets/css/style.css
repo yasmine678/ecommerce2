@@ -651,12 +651,33 @@ body.admin .main-content {
 }
 
 .card.produit-card {
+    position: relative;
     box-shadow: none !important;
     border-color: var(--accent) !important;
 }
 .card.produit-card:hover {
     box-shadow: var(--shadow-hover) !important;
     border-color: var(--accent-dark) !important;
+}
+
+/* Badge "déjà dans le panier x N" affiché sur une carte produit/service */
+.panier-badge-carte {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 4;
+    background: var(--ink);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(20, 20, 20, .3);
 }
 
 /* Cartes SERVICE : bordure bleue + badge horloge, pour se distinguer des produits (orange) au premier coup d'oeil */

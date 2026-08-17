@@ -2,9 +2,11 @@
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 require_once(__DIR__ . "/../config/db.php");
+require_once(__DIR__ . "/../cart/controller.php");
 
 $user = $_SESSION['user'] ?? null;
 $loggedin = isset($user);
+$nombreArticlesPanier = $loggedin ? getCartCountByUser($user['usId'], $pdo) : 0;
 
 function navActiveSi(string $suffixe): string
 {
@@ -69,8 +71,9 @@ function navActiveSi(string $suffixe): string
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link px-3 py-2 <?= navActiveSi('/cart/index.php') ?>" href="<?= BASE_URL ?>/cart/index.php">
+                        <a class="nav-link px-3 py-2 d-flex align-items-center gap-1 <?= navActiveSi('/cart/index.php') ?>" href="<?= BASE_URL ?>/cart/index.php">
                             Panier
+                            <span id="panierBadge" class="badge rounded-pill bg-warning text-dark <?= $nombreArticlesPanier > 0 ? '' : 'd-none' ?>"><?= $nombreArticlesPanier ?></span>
                         </a>
                     </li>
 

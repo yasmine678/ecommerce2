@@ -66,93 +66,95 @@ $libellesMethodePaiement = [
         <?php if (empty($commandes)): ?>
             <div class="alert alert-info">Aucune commande en cours pour le moment.</div>
         <?php else: ?>
-            <div class="table-responsive">
-                <table class="table table-striped align-middle">
-                    <thead>
-                        <tr>
-                           
-                            <th>Client</th>
-                            <th>Produit</th>
-                            <th>Quantité</th>
-                            <th>Total</th>
-                            <th>Note client</th>
-                            <th>Statut</th>
-                            <th>Paiement</th>
-                            <th class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($commandes as $commande): ?>
-                            <tr>
-
-                                <td><?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?></td>
-                                <td><?= htmlspecialchars($commande['proName']) ?></td>
-                                <td><?= $commande['quantity'] ?></td>
-                                <td><?= number_format($commande['price'] * $commande['quantity'], 0, ',', ' ') ?> FCFA</td>
-                                <td>
-                                    <?php if (!empty($commande['note'])): ?>
-                                        <span class="text-truncate d-inline-block" style="max-width: 180px;" title="<?= htmlspecialchars($commande['note']) ?>">
-                                            <?= htmlspecialchars($commande['note']) ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <span class="text-muted">—</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <span class="badge bg-secondary"><?= $statutsDisponibles[$commande['status']] ?? $commande['status'] ?></span>
-                                </td>
-                                <td>
-                                    <?php if (($commande['paymentStatus'] ?? 'non_payee') === 'payee'): ?>
-                                        <span class="badge bg-success">
-                                            Payée<?= !empty($commande['paymentMethod']) ? ' · ' . htmlspecialchars($libellesMethodePaiement[$commande['paymentMethod']] ?? $commande['paymentMethod']) : '' ?>
-                                        </span>
-                                    <?php else: ?>
-                                        <span class="badge bg-secondary">Non payée</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="text-end">
-                                    <button type="button" class="btn btn-sm btn-outline-primary"
-                                            data-bs-toggle="modal" data-bs-target="#modalStatut<?= $commande['oId'] ?>"
-                                            aria-label="Changer le statut" title="Changer le statut">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.114.168l-.803 2.008a.25.25 0 0 0 .32.32l2.008-.803a.5.5 0 0 0 .168-.115l6.813-6.812z" />
-                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                                        </svg>
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-
             <?php foreach ($commandes as $commande): ?>
-                <div class="modal fade" id="modalStatut<?= $commande['oId'] ?>" tabindex="-1">
+                <?php
+                $lignes = getLignesCommande($commande['cmdId'], $pdo);
+                $total = 0;
+                foreach ($lignes as $ligne) {
+                    $total += $ligne['price'] * $ligne['quantity'];
+                }
+                ?>
+                <div class="card border-0 shadow-sm mb-3">
+                    <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <div>
+                            <span class="fw-bold">Commande #<?= $commande['cmdId'] ?></span>
+                            <span class="text-muted small"> — <?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?></span>
+                            <span class="text-muted small">— <?= date('d/m/Y à H:i', strtotime($commande['createdAt'])) ?></span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-secondary"><?= $statutsDisponibles[$commande['status']] ?? $commande['status'] ?></span>
+                            <?php if (($commande['paymentStatus'] ?? 'non_payee') === 'payee'): ?>
+                                <span class="badge bg-success">
+                                    Payée<?= !empty($commande['paymentMethod']) ? ' · ' . htmlspecialchars($libellesMethodePaiement[$commande['paymentMethod']] ?? $commande['paymentMethod']) : '' ?>
+                                </span>
+                            <?php else: ?>
+                                <span class="badge bg-secondary">Non payée</span>
+                            <?php endif; ?>
+                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                    data-bs-toggle="modal" data-bs-target="#modalStatut<?= $commande['cmdId'] ?>"
+                                    aria-label="Changer le statut" title="Changer le statut">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.114.168l-.803 2.008a.25.25 0 0 0 .32.32l2.008-.803a.5.5 0 0 0 .168-.115l6.813-6.812z" />
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Article</th>
+                                    <th>Quantité</th>
+                                    <th class="text-end">Sous-total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($lignes as $ligne): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($ligne['proName'] ?? 'Article supprimé') ?></td>
+                                        <td><?= $ligne['quantity'] ?></td>
+                                        <td class="text-end"><?= number_format($ligne['price'] * $ligne['quantity'], 0, ',', ' ') ?> FCFA</td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2" class="text-end fw-bold">Total :</td>
+                                    <td class="text-end fw-bold text-warning"><?= number_format($total, 0, ',', ' ') ?> FCFA</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <?php if (!empty($commande['note'])): ?>
+                            <div class="px-3 pb-3">
+                                <strong class="small">Note du client :</strong>
+                                <span class="text-muted small"><?= nl2br(htmlspecialchars($commande['note'])) ?></span>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="modalStatut<?= $commande['cmdId'] ?>" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form action="../order/save.php" method="POST">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Commande #<?= $commande['oId'] ?></h5>
+                                    <h5 class="modal-title">Commande #<?= $commande['cmdId'] ?></h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <input type="hidden" name="oId" value="<?= $commande['oId'] ?>">
+                                    <input type="hidden" name="cmdId" value="<?= $commande['cmdId'] ?>">
 
                                     <p class="mb-2">
                                         <strong>Client :</strong>
                                         <?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?>
                                     </p>
                                     <p class="mb-3">
-                                        <strong>Produit :</strong> <?= htmlspecialchars($commande['proName']) ?>
-                                        (x<?= $commande['quantity'] ?>)
+                                        <strong>Articles :</strong>
+                                        <?= htmlspecialchars(implode(', ', array_map(function ($l) {
+                                            return ($l['proName'] ?? 'Article supprimé') . ' (x' . $l['quantity'] . ')';
+                                        }, $lignes))) ?>
                                     </p>
-
-                                    <?php if (!empty($commande['note'])): ?>
-                                        <p class="mb-3">
-                                            <strong>Note du client :</strong><br>
-                                            <span class="text-muted"><?= nl2br(htmlspecialchars($commande['note'])) ?></span>
-                                        </p>
-                                    <?php endif; ?>
 
                                     <label class="form-label">Nouveau statut :</label>
                                     <select name="status" class="form-select">

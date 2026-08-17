@@ -168,6 +168,29 @@ function afficherMessagePanier(texte, erreur) {
     }, 2500);
 }
 
+function mettreAJourCompteursPanier(form) {
+    const champProId = form.querySelector('input[name="proId"]');
+    const champServId = form.querySelector('input[name="servId"]');
+    const champQuantite = form.querySelector('input[name="cquantity"]');
+    const quantiteAjoutee = champQuantite ? (parseInt(champQuantite.value, 10) || 1) : 1;
+    const cle = champProId ? "produit_" + champProId.value : (champServId ? "service_" + champServId.value : null);
+
+    const badgeGlobal = document.getElementById("panierBadge");
+    if (badgeGlobal) {
+        const total = (parseInt(badgeGlobal.textContent, 10) || 0) + quantiteAjoutee;
+        badgeGlobal.textContent = total;
+        badgeGlobal.classList.remove("d-none");
+    }
+
+    if (cle) {
+        document.querySelectorAll('.panier-badge-carte[data-panier-key="' + cle + '"]').forEach(function (badge) {
+            const total = (parseInt(badge.textContent.replace("×", ""), 10) || 0) + quantiteAjoutee;
+            badge.textContent = "×" + total;
+            badge.classList.remove("d-none");
+        });
+    }
+}
+
 document.addEventListener("submit", function (e) {
     const form = e.target.closest(".ajout-panier");
     if (!form) return;
@@ -183,6 +206,7 @@ document.addEventListener("submit", function (e) {
                 return;
             }
             afficherMessagePanier("Produit ajouté au panier");
+            mettreAJourCompteursPanier(form);
         })
         .catch(function () {
             afficherMessagePanier("Erreur lors de l'ajout au panier.", true);

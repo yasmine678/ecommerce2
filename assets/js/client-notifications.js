@@ -83,14 +83,14 @@
                 var precedent = getStatuts();
                 var nouveau = {};
                 data.commandes.forEach(function (c) {
-                    nouveau[c.oId] = c.status;
+                    nouveau[c.cmdId] = c.status;
                 });
 
                 if (precedent !== null) {
                     data.commandes.forEach(function (c) {
-                        var etaitDejaExpediee = precedent[c.oId] === "expediee";
+                        var etaitDejaExpediee = precedent[c.cmdId] === "expediee";
                         if (c.status === "expediee" && !etaitDejaExpediee) {
-                            var message = 'Votre commande "' + c.proName + '" a été expédiée !';
+                            var message = "Votre commande #" + c.cmdId + " a été expédiée !";
                             showToast(message);
                             notifyDesktop(message);
                         }

@@ -44,17 +44,12 @@
     }
 
     function describe(commandes) {
-        var nbProduits = commandes.filter(function (c) { return c.type === "produit"; }).length;
-        var nbServices = commandes.filter(function (c) { return c.type === "service"; }).length;
         if (commandes.length === 1) {
             var c = commandes[0];
-            return (c.type === "produit" ? "Nouvelle commande produit : " : "Nouvelle commande service : ") +
-                c.proName + " (x" + c.quantity + ") - " + c.clientPrenom + " " + c.clientNom;
+            return "Nouvelle commande #" + c.cmdId + " (" + c.nombreArticles + " article" + (c.nombreArticles > 1 ? "s" : "") + ") - " +
+                c.clientPrenom + " " + c.clientNom;
         }
-        var parts = [];
-        if (nbProduits > 0) parts.push(nbProduits + " produit" + (nbProduits > 1 ? "s" : ""));
-        if (nbServices > 0) parts.push(nbServices + " service" + (nbServices > 1 ? "s" : ""));
-        return commandes.length + " nouvelles commandes (" + parts.join(", ") + ")";
+        return commandes.length + " nouvelles commandes";
     }
 
     function notifyDesktop(message) {
