@@ -25,6 +25,12 @@ $statutsBadge = [
     'livee' => 'bg-success',
     'annulee' => 'bg-danger',
 ];
+
+$libellesMethodePaiement = [
+    'carte' => 'Carte bancaire',
+    'flooz' => 'Flooz',
+    'tmoney' => 'T-Money',
+];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -72,6 +78,7 @@ $statutsBadge = [
                             <th>Total</th>
                             <th>Note client</th>
                             <th>Statut</th>
+                            <th>Paiement</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,6 +102,15 @@ $statutsBadge = [
                                     <span class="badge <?= $statutsBadge[$commande['status']] ?? 'bg-secondary' ?>">
                                         <?= $statutsDisponibles[$commande['status']] ?? $commande['status'] ?>
                                     </span>
+                                </td>
+                                <td>
+                                    <?php if (($commande['paymentStatus'] ?? 'non_payee') === 'payee'): ?>
+                                        <span class="badge bg-success">
+                                            Payée<?= !empty($commande['paymentMethod']) ? ' · ' . htmlspecialchars($libellesMethodePaiement[$commande['paymentMethod']] ?? $commande['paymentMethod']) : '' ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="badge bg-secondary">Non payée</span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -1,9 +1,10 @@
 <?php
 require_once(__DIR__ . "/../config/db.php");
 
-function creerCommande(int $userId, ?int $prodId, ?int $servId, int $quantity, int $cartId, PDO $pdo, ?string $note = null)
+function creerCommande(int $userId, ?int $prodId, ?int $servId, int $quantity, int $cartId, PDO $pdo, ?string $note = null, string $paymentMethod = null, string $paymentStatus = 'non_payee')
 {
-    $req = "INSERT INTO orders (usId, proId, servId, cId, quantity, note, status) VALUES (:usId, :proId, :servId, :cId, :quantity, :note, 'en_attente')";
+    $req = "INSERT INTO orders (usId, proId, servId, cId, quantity, note, status, paymentMethod, paymentStatus)
+            VALUES (:usId, :proId, :servId, :cId, :quantity, :note, 'en_attente', :paymentMethod, :paymentStatus)";
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
         ':usId' => $userId,
@@ -11,14 +12,16 @@ function creerCommande(int $userId, ?int $prodId, ?int $servId, int $quantity, i
         ':servId' => $servId,
         ':cId' => $cartId,
         ':quantity' => $quantity,
-        ':note' => $note
+        ':note' => $note,
+        ':paymentMethod' => $paymentMethod,
+        ':paymentStatus' => $paymentStatus,
     ]);
 }
 
 
 function getCommandesByUser(int $userId, PDO $pdo)
 {
-    $req = "SELECT orders.oId, orders.quantity, orders.status,
+    $req = "SELECT orders.oId, orders.quantity, orders.status, orders.paymentStatus, orders.paymentMethod,
                    COALESCE(product.proId, service.servId) AS proId,
                    COALESCE(product.proName, service.servName) AS proName,
                    COALESCE(product.price, service.priceHours) AS price
@@ -37,7 +40,7 @@ function getCommandesByUser(int $userId, PDO $pdo)
 
 function getToutesLesCommandes(PDO $pdo)
 {
-    $req = "SELECT orders.oId, orders.quantity, orders.status, orders.note,
+    $req = "SELECT orders.oId, orders.quantity, orders.status, orders.note, orders.paymentStatus, orders.paymentMethod,
                    COALESCE(product.proName, service.servName) AS proName,
                    COALESCE(product.price, service.priceHours) AS price,
                    COALESCE(users.lastName, 'inconnu') AS clientNom,
@@ -55,7 +58,7 @@ function getToutesLesCommandes(PDO $pdo)
 
 function getCommandesActives(PDO $pdo)
 {
-    $req = "SELECT orders.oId, orders.quantity, orders.status, orders.note,
+    $req = "SELECT orders.oId, orders.quantity, orders.status, orders.note, orders.paymentStatus, orders.paymentMethod,
                    COALESCE(product.proName, service.servName) AS proName,
                    COALESCE(product.price, service.priceHours) AS price,
                    COALESCE(users.lastName, 'inconnu') AS clientNom,

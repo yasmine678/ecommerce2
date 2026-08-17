@@ -17,6 +17,12 @@ $statutsDisponibles = [
     'livee' => 'Livrée',
     'annulee' => 'Annulée',
 ];
+
+$libellesMethodePaiement = [
+    'carte' => 'Carte bancaire',
+    'flooz' => 'Flooz',
+    'tmoney' => 'T-Money',
+];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -71,13 +77,14 @@ $statutsDisponibles = [
                             <th>Total</th>
                             <th>Note client</th>
                             <th>Statut</th>
+                            <th>Paiement</th>
                             <th class="text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($commandes as $commande): ?>
                             <tr>
-                               
+
                                 <td><?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?></td>
                                 <td><?= htmlspecialchars($commande['proName']) ?></td>
                                 <td><?= $commande['quantity'] ?></td>
@@ -93,6 +100,15 @@ $statutsDisponibles = [
                                 </td>
                                 <td>
                                     <span class="badge bg-secondary"><?= $statutsDisponibles[$commande['status']] ?? $commande['status'] ?></span>
+                                </td>
+                                <td>
+                                    <?php if (($commande['paymentStatus'] ?? 'non_payee') === 'payee'): ?>
+                                        <span class="badge bg-success">
+                                            Payée<?= !empty($commande['paymentMethod']) ? ' · ' . htmlspecialchars($libellesMethodePaiement[$commande['paymentMethod']] ?? $commande['paymentMethod']) : '' ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="badge bg-secondary">Non payée</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="text-end">
                                     <button type="button" class="btn btn-sm btn-outline-primary"

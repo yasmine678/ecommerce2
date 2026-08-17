@@ -17,6 +17,12 @@ $libelles = [
     'livee' => ['label' => 'Livrée', 'classe' => 'success'],
     'annulee' => ['label' => 'Annulée', 'classe' => 'danger'],
 ];
+
+$libellesMethodePaiement = [
+    'carte' => 'Carte bancaire',
+    'flooz' => 'Flooz',
+    'tmoney' => 'T-Money',
+];
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -34,7 +40,9 @@ $libelles = [
         <h2 class="mb-4">Mes commandes</h2>
 
         <?php if (isset($_GET['succes'])): ?>
-            <div class="alert alert-success">Votre commande a bien été enregistrée !</div>
+            <div class="alert alert-success">
+                Votre commande a bien été enregistrée<?= isset($_GET['paye']) ? ' et payée' : '' ?> !
+            </div>
         <?php endif; ?>
 
         <?php if (empty($commandes)): ?>
@@ -50,6 +58,7 @@ $libelles = [
                             <th>Quantité</th>
                             <th>Total</th>
                             <th>Statut</th>
+                            <th>Paiement</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,6 +71,15 @@ $libelles = [
                                 <td><?= number_format($commande['price'] * $commande['quantity'], 0, ',', ' ') ?> FCFA</td>
                                 <td>
                                     <span class="badge bg-<?= $statutInfo['classe'] ?>"><?= $statutInfo['label'] ?></span>
+                                </td>
+                                <td>
+                                    <?php if (($commande['paymentStatus'] ?? 'non_payee') === 'payee'): ?>
+                                        <span class="badge bg-success">
+                                            Payée<?= !empty($commande['paymentMethod']) ? ' · ' . htmlspecialchars($libellesMethodePaiement[$commande['paymentMethod']] ?? $commande['paymentMethod']) : '' ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="badge bg-secondary">Non payée</span>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

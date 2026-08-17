@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
-require_once(__DIR__ . "/controller.php");
+require_once(__DIR__ . "/../order/controller.php");
 require_once(__DIR__ . "/../cart/controller.php");
 require_once(__DIR__ . "/../config/db.php");
 
@@ -17,14 +17,22 @@ if (empty($lignesCart)) {
     exit();
 }
 
+$methodesValides = ['carte', 'flooz', 'tmoney'];
+$paymentMethod = $_POST['paymentMethod'] ?? '';
+
+if (!in_array($paymentMethod, $methodesValides, true)) {
+    header("Location: ../paiement/index.php?erreur=methode_invalide");
+    exit();
+}
+
 $note = trim($_POST['note'] ?? '');
 $note = $note !== '' ? $note : null;
 
 foreach ($lignesCart as $ligne) {
-    creerCommande($userId, $ligne['prodId'], $ligne['servId'], $ligne['cquantity'], $ligne['cId'], $pdo, $note);
+    creerCommande($userId, $ligne['prodId'], $ligne['servId'], $ligne['cquantity'], $ligne['cId'], $pdo, $note, $paymentMethod, 'payee');
 }
 
 viderCart($userId, $pdo);
 
-header("Location: index.php?succes=1");
+header("Location: ../order/index.php?succes=1&paye=1");
 exit();

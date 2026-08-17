@@ -101,7 +101,7 @@ foreach ($lignesCart as $ligne) {
                 </table>
             </div>
 
-            <form action="../order/create.php" method="POST">
+            <form action="../paiement/index.php" method="POST">
                 <div class="mb-3">
                     <label for="note" class="form-label">
                         Une précision pour le vendeur ? (optionnel)
