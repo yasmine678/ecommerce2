@@ -83,8 +83,9 @@ function navActiveSi(string $suffixe): string
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link px-3 py-2 d-flex align-items-center gap-2 <?= navActiveSi('/users/profil.php') ?>" href="<?= BASE_URL ?>/users/profil.php" title="Mon profil">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link px-3 py-2 d-flex align-items-center gap-2 dropdown-toggle" href="#" role="button"
+                           id="menuCompteToggle" aria-expanded="false">
                             <?php if (!empty($user['profil'])): ?>
                                 <img src="<?= BASE_URL ?>/uploads/profils/<?= htmlspecialchars($user['profil']) ?>" alt=""
                                      class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;">
@@ -94,14 +95,20 @@ function navActiveSi(string $suffixe): string
                                     <?= htmlspecialchars(mb_strtoupper(mb_substr($user['firstName'] ?? '?', 0, 1))) ?>
                                 </span>
                             <?php endif; ?>
-                            Mon profil
+                            <?= htmlspecialchars($user['firstName'] ?? 'Mon compte') ?>
                         </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/auth/logout.php">
-                            Déconnexion
-                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item <?= navActiveSi('/users/profil.php') ?>" href="<?= BASE_URL ?>/users/profil.php">
+                                    Mon profil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="<?= BASE_URL ?>/auth/logout.php">
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                 <?php endif; ?>
@@ -131,6 +138,34 @@ function navActiveSi(string $suffixe): string
         if (window.ResizeObserver) {
             new ResizeObserver(setHeaderHeight).observe(nav);
         }
+    })();
+
+    (function () {
+        var toggle = document.getElementById("menuCompteToggle");
+        var menu = toggle ? toggle.nextElementSibling : null;
+        if (!toggle || !menu) return;
+
+        function fermer() {
+            menu.classList.remove("show");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+        function ouvrir() {
+            menu.classList.add("show");
+            toggle.setAttribute("aria-expanded", "true");
+        }
+
+        toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            menu.classList.contains("show") ? fermer() : ouvrir();
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!toggle.contains(e.target) && !menu.contains(e.target)) fermer();
+        });
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") fermer();
+        });
     })();
 </script>
 
