@@ -61,16 +61,12 @@ foreach ($lignesCart as $ligne) {
                                     <?= htmlspecialchars($ligne['proName']) ?>
                                 </td>
                                 <td><?= number_format($ligne['price'], 0, ',', ' ') ?> FCFA</td>
-                                <td style="width: 140px;">
-                                    <form action="./save.php" method="POST" class="d-flex gap-2">
-                                        <input type="hidden" name="cId" value="<?= $ligne['cId'] ?>">
-                                        <input type="number" name="cquantity" value="<?= $ligne['cquantity'] ?>"
-                                               min="1" class="form-control form-control-sm">
-                                      
-                                               
-                                    </form>
+                                <td style="width: 100px;">
+                                    <input type="number" class="form-control form-control-sm quantite-panier"
+                                           data-cid="<?= $ligne['cId'] ?>" data-price="<?= $ligne['price'] ?>"
+                                           value="<?= $ligne['cquantity'] ?>" min="1">
                                 </td>
-                                <td class="fw-bold">
+                                <td class="fw-bold sous-total">
                                     <?= number_format($ligne['price'] * $ligne['cquantity'], 0, ',', ' ') ?> FCFA
                                 </td>
                                 <td class="text-end">
@@ -93,7 +89,7 @@ foreach ($lignesCart as $ligne) {
                     <tfoot>
                         <tr>
                             <td colspan="3" class="text-end fw-bold">Total :</td>
-                            <td colspan="2" class="fw-bold text-warning fs-5">
+                            <td colspan="2" class="fw-bold text-warning fs-5" id="totalPanier">
                                 <?= number_format($montantTotal, 0, ',', ' ') ?> FCFA
                             </td>
                         </tr>
@@ -121,5 +117,50 @@ foreach ($lignesCart as $ligne) {
 
     <?php include(__DIR__ . "/../includes/footer.php"); ?>
     <script src="../assets/js/bootstrap.js"></script>
+    <script>
+        (function () {
+            var champsQuantite = document.querySelectorAll(".quantite-panier");
+            var totalPanier = document.getElementById("totalPanier");
+            if (!champsQuantite.length || !totalPanier) return;
+
+            function formaterPrix(prix) {
+                return Number(prix || 0).toLocaleString("fr-FR") + " FCFA";
+            }
+
+            function recalculerTout() {
+                var total = 0;
+                champsQuantite.forEach(function (champ) {
+                    var qte = Math.max(1, parseInt(champ.value, 10) || 1);
+                    var prix = parseFloat(champ.dataset.price) || 0;
+                    var sousTotal = qte * prix;
+                    var cellule = champ.closest("tr").querySelector(".sous-total");
+                    if (cellule) cellule.textContent = formaterPrix(sousTotal);
+                    total += sousTotal;
+                });
+                totalPanier.textContent = formaterPrix(total);
+            }
+
+            champsQuantite.forEach(function (champ) {
+                var minuteur = null;
+                champ.addEventListener("input", function () {
+                    recalculerTout();
+
+                    clearTimeout(minuteur);
+                    minuteur = setTimeout(function () {
+                        var qte = Math.max(1, parseInt(champ.value, 10) || 1);
+                        fetch("./save.php", {
+                            method: "POST",
+                            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                            body: new URLSearchParams({
+                                cId: champ.dataset.cid,
+                                cquantity: qte,
+                                validate: "Modifier"
+                            })
+                        }).catch(function () { /* silencieux : on retentera au prochain changement */ });
+                    }, 600);
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
