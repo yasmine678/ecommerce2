@@ -66,8 +66,8 @@ foreach ($lignesCart as $ligne) {
                                         <input type="hidden" name="cId" value="<?= $ligne['cId'] ?>">
                                         <input type="number" name="cquantity" value="<?= $ligne['cquantity'] ?>"
                                                min="1" class="form-control form-control-sm">
-                                        <button type="submit" name="validate" value="Modifier"
-                                                class="btn btn-sm btn-outline-primary">OK</button>
+                                      
+                                               
                                     </form>
                                 </td>
                                 <td class="fw-bold">
