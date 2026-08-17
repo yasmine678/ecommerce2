@@ -36,7 +36,7 @@ require_once(__DIR__ . "/../config/db.php");
                 </div>
             <?php endif; ?>
 
-            <form action="../users/save.php" method="POST" class="row g-3">
+            <form action="../users/save.php" method="POST" enctype="multipart/form-data" class="row g-3">
                 <div class="col-sm-6">
                     <label class="form-label">Nom</label>
                     <input type="text" name="nom" autocomplete="family-name" class="form-control" required>
@@ -56,6 +56,10 @@ require_once(__DIR__ . "/../config/db.php");
                 <div class="col-12">
                     <label class="form-label">Confirmer le mot de passe</label>
                     <input type="password" name="password_confirm" autocomplete="new-password" class="form-control" required>
+                </div>
+                <div class="col-12">
+                    <label for="profil" class="form-label">Photo de profil (optionnel)</label>
+                    <input type="file" name="profil" id="profil" accept="image/*" class="form-control">
                 </div>
                 <div class="col-12">
                     <button type="submit" name="validate" value="Inscription" class="btn btn-primary w-100 mt-2">

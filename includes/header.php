@@ -75,6 +75,21 @@ function navActiveSi(string $suffixe): string
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link px-3 py-2 d-flex align-items-center gap-2 <?= navActiveSi('/users/profil.php') ?>" href="<?= BASE_URL ?>/users/profil.php" title="Mon profil">
+                            <?php if (!empty($user['profil'])): ?>
+                                <img src="<?= BASE_URL ?>/uploads/profils/<?= htmlspecialchars($user['profil']) ?>" alt=""
+                                     class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;">
+                            <?php else: ?>
+                                <span class="rounded-circle bg-secondary bg-opacity-25 text-secondary d-inline-flex align-items-center justify-content-center fw-bold"
+                                      style="width: 24px; height: 24px; font-size: .7rem;">
+                                    <?= htmlspecialchars(mb_strtoupper(mb_substr($user['firstName'] ?? '?', 0, 1))) ?>
+                                </span>
+                            <?php endif; ?>
+                            Mon profil
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link px-3 py-2" href="<?= BASE_URL ?>/auth/logout.php">
                             Déconnexion
                         </a>

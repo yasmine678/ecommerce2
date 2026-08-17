@@ -8,25 +8,18 @@ function getUserByEmail(string $email, PDO $pdo)
     $stmt->execute([':email' => $email]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-function getUserByID(int $id, PDO $pdo)
-{
-    $req = "SELECT * FROM users WHERE usId = :usId";
-    $stmt = $pdo->prepare($req);
-    $stmt->execute([':usId' => $id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
 function createUser(array $data, PDO $pdo)
 {
-    $req = "INSERT INTO users (lastName, firstName, email, password, role) 
-            VALUES (:nom, :prenom, :email, :password, :role)";
+    $req = "INSERT INTO users (lastName, firstName, email, password, role, profil)
+            VALUES (:nom, :prenom, :email, :password, :role, :profil)";
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
         ':nom' => $data['nom'],
         ':prenom' => $data['prenom'],
         ':email' => $data['email'],
         ':password' => $data['password'],
-        ':role' => $data['role']
+        ':role' => $data['role'],
+        ':profil' => $data['profil'] ?? null
     ]);
 }
 

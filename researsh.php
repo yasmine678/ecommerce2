@@ -129,7 +129,7 @@ if (($_GET['format'] ?? '') === 'json') {
                 <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
                     <?php foreach ($resultatsServices as $service): ?>
                         <div class="col">
-                            <div class="card h-100 shadow-sm produit-card">
+                            <div class="card h-100 shadow-sm produit-card service-card">
                                 <div class="service-clickable" role="button" tabindex="0"
                                     data-servid="<?= $service['servId'] ?>"
                                     data-name="<?= htmlspecialchars($service['servName'], ENT_QUOTES) ?>"

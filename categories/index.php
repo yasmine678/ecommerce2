@@ -169,7 +169,7 @@ if ($isAdmin) {
                                     <div class="row row-cols-2 row-cols-md-3 g-3 cartes-animees">
                                         <?php foreach ($servicesCategorie as $service): ?>
                                             <div class="col">
-                                                <div class="card h-100">
+                                                <div class="card h-100 service-card">
                                                     <?php if (!empty($service['serImage'])): ?>
                                                         <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
                                                             class="card-img-top" style="height: 100px; object-fit: cover;">

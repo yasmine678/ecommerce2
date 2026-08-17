@@ -25,6 +25,9 @@
     --ok: #1a7f37;
     --ok-soft: #e6f4ea;
 
+    --service-accent: #0d6efd;
+    --service-accent-dark: #0a58ca;
+
     --radius-sm: 4px;
     --radius-md: 8px;
     --radius-lg: 10px;
@@ -647,13 +650,40 @@ body.admin .main-content {
     max-height: 2.8em;
 }
 
-.produit-card {
+.card.produit-card {
     box-shadow: none !important;
     border-color: var(--accent) !important;
 }
-.produit-card:hover {
+.card.produit-card:hover {
     box-shadow: var(--shadow-hover) !important;
     border-color: var(--accent-dark) !important;
+}
+
+/* Cartes SERVICE : bordure bleue + badge horloge, pour se distinguer des produits (orange) au premier coup d'oeil */
+.card.service-card {
+    position: relative;
+    box-shadow: none !important;
+    border-color: var(--service-accent) !important;
+}
+.card.service-card:hover {
+    box-shadow: var(--shadow-hover) !important;
+    border-color: var(--service-accent-dark) !important;
+}
+.service-card::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--service-accent);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z'/%3E%3Cpath d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px 16px;
+    box-shadow: 0 2px 6px rgba(20, 20, 20, .25);
+    z-index: 3;
 }
 
 .produit-clickable {

@@ -237,7 +237,7 @@ function creerCarteService(service) {
     const col = document.createElement("div");
     col.className = "col";
     col.innerHTML =
-        '<div class="card h-100 shadow-sm produit-card d-flex flex-column">' +
+        '<div class="card h-100 shadow-sm produit-card service-card d-flex flex-column">' +
         '  <div class="service-clickable" role="button" tabindex="0"' +
         '       data-servid="' + echapperHtml(service.servId) + '"' +
         '       data-name="' + echapperHtml(service.servName) + '"' +

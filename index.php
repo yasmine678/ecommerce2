@@ -230,7 +230,7 @@ function urlAvecPages(int $page, int $pageServices): string
             <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3 cartes-animees">
                 <?php foreach ($servicesAffiches as $service): ?>
                     <div class="col">
-                        <div class="card h-100 shadow-sm produit-card d-flex flex-column">
+                        <div class="card h-100 shadow-sm produit-card service-card d-flex flex-column">
                             <div class="service-clickable" role="button" tabindex="0"
                                 data-servid="<?php echo $service['servId']; ?>"
                                 data-name="<?php echo htmlspecialchars($service['servName'], ENT_QUOTES); ?>"

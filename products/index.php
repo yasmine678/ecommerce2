@@ -268,7 +268,7 @@ if ($categoryId) {
                     <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 cartes-animees">
                         <?php foreach ($products as $product): ?>
                             <div class="col">
-                                <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden d-flex flex-column">
+                                <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden d-flex flex-column produit-card">
 
                                     <div class="produit-clickable" role="button" tabindex="0"
                                         data-proid="<?= $product['proId'] ?>"
