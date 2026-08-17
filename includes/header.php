@@ -78,6 +78,12 @@ function navActiveSi(string $suffixe): string
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link px-3 py-2 <?= navActiveSi('/order/index.php') ?>" href="<?= BASE_URL ?>/order/index.php">
+                            Mes commandes
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link px-3 py-2 d-flex align-items-center gap-2 <?= navActiveSi('/users/profil.php') ?>" href="<?= BASE_URL ?>/users/profil.php" title="Mon profil">
                             <?php if (!empty($user['profil'])): ?>
                                 <img src="<?= BASE_URL ?>/uploads/profils/<?= htmlspecialchars($user['profil']) ?>" alt=""
