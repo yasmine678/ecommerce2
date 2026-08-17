@@ -707,14 +707,6 @@ body.admin .main-content {
     z-index: 3;
 }
 
-.produit-clickable {
-    cursor: pointer;
-}
-.produit-clickable:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-}
-
 .produit-card .btn-outline-warning {
     width: 34px;
     height: 34px;

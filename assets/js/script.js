@@ -56,94 +56,6 @@ function formaterPrix(prix) {
     return Number(prix || 0).toLocaleString("fr-FR");
 }
 
-// ===== MODAL DETAIL PRODUIT (clic sur une carte produit, y compris injectée dynamiquement) =====
-const produitModalEl = document.getElementById("produitModal");
-
-if (produitModalEl) {
-    const produitModal = new bootstrap.Modal(produitModalEl);
-    const modalTitle = document.getElementById("produitModalTitle");
-    const modalCat = document.getElementById("produitModalCat");
-    const modalDesc = document.getElementById("produitModalDesc");
-    const modalPrice = document.getElementById("produitModalPrice");
-
-    function ouvrirProduitModal(carte) {
-        modalTitle.textContent = carte.dataset.name;
-        modalDesc.textContent = carte.dataset.desc;
-        modalPrice.textContent = carte.dataset.price + " FCFA";
-
-        if (carte.dataset.cat) {
-            modalCat.textContent = carte.dataset.cat;
-            modalCat.style.display = "inline-block";
-        } else {
-            modalCat.style.display = "none";
-        }
-
-        produitModal.show();
-    }
-
-    document.addEventListener("click", function (e) {
-        const carte = e.target.closest(".produit-clickable");
-        if (carte) ouvrirProduitModal(carte);
-    });
-
-    document.addEventListener("keydown", function (e) {
-        if (e.key !== "Enter" && e.key !== " ") return;
-        const carte = e.target.closest(".produit-clickable");
-        if (carte) {
-            e.preventDefault();
-            ouvrirProduitModal(carte);
-        }
-    });
-}
-
-// ===== MODAL DETAIL SERVICE (clic sur une carte service, y compris injectée dynamiquement) =====
-const serviceModalEl = document.getElementById("serviceModal");
-
-if (serviceModalEl) {
-    const serviceModal = new bootstrap.Modal(serviceModalEl);
-    const serviceModalTitle = document.getElementById("serviceModalTitle");
-    const serviceModalCat = document.getElementById("serviceModalCat");
-    const serviceModalDesc = document.getElementById("serviceModalDesc");
-    const serviceModalProvider = document.getElementById("serviceModalProvider");
-    const serviceModalPrice = document.getElementById("serviceModalPrice");
-
-    function ouvrirServiceModal(carte) {
-        serviceModalTitle.textContent = carte.dataset.name;
-        serviceModalDesc.textContent = carte.dataset.desc;
-        serviceModalPrice.textContent = carte.dataset.price + " FCFA/heure";
-
-        if (carte.dataset.cat) {
-            serviceModalCat.textContent = carte.dataset.cat;
-            serviceModalCat.style.display = "inline-block";
-        } else {
-            serviceModalCat.style.display = "none";
-        }
-
-        if (carte.dataset.provider) {
-            serviceModalProvider.textContent = "Par " + carte.dataset.provider;
-            serviceModalProvider.style.display = "block";
-        } else {
-            serviceModalProvider.style.display = "none";
-        }
-
-        serviceModal.show();
-    }
-
-    document.addEventListener("click", function (e) {
-        const carte = e.target.closest(".service-clickable");
-        if (carte) ouvrirServiceModal(carte);
-    });
-
-    document.addEventListener("keydown", function (e) {
-        if (e.key !== "Enter" && e.key !== " ") return;
-        const carte = e.target.closest(".service-clickable");
-        if (carte) {
-            e.preventDefault();
-            ouvrirServiceModal(carte);
-        }
-    });
-}
-
 // ===== AJOUT AU PANIER SANS QUITTER LA PAGE (délégation : fonctionne aussi pour les cartes injectées) =====
 const ICONE_SUCCES =
     '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">' +
@@ -222,19 +134,13 @@ function creerCarteProduit(produit) {
     col.className = "col";
     col.innerHTML =
         '<div class="card h-100 shadow-sm produit-card d-flex flex-column">' +
-        '  <div class="produit-clickable" role="button" tabindex="0"' +
-        '       data-proid="' + echapperHtml(produit.proId) + '"' +
-        '       data-name="' + echapperHtml(produit.proName) + '"' +
-        '       data-desc="' + echapperHtml(produit.prodescription) + '"' +
-        '       data-price="' + prix + '"' +
-        '       data-image="' + echapperHtml(image) + '"' +
-        '       data-cat="' + echapperHtml(produit.catName || "") + '">' +
+        '  <a href="' + baseUrl() + '/products/detail.php?id=' + echapperHtml(produit.proId) + '" class="text-decoration-none text-dark">' +
         '    <img src="' + echapperHtml(image) + '" class="card-img-top produit-image" alt="' + echapperHtml(produit.proName) + '">' +
         '    <div class="card-body pb-0">' +
         '      <h6 class="card-title mb-1">' + echapperHtml(produit.proName) + '</h6>' +
         '      <p class="card-text text-muted small mb-0 produit-description">' + echapperHtml(produit.prodescription) + '</p>' +
         '    </div>' +
-        '  </div>' +
+        '  </a>' +
         '  <div class="card-body pt-2 mt-auto">' +
         '    <div class="d-flex justify-content-between align-items-center">' +
         '      <span class="fw-bold text-warning">' + prix + ' FCFA</span>' +
@@ -262,19 +168,13 @@ function creerCarteService(service) {
     col.className = "col";
     col.innerHTML =
         '<div class="card h-100 shadow-sm produit-card service-card d-flex flex-column">' +
-        '  <div class="service-clickable" role="button" tabindex="0"' +
-        '       data-servid="' + echapperHtml(service.servId) + '"' +
-        '       data-name="' + echapperHtml(service.servName) + '"' +
-        '       data-desc="' + echapperHtml(service.description) + '"' +
-        '       data-price="' + prix + '"' +
-        '       data-provider="' + echapperHtml(service.provider || "") + '"' +
-        '       data-cat="' + echapperHtml(service.catName || service.name || "") + '">' +
+        '  <a href="' + baseUrl() + '/services/detail.php?id=' + echapperHtml(service.servId) + '" class="text-decoration-none text-dark">' +
         (image ? '    <img src="' + echapperHtml(image) + '" class="card-img-top produit-image" alt="' + echapperHtml(service.servName) + '">' : '') +
         '    <div class="card-body pb-0">' +
         '      <h6 class="card-title mb-1">' + echapperHtml(service.servName) + '</h6>' +
         '      <p class="card-text text-muted small mb-0 produit-description">' + echapperHtml(service.description) + '</p>' +
         '    </div>' +
-        '  </div>' +
+        '  </a>' +
         '  <div class="card-body pt-2 mt-auto">' +
         '    <div class="d-flex justify-content-between align-items-center">' +
         '      <span class="fw-bold text-warning">' + prix + ' FCFA/heure</span>' +

@@ -148,16 +148,18 @@ if ($isAdmin) {
                                                 <div class="card h-100" style="position: relative;">
                                                     <?php $qte = $quantitesPanier['produit_' . $produit['proId']] ?? 0; ?>
                                                     <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="produit_<?= $produit['proId'] ?>">×<?= $qte ?></span>
-                                                    <?php if (!empty($produit['image'])): ?>
-                                                        <img src="../uploads/products/<?= htmlspecialchars($produit['image']) ?>"
-                                                            class="card-img-top" style="height: 100px; object-fit: cover;">
-                                                    <?php endif; ?>
-                                                    <div class="card-body p-2">
-                                                        <p class="mb-1 small fw-semibold"><?= htmlspecialchars($produit['proName']) ?></p>
-                                                        <p class="mb-0 small text-primary fw-bold">
-                                                            <?= number_format($produit['price'], 0, ',', ' ') ?> FCFA
-                                                        </p>
-                                                    </div>
+                                                    <a href="../products/detail.php?id=<?= $produit['proId'] ?>" class="text-decoration-none text-dark">
+                                                        <?php if (!empty($produit['image'])): ?>
+                                                            <img src="../uploads/products/<?= htmlspecialchars($produit['image']) ?>"
+                                                                class="card-img-top" style="height: 100px; object-fit: cover;">
+                                                        <?php endif; ?>
+                                                        <div class="card-body p-2">
+                                                            <p class="mb-1 small fw-semibold"><?= htmlspecialchars($produit['proName']) ?></p>
+                                                            <p class="mb-0 small text-primary fw-bold">
+                                                                <?= number_format($produit['price'], 0, ',', ' ') ?> FCFA
+                                                            </p>
+                                                        </div>
+                                                    </a>
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>
@@ -176,16 +178,18 @@ if ($isAdmin) {
                                                 <div class="card h-100 service-card">
                                                     <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
                                                     <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
-                                                    <?php if (!empty($service['serImage'])): ?>
-                                                        <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
-                                                            class="card-img-top" style="height: 100px; object-fit: cover;">
-                                                    <?php endif; ?>
-                                                    <div class="card-body p-2">
-                                                        <p class="mb-1 small fw-semibold"><?= htmlspecialchars($service['servName']) ?></p>
-                                                        <p class="mb-0 small text-primary fw-bold">
-                                                            <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/h
-                                                        </p>
-                                                    </div>
+                                                    <a href="../services/detail.php?id=<?= $service['servId'] ?>" class="text-decoration-none text-dark">
+                                                        <?php if (!empty($service['serImage'])): ?>
+                                                            <img src="../uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
+                                                                class="card-img-top" style="height: 100px; object-fit: cover;">
+                                                        <?php endif; ?>
+                                                        <div class="card-body p-2">
+                                                            <p class="mb-1 small fw-semibold"><?= htmlspecialchars($service['servName']) ?></p>
+                                                            <p class="mb-0 small text-primary fw-bold">
+                                                                <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/h
+                                                            </p>
+                                                        </div>
+                                                    </a>
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>

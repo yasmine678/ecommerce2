@@ -137,13 +137,7 @@ if (($_GET['format'] ?? '') === 'json') {
                             <div class="card h-100 shadow-sm produit-card service-card">
                                 <?php $qte = $quantitesPanier['service_' . $service['servId']] ?? 0; ?>
                                 <span class="panier-badge-carte <?= $qte > 0 ? '' : 'd-none' ?>" data-panier-key="service_<?= $service['servId'] ?>">×<?= $qte ?></span>
-                                <div class="service-clickable" role="button" tabindex="0"
-                                    data-servid="<?= $service['servId'] ?>"
-                                    data-name="<?= htmlspecialchars($service['servName'], ENT_QUOTES) ?>"
-                                    data-desc="<?= htmlspecialchars($service['description'] ?? 'Aucune description disponible.', ENT_QUOTES) ?>"
-                                    data-price="<?= number_format($service['priceHours'], 0, ',', ' ') ?>"
-                                    data-provider="<?= htmlspecialchars($service['provider'] ?? '', ENT_QUOTES) ?>"
-                                    data-cat="<?= htmlspecialchars($service['catName'] ?? '', ENT_QUOTES) ?>">
+                                <a href="./services/detail.php?id=<?= $service['servId'] ?>" class="text-decoration-none text-dark">
                                     <?php if (!empty($service['serImage'])): ?>
                                         <img src="./uploads/services/<?= htmlspecialchars($service['serImage']) ?>"
                                              class="card-img-top produit-image"
@@ -159,7 +153,7 @@ if (($_GET['format'] ?? '') === 'json') {
                                             <?= htmlspecialchars($service['catName'] ?? 'Sans catégorie') ?>
                                         </span>
                                     </div>
-                                </div>
+                                </a>
 
                                 <div class="card-body d-flex flex-column pt-0">
                                     <div class="d-flex justify-content-between align-items-center mt-auto">
@@ -185,8 +179,6 @@ if (($_GET['format'] ?? '') === 'json') {
         <?php endif; ?>
 
     </div>
-
-    <?php include(__DIR__ . "/includes/service-modal.php"); ?>
 
     <script src="./assets/js/bootstrap.js"></script>
     <script src="./assets/js/script.js?v=<?php echo filemtime(__DIR__ . '/assets/js/script.js'); ?>"></script>
