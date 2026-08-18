@@ -362,12 +362,26 @@ body.admin .main-content {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("../images/E-commerce.jpg");
+    background-image: url("../images/télécharger(42).jpg");
     background-size: cover;
     background-position: center;
     filter: blur(4px) brightness(.55);
-    transform: scale(1.05);
     z-index: -2;
+    animation: heroZoom 18s ease-in-out infinite alternate;
+}
+@keyframes heroZoom {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+    100% {
+        transform: scale(1.12) translate(-1%, -1%);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hero::before {
+        animation: none;
+        transform: scale(1.05);
+    }
 }
 .hero::after {
     content: "";

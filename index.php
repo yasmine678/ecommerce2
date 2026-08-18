@@ -22,11 +22,11 @@ $services = array_values(array_filter(getAllServices($pdo), function ($s) {
     return (bool) $s['available'];
 }));
 
-$servicesParPage = 8;
+$servicesParPage = 4;
 $pagesServices = array_chunk($services, $servicesParPage);
 $totalPagesServices = count($pagesServices);
 $pageServices = isset($_GET['page_services']) ? max(1, min($totalPagesServices, (int) $_GET['page_services'])) : 1;
-$servicesAffiches = $pagesServices[$pageServices - 1] ?? [];
+$servicesAffiches = $pagesServices[$pageServices - 3] ?? [];
 
 function urlAvecPages(int $page, int $pageServices): string
 {
@@ -222,7 +222,7 @@ function urlAvecPages(int $page, int $pageServices): string
 
     <!-- SERVICES + PAGINATION -->
     <section id="services" class="container my-5 reveal">
-        <h2 class="section-title">Nos services</h2>
+        <h2 class="section-title text-center">Nos services</h2>
 
         <?php if (empty($servicesAffiches)): ?>
             <p class="text-muted">Aucun service disponible pour le moment.</p>
