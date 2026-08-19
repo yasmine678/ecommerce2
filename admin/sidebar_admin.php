@@ -69,33 +69,37 @@ function navActive(string $fichier, string $pageActuelle): string
                 </span> Utilisateurs
             </a>
         </li>
-        <li>
-            <a href="../users/profil.php" class="nav-link text-white d-flex align-items-center gap-2 <?= str_ends_with($_SERVER['SCRIPT_NAME'], '/users/profil.php') ? 'active' : '' ?>">
-                <?php if (!empty($_SESSION['user']['profil'])): ?>
-                    <img src="../uploads/profils/<?= htmlspecialchars($_SESSION['user']['profil']) ?>" alt=""
-                         class="rounded-circle" style="width: 22px; height: 22px; object-fit: cover;">
-                <?php else: ?>
-                    <span class="icon-chip icon-chip-light">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                        </svg>
-                    </span>
-                <?php endif; ?>
-                Mon profil
-            </a>
-        </li>
     </ul>
 
     <hr class="text-secondary">
 
-    <!-- Déconnexion -->
-    <div>
-        <a href="../auth/logout.php" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z" />
-                <path fill-rule="evenodd" d="M11.354 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.647 2.646a.5.5 0 0 0 .708.708z" />
-            </svg> Déconnexion
+    <!-- Compte : nom + avatar, menu deroulant (Mon profil / Deconnexion) -->
+    <div class="dropdown">
+        <a href="#" role="button" id="menuCompteAdminToggle"
+           class="nav-link text-white d-flex align-items-center gap-2 dropdown-toggle" aria-expanded="false">
+            <?php if (!empty($_SESSION['user']['profil'])): ?>
+                <img src="../uploads/profils/<?= htmlspecialchars($_SESSION['user']['profil']) ?>" alt=""
+                     class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;">
+            <?php else: ?>
+                <span class="rounded-circle bg-white bg-opacity-25 text-white d-inline-flex align-items-center justify-content-center fw-bold"
+                      style="width: 24px; height: 24px; font-size: .7rem;">
+                    <?= htmlspecialchars(mb_strtoupper(mb_substr($_SESSION['user']['firstName'] ?? '?', 0, 1))) ?>
+                </span>
+            <?php endif; ?>
+            <?= htmlspecialchars($_SESSION['user']['firstName'] ?? 'Mon compte') ?>
         </a>
+        <ul class="dropdown-menu">
+            <li>
+                <a class="dropdown-item <?= str_ends_with($_SERVER['SCRIPT_NAME'], '/users/profil.php') ? 'active' : '' ?>" href="../users/profil.php">
+                    Mon profil
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="../auth/logout.php">
+                    Déconnexion
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
 
@@ -136,4 +140,32 @@ function navActive(string $fichier, string $pageActuelle): string
         if (!zoneNom) return;
         zoneNom.textContent = e.target.files.length ? e.target.files[0].name : "";
     });
+
+    (function () {
+        var toggle = document.getElementById("menuCompteAdminToggle");
+        var menu = toggle ? toggle.nextElementSibling : null;
+        if (!toggle || !menu) return;
+
+        function fermer() {
+            menu.classList.remove("show");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+        function ouvrir() {
+            menu.classList.add("show");
+            toggle.setAttribute("aria-expanded", "true");
+        }
+
+        toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            menu.classList.contains("show") ? fermer() : ouvrir();
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!toggle.contains(e.target) && !menu.contains(e.target)) fermer();
+        });
+
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") fermer();
+        });
+    })();
 </script>
