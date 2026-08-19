@@ -163,6 +163,7 @@ function creerCarteProduit(produit) {
 function creerCarteService(service) {
     const image = service.serImage ? baseUrl() + "/uploads/services/" + encodeURIComponent(service.serImage) : "";
     const prix = formaterPrix(service.priceHours);
+    const unite = echapperHtml(service.unite || "heure");
 
     const col = document.createElement("div");
     col.className = "col";
@@ -177,7 +178,7 @@ function creerCarteService(service) {
         '  </a>' +
         '  <div class="card-body pt-2 mt-auto">' +
         '    <div class="d-flex justify-content-between align-items-center">' +
-        '      <span class="fw-bold text-warning">' + prix + ' FCFA/heure</span>' +
+        '      <span class="fw-bold text-warning">' + prix + ' FCFA/' + unite + '</span>' +
         '      <form action="' + baseUrl() + '/cart/add.php" method="POST" class="m-0 ajout-panier">' +
         '        <input type="hidden" name="servId" value="' + echapperHtml(service.servId) + '">' +
         '        <button type="submit" class="btn btn-sm btn-outline-warning" aria-label="Ajouter au panier" title="Ajouter au panier">' +

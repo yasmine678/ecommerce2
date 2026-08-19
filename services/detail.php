@@ -67,7 +67,7 @@ $qte = $quantitesPanier['service_' . $servId] ?? 0;
                     <p class="text-muted mb-2">Par <strong><?= htmlspecialchars($service['provider']) ?></strong></p>
                 <?php endif; ?>
 
-                <p class="fs-3 fw-bold text-warning mb-3"><?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/heure</p>
+                <p class="fs-3 fw-bold text-warning mb-3"><?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?></p>
 
                 <p class="text-muted"><?= nl2br(htmlspecialchars($service['description'] ?? 'Aucune description disponible.')) ?></p>
 

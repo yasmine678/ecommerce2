@@ -114,10 +114,10 @@ $services = array_values(array_filter(getServicesEnPromotion($pdo), function ($s
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>
                                         <span class="text-muted text-decoration-line-through small">
-                                            <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/h
+                                            <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
                                         </span>
                                         <span class="fw-bold text-danger d-block">
-                                            <?= number_format($service['prixPromo'], 0, ',', ' ') ?> FCFA/h
+                                            <?= number_format($service['prixPromo'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
                                         </span>
                                     </span>
                                     <form action="./cart/add.php" method="POST" class="m-0 ajout-panier">

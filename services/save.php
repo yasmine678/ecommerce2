@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         $servName     = trim($_POST['servName'] ?? '');
         $description  = trim($_POST['description'] ?? '');
         $priceHours   = floatval($_POST['priceHours'] ?? 0);
+        $unite        = trim($_POST['unite'] ?? '') !== '' ? trim($_POST['unite']) : 'heure';
         $provider    = trim($_POST['provider'] ?? '');
         $available    = ($_POST['available'] ?? '1') === '1';
         $catId        = intval($_POST['catId'] ?? 0);
@@ -40,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
             'servName' => $servName,
             'description' => $description,
             'priceHours' => $priceHours,
+            'unite' => $unite,
             'serImage' => $imageName,
             'available' => $available,
             'provider' => $provider,
@@ -54,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         $servName     = trim($_POST['servName'] ?? '');
         $description  = trim($_POST['description'] ?? '');
         $priceHours   = floatval($_POST['priceHours'] ?? 0);
+        $unite        = trim($_POST['unite'] ?? '') !== '' ? trim($_POST['unite']) : 'heure';
         $provider    = trim($_POST['provider'] ?? '');
         $available    = ($_POST['available'] ?? '1') === '1';
         $catId        = intval($_POST['catId'] ?? 0);
@@ -74,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
             'servName' => $servName,
             'description' => $description,
             'priceHours' => $priceHours,
+            'unite' => $unite,
             'serImage' => $imageName,
             'available' => $available,
             'provider' => $provider,

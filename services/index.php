@@ -48,6 +48,15 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
         <?php include(__DIR__ . "/../includes/header.php"); ?>
     <?php endif; ?>
 
+    <datalist id="listeUnites">
+        <option value="heure">
+        <option value="minute">
+        <option value="jour">
+        <option value="taille">
+        <option value="projet">
+        <option value="forfait">
+    </datalist>
+
     <main class="p-4<?= $isAdmin ? ' admin-main' : ' below-header' ?>">
         <div class="container<?= $isAdmin ? '-fluid' : '' ?>">
 
@@ -84,9 +93,15 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                             <label class="form-label">Description</label>
                                             <textarea name="description" class="form-control" rows="3"></textarea>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Tarif horaire (FCFA/heure)</label>
-                                            <input type="number" name="priceHours" step="0.01" class="form-control" required>
+                                        <div class="row g-3 mb-3">
+                                            <div class="col-sm-6">
+                                                <label class="form-label">Tarif (FCFA)</label>
+                                                <input type="number" name="priceHours" step="0.01" class="form-control" required>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label class="form-label">Unité</label>
+                                                <input type="text" name="unite" class="form-control" list="listeUnites" placeholder="heure" value="heure">
+                                            </div>
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Prestataire</label>
@@ -108,7 +123,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                             <label for="enPromotion_add" class="form-check-label">En promotion</label>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Prix promo (FCFA/heure)</label>
+                                            <label class="form-label">Prix promo (FCFA)</label>
                                             <input type="number" name="prixPromo" step="0.01" class="form-control" placeholder="Prix réduit, si en promotion">
                                         </div>
                                         <div class="mb-3">
@@ -193,7 +208,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                         </span>
 
                                         <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 fs-6">
-                                            <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/heure
+                                            <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
                                         </span>
 
                                         <span class="d-inline-flex gap-2">
@@ -241,9 +256,15 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                                     <label class="form-label">Description :</label>
                                                     <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($service['description'] ?? ''); ?></textarea>
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label">Tarif horaire (FCFA/heure) :</label>
-                                                    <input type="number" step="0.01" name="priceHours" class="form-control" value="<?= htmlspecialchars($service['priceHours'] ?? 0); ?>" required>
+                                                <div class="row g-3 mb-3">
+                                                    <div class="col-sm-6">
+                                                        <label class="form-label">Tarif (FCFA) :</label>
+                                                        <input type="number" step="0.01" name="priceHours" class="form-control" value="<?= htmlspecialchars($service['priceHours'] ?? 0); ?>" required>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label class="form-label">Unité :</label>
+                                                        <input type="text" name="unite" class="form-control" list="listeUnites" value="<?= htmlspecialchars($service['unite'] ?? 'heure'); ?>">
+                                                    </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label">Prestataire :</label>
@@ -264,7 +285,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                                     <label for="enPromotion_<?= $service['servId'] ?>" class="form-check-label">En promotion</label>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label">Prix promo (FCFA/heure) :</label>
+                                                    <label class="form-label">Prix promo (FCFA) :</label>
                                                     <input type="number" step="0.01" name="prixPromo" class="form-control" value="<?= htmlspecialchars($service['prixPromo'] ?? '') ?>" placeholder="Prix réduit, si en promotion">
                                                 </div>
                                                 <div class="mb-3">
@@ -350,7 +371,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                     <div class="card-body pt-2 mt-auto">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="fw-bold text-warning fs-5">
-                                                <?= number_format($service['priceHours'] ?? 0, 0, ',', ' ') ?> FCFA/heure
+                                                <?= number_format($service['priceHours'] ?? 0, 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
                                             </span>
                                             <form action="../cart/add.php" method="POST" class="m-0 ajout-panier">
                                                 <input type="hidden" name="servId" value="<?php echo $service['servId']; ?>">
