@@ -14,6 +14,18 @@ function getAllServices(PDO $pdo)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function getServicesEnPromotion(PDO $pdo)
+{
+    $req = "SELECT service.*, category.name AS catName
+            FROM service
+            LEFT JOIN category ON service.catId = category.catId
+            WHERE service.enPromotion = 1 AND service.prixPromo IS NOT NULL
+            ORDER BY service.servId DESC";
+    $stmt = $pdo->prepare($req);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getModiService(int $id, PDO $pdo)
 {
     $req = "SELECT * FROM service WHERE servId = :servId";
@@ -38,8 +50,8 @@ function getServiceAvecCategorie(int $id, PDO $pdo)
 
 function createService(array $data, PDO $pdo)
 {
-    $req = "INSERT INTO service(servName, description, priceHours, serImage, available, provider, catId)
-            VALUES (:servName, :description, :priceHours, :serImage, :available, :provider, :catId)";
+    $req = "INSERT INTO service(servName, description, priceHours, serImage, available, provider, catId, enPromotion, prixPromo)
+            VALUES (:servName, :description, :priceHours, :serImage, :available, :provider, :catId, :enPromotion, :prixPromo)";
 
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
@@ -49,7 +61,9 @@ function createService(array $data, PDO $pdo)
         ':serImage' => $data['serImage'] ?? null,
         ':available' => $data['available'] ? 1 : 0,
         ':provider' => $data['provider'],
-        ':catId' => $data['catId']
+        ':catId' => $data['catId'],
+        ':enPromotion' => $data['enPromotion'] ?? 0,
+        ':prixPromo' => $data['prixPromo'] ?? null
     ]);
 }
 
@@ -69,13 +83,13 @@ function updateService(int $id, array $data, PDO $pdo)
         $req = "UPDATE service
                 SET servName = :servName, description = :description, priceHours = :priceHours,
                     available = :available,
-                    provider = :provider, catId = :catId, serImage = :serImage
+                    provider = :provider, catId = :catId, enPromotion = :enPromotion, prixPromo = :prixPromo, serImage = :serImage
                 WHERE servId = :servId";
     } else {
         $req = "UPDATE service
                 SET servName = :servName, description = :description, priceHours = :priceHours,
                     available = :available,
-                    provider = :provider, catId = :catId
+                    provider = :provider, catId = :catId, enPromotion = :enPromotion, prixPromo = :prixPromo
                 WHERE servId = :servId";
     }
 
@@ -88,6 +102,8 @@ function updateService(int $id, array $data, PDO $pdo)
         ':available' => $data['available'] ? 1 : 0,
         ':provider' => $data['provider'],
         ':catId' => $data['catId'],
+        ':enPromotion' => $data['enPromotion'] ?? 0,
+        ':prixPromo' => $data['prixPromo'] ?? null,
         ':servId' => $id
     ];
 

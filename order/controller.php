@@ -42,7 +42,10 @@ function getLignesCommande(int $cmdId, PDO $pdo)
 {
     $req = "SELECT commande_lignes.*,
                    COALESCE(product.proName, service.servName) AS proName,
-                   COALESCE(product.price, service.priceHours) AS price
+                   COALESCE(
+                       CASE WHEN product.enPromotion = 1 THEN product.prixPromo ELSE product.price END,
+                       CASE WHEN service.enPromotion = 1 THEN service.prixPromo ELSE service.priceHours END
+                   ) AS price
             FROM commande_lignes
             LEFT JOIN product ON commande_lignes.proId = product.proId
             LEFT JOIN service ON commande_lignes.servId = service.servId

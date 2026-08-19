@@ -103,6 +103,14 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" name="enPromotion" value="1" id="enPromotion_add" class="form-check-input">
+                                            <label for="enPromotion_add" class="form-check-label">En promotion</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Prix promo (FCFA/heure)</label>
+                                            <input type="number" name="prixPromo" step="0.01" class="form-control" placeholder="Prix réduit, si en promotion">
+                                        </div>
                                         <div class="mb-3">
                                             <label for="image_add_service" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2 mb-0">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
@@ -250,6 +258,14 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>
+                                                </div>
+                                                <div class="mb-3 form-check">
+                                                    <input type="checkbox" name="enPromotion" value="1" id="enPromotion_<?= $service['servId'] ?>" class="form-check-input" <?= !empty($service['enPromotion']) ? 'checked' : '' ?>>
+                                                    <label for="enPromotion_<?= $service['servId'] ?>" class="form-check-label">En promotion</label>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Prix promo (FCFA/heure) :</label>
+                                                    <input type="number" step="0.01" name="prixPromo" class="form-control" value="<?= htmlspecialchars($service['prixPromo'] ?? '') ?>" placeholder="Prix réduit, si en promotion">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label d-block mb-1">

@@ -54,8 +54,8 @@ function urlAvecPages(int $page, int $pageServices): string
             <h1>Votre boutique <span>tout-en-un</span><br>pour acheter mieux</h1>
             <p>Découvrez des produits et services choisis avec soin,<br>à des prix qui font plaisir.</p>
             <div>
-                <a href="./products/index.php" class="btn btn-hero-primary btn-lg">Voir les produits</a>
-                <a href="./services/index.php" class="btn btn-hero-ghost btn-lg">Nos services</a>
+                <a href="./promotions.php" class="btn btn-hero-primary btn-lg">Promotion</a>
+                <a href="./nouveautes.php" class="btn btn-hero-ghost btn-lg">Nouveautés</a>
             </div>
         </div>
     </section>

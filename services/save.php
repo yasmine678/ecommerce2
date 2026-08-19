@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         $provider    = trim($_POST['provider'] ?? '');
         $available    = ($_POST['available'] ?? '1') === '1';
         $catId        = intval($_POST['catId'] ?? 0);
+        $enPromotion  = isset($_POST['enPromotion']) ? 1 : 0;
+        $prixPromo    = ($enPromotion && trim($_POST['prixPromo'] ?? '') !== '') ? floatval($_POST['prixPromo']) : null;
         $imageName    = null;
 
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -42,6 +44,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
             'available' => $available,
             'provider' => $provider,
             'catId' => $catId,
+            'enPromotion' => $enPromotion,
+            'prixPromo' => $prixPromo,
         ], $pdo);
 
         $_SESSION['success'] = "Le service a été ajouté avec succès !";
@@ -53,6 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         $provider    = trim($_POST['provider'] ?? '');
         $available    = ($_POST['available'] ?? '1') === '1';
         $catId        = intval($_POST['catId'] ?? 0);
+        $enPromotion  = isset($_POST['enPromotion']) ? 1 : 0;
+        $prixPromo    = ($enPromotion && trim($_POST['prixPromo'] ?? '') !== '') ? floatval($_POST['prixPromo']) : null;
         $imageName    = null;
 
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -72,6 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
             'available' => $available,
             'provider' => $provider,
             'catId' => $catId,
+            'enPromotion' => $enPromotion,
+            'prixPromo' => $prixPromo,
         ], $pdo);
 
         $_SESSION['success'] = "Le service a été mis à jour !";

@@ -28,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         $catId          = intval($_POST['catId'] ?? 0);
         $color          = trim($_POST['color'] ?? '') !== '' ? trim($_POST['color']) : null;
         $capacite       = trim($_POST['capacite'] ?? '') !== '' ? trim($_POST['capacite']) : null;
+        $enPromotion    = isset($_POST['enPromotion']) ? 1 : 0;
+        $prixPromo      = ($enPromotion && trim($_POST['prixPromo'] ?? '') !== '') ? floatval($_POST['prixPromo']) : null;
         $imageName      = null;
 
         // Traitement de l'image si téléversée
@@ -35,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
             $imageName = uploadProductImage($_FILES['image'], $uploadDir);
         }
 
-        $stmt = $pdo->prepare("INSERT INTO product (proName, prodescription, price, catId, color, capacite, image) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$proName, $prodescription, $price, $catId, $color, $capacite, $imageName]);
+        $stmt = $pdo->prepare("INSERT INTO product (proName, prodescription, price, catId, color, capacite, enPromotion, prixPromo, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$proName, $prodescription, $price, $catId, $color, $capacite, $enPromotion, $prixPromo, $imageName]);
 
         $_SESSION['success'] = "Le produit a été ajouté avec succès !";
     }
@@ -50,6 +52,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         $catId          = intval($_POST['catId'] ?? 0);
         $color          = trim($_POST['color'] ?? '') !== '' ? trim($_POST['color']) : null;
         $capacite       = trim($_POST['capacite'] ?? '') !== '' ? trim($_POST['capacite']) : null;
+        $enPromotion    = isset($_POST['enPromotion']) ? 1 : 0;
+        $prixPromo      = ($enPromotion && trim($_POST['prixPromo'] ?? '') !== '') ? floatval($_POST['prixPromo']) : null;
 
         // Récupérer l'ancienne image en base de données
         $stmtOld = $pdo->prepare("SELECT image FROM product WHERE proId = ?");
@@ -67,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
             $imageName = uploadProductImage($_FILES['image'], $uploadDir);
         }
 
-        $stmt = $pdo->prepare("UPDATE product SET proName = ?, prodescription = ?, price = ?, catId = ?, color = ?, capacite = ?, image = ? WHERE proId = ?");
-        $stmt->execute([$proName, $prodescription, $price, $catId, $color, $capacite, $imageName, $proId]);
+        $stmt = $pdo->prepare("UPDATE product SET proName = ?, prodescription = ?, price = ?, catId = ?, color = ?, capacite = ?, enPromotion = ?, prixPromo = ?, image = ? WHERE proId = ?");
+        $stmt->execute([$proName, $prodescription, $price, $catId, $color, $capacite, $enPromotion, $prixPromo, $imageName, $proId]);
 
         $_SESSION['success'] = "Le produit a été mis à jour !";
     }

@@ -115,6 +115,14 @@ if ($categoryId) {
                                         <div class="form-text small text-muted mb-3">
                                             Si un produit du même nom existe déjà avec une autre couleur/capacité, ils apparaîtront comme des exemplaires du même produit.
                                         </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" name="enPromotion" value="1" id="enPromotion" class="form-check-input">
+                                            <label for="enPromotion" class="form-check-label">En promotion</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="prixPromo" class="form-label">Prix promo (FCFA)</label>
+                                            <input type="number" name="prixPromo" id="prixPromo" step="0.01" class="form-control" placeholder="Prix réduit, si en promotion">
+                                        </div>
                                         <div class="mb-3">
                                             <label for="image" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2 mb-0">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
@@ -259,6 +267,14 @@ if ($categoryId) {
                                                         <label class="form-label">Capacité (optionnel) :</label>
                                                         <input type="text" name="capacite" class="form-control" value="<?= htmlspecialchars($product['capacite'] ?? ''); ?>" placeholder="Ex : 128 Go">
                                                     </div>
+                                                </div>
+                                                <div class="mb-3 form-check">
+                                                    <input type="checkbox" name="enPromotion" value="1" id="enPromotion_<?= $product['proId'] ?>" class="form-check-input" <?= !empty($product['enPromotion']) ? 'checked' : '' ?>>
+                                                    <label for="enPromotion_<?= $product['proId'] ?>" class="form-check-label">En promotion</label>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label">Prix promo (FCFA) :</label>
+                                                    <input type="number" step="0.01" name="prixPromo" class="form-control" value="<?= htmlspecialchars($product['prixPromo'] ?? '') ?>" placeholder="Prix réduit, si en promotion">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label class="form-label d-block mb-1">

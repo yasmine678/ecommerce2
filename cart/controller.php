@@ -5,7 +5,10 @@ function getCartByUser(int $userId, PDO $pdo)
 {
     $req = "SELECT cart.cId, cart.cquantity, cart.prodId, cart.servId,
                    COALESCE(product.proName, service.servName) AS proName,
-                   COALESCE(product.price, service.priceHours) AS price,
+                   COALESCE(
+                       CASE WHEN product.enPromotion = 1 THEN product.prixPromo ELSE product.price END,
+                       CASE WHEN service.enPromotion = 1 THEN service.prixPromo ELSE service.priceHours END
+                   ) AS price,
                    COALESCE(product.image, service.serimage) AS simage,
                    CASE WHEN cart.servId IS NOT NULL THEN 'service' ELSE 'product' END AS itemType
             FROM cart

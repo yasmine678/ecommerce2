@@ -12,6 +12,18 @@ function getAllPro(PDO $pdo)
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+function getProduitsEnPromotion(PDO $pdo)
+{
+    $req = "SELECT product.*, category.name AS catName
+            FROM product
+            LEFT JOIN category ON product.catId = category.catId
+            WHERE product.enPromotion = 1 AND product.prixPromo IS NOT NULL
+            ORDER BY product.proId DESC";
+    $stmt = $pdo->prepare($req);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function getModiPro( int $id, PDO $pdo)
 {
     $req = "SELECT * FROM product WHERE proId = :proId";

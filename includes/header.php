@@ -36,6 +36,12 @@ function navActiveSi(string $suffixe): string
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2 <?= navActiveSi('/promotions.php') ?>" href="<?= BASE_URL ?>/promotions.php">
+                        Promotion
+                    </a>
+                </li>
+
                 <?php if (!$loggedin): ?>
 
                     <!-- VISITEUR NON CONNECTE -->
