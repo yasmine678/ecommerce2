@@ -69,7 +69,7 @@ $libellesMethodePaiement = [
         <?php else: ?>
             <?php foreach ($commandes as $commande): ?>
                 <?php
-                $lignes = getLignesCommande($commande['cmdId'], $pdo);
+                $lignes = getLignesCommande($commande['orderId'], $pdo);
                 $total = 0;
                 foreach ($lignes as $ligne) {
                     $total += $ligne['price'] * $ligne['quantity'];
@@ -78,7 +78,7 @@ $libellesMethodePaiement = [
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
                         <div>
-                            <span class="fw-bold">Commande #<?= $commande['cmdId'] ?></span>
+                            <span class="fw-bold">Commande #<?= $commande['orderId'] ?></span>
                             <span class="text-muted small"> — <?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?></span>
                             <span class="text-muted small">— <?= date('d/m/Y à H:i', strtotime($commande['createdAt'])) ?></span>
                         </div>

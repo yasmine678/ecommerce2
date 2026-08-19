@@ -12,17 +12,17 @@ $action = $_POST['validate'] ?? null;
 
 if ($action === 'Mise à jour') {
 
-    $cmdId = intval($_POST['cmdId'] ?? 0);
+    $orderId = intval($_POST['orderId'] ?? 0);
     $statut = $_POST['status'] ?? '';
 
     $statutsValides = ['en_attente', 'en_cours', 'expediee', 'livee', 'annulee'];
 
-    if (!$cmdId || !in_array($statut, $statutsValides)) {
+    if (!$orderId || !in_array($statut, $statutsValides)) {
         header("Location: ../admin/orders.php?erreur=1");
         exit();
     }
 
-    mettreAJourStatutCommande($cmdId, $statut, $pdo);
+    mettreAJourStatutCommande($orderId, $statut, $pdo);
     header("Location: ../admin/orders.php?succes=1");
     exit();
 

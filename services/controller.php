@@ -154,12 +154,12 @@ function searchServices(string $keyword, PDO $pdo)
 
 function getServicesLesPlusCommandes(PDO $pdo, int $limite = 8)
 {
-    $req = "SELECT service.servName AS name, SUM(commande_lignes.quantity) AS nombre
-            FROM commande_lignes
-            JOIN commandes ON commande_lignes.cmdId = commandes.cmdId
-            JOIN service ON commande_lignes.servId = service.servId
-            WHERE commandes.status != 'annulee'
-            GROUP BY commande_lignes.servId, service.servName
+    $req = "SELECT service.servName AS name, SUM(order_lines.quantity) AS nombre
+            FROM order_lines
+            JOIN orders ON order_lines.orderId = orders.orderId
+            JOIN service ON order_lines.servId = service.servId
+            WHERE orders.status != 'annulee'
+            GROUP BY order_lines.servId, service.servName
             ORDER BY nombre DESC
             LIMIT :limite";
 

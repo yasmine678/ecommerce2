@@ -68,7 +68,7 @@ $libellesMethodePaiement = [
         <?php else: ?>
             <?php foreach ($commandes as $commande): ?>
                 <?php
-                $lignes = getLignesCommande($commande['cmdId'], $pdo);
+                $lignes = getLignesCommande($commande['orderId'], $pdo);
                 $total = 0;
                 foreach ($lignes as $ligne) {
                     $total += $ligne['price'] * $ligne['quantity'];
@@ -77,7 +77,7 @@ $libellesMethodePaiement = [
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
                         <div>
-                            <span class="fw-bold">Commande #<?= $commande['cmdId'] ?></span>
+                            <span class="fw-bold">Commande #<?= $commande['orderId'] ?></span>
                             <span class="text-muted small"> — <?= htmlspecialchars($commande['clientPrenom'] . ' ' . $commande['clientNom']) ?></span>
                             <span class="text-muted small">— <?= date('d/m/Y à H:i', strtotime($commande['createdAt'])) ?></span>
                         </div>
@@ -91,7 +91,7 @@ $libellesMethodePaiement = [
                                 <span class="badge bg-secondary">Non payée</span>
                             <?php endif; ?>
                             <button type="button" class="btn btn-sm btn-outline-primary"
-                                    data-bs-toggle="modal" data-bs-target="#modalStatut<?= $commande['cmdId'] ?>"
+                                    data-bs-toggle="modal" data-bs-target="#modalStatut<?= $commande['orderId'] ?>"
                                     aria-label="Changer le statut" title="Changer le statut">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                                     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.114.168l-.803 2.008a.25.25 0 0 0 .32.32l2.008-.803a.5.5 0 0 0 .168-.115l6.813-6.812z" />
@@ -134,16 +134,16 @@ $libellesMethodePaiement = [
                     </div>
                 </div>
 
-                <div class="modal fade" id="modalStatut<?= $commande['cmdId'] ?>" tabindex="-1">
+                <div class="modal fade" id="modalStatut<?= $commande['orderId'] ?>" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <form action="../order/save.php" method="POST">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Commande #<?= $commande['cmdId'] ?></h5>
+                                    <h5 class="modal-title">Commande #<?= $commande['orderId'] ?></h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <input type="hidden" name="cmdId" value="<?= $commande['cmdId'] ?>">
+                                    <input type="hidden" name="orderId" value="<?= $commande['orderId'] ?>">
 
                                     <p class="mb-2">
                                         <strong>Client :</strong>

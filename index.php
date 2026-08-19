@@ -61,12 +61,12 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
 
-    <!-- BARRE UNIQUE : CATEGORIES DÉFILANTES + RECHERCHE -->
+    <!-- BARRE DE CATEGORIES DÉFILANTES -->
     <section id="categories" class="container my-4 reveal">
         <div class="row g-3 align-items-center">
 
             <!-- Zone des Catégories en mode défilement horizontal -->
-            <div class="col-12 col-md-7 col-lg-8 d-flex align-items-center gap-2">
+            <div class="col-12 d-flex align-items-center gap-2">
                 <button id="gauche" class="btn btn-light flex-shrink-0" aria-label="Précédent" title="Précédent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
@@ -92,16 +92,6 @@ function urlAvecPages(int $page, int $pageServices): string
                         <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
                     </svg>
                 </button>
-            </div>
-
-            <!-- Barre de recherche alignée sur la même ligne -->
-            <div class="col-12 col-md-5 col-lg-4">
-                <form action="./researsh.php" method="GET" class="d-flex recherche-form">
-                    <input type="search" name="q" class="form-control me-2" placeholder="Rechercher un produit ou un service..." required>
-                    <button class="btn btn-warning" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg></button>
-                </form>
             </div>
 
         </div>

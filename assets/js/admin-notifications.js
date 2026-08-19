@@ -46,7 +46,7 @@
     function describe(commandes) {
         if (commandes.length === 1) {
             var c = commandes[0];
-            return "Nouvelle commande #" + c.cmdId + " (" + c.nombreArticles + " article" + (c.nombreArticles > 1 ? "s" : "") + ") - " +
+            return "Nouvelle commande #" + c.orderId + " (" + c.nombreArticles + " article" + (c.nombreArticles > 1 ? "s" : "") + ") - " +
                 c.clientPrenom + " " + c.clientNom;
         }
         return commandes.length + " nouvelles commandes";
