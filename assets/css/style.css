@@ -362,7 +362,7 @@ body.admin .main-content {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("../images/télécharger(42).jpg");
+    background-image: url("../images/E-commerce.jpg");
     background-size: cover;
     background-position: center;
     filter: blur(4px) brightness(.55);
@@ -528,7 +528,7 @@ body.admin .main-content {
     content: "";
     position: absolute;
     inset: 0;
-    background-image: url("../images/télécharger (18).jpg");
+    background-image: url("../images/E-commerce.jpg");
     background-size: cover;
     background-position: center;
     filter: blur(5px) brightness(.5);
