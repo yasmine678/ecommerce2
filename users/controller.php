@@ -19,6 +19,18 @@ function updateUserRole(int $usId, string $role, PDO $pdo)
     return $stmt->execute([':role' => $role, ':usId' => $usId]);
 }
 
+function getSuperAdminId(PDO $pdo): ?int
+{
+    $stmt = $pdo->query("SELECT usId FROM users WHERE role = 'manager' ORDER BY usId ASC LIMIT 1");
+    $usId = $stmt->fetchColumn();
+    return $usId !== false ? (int) $usId : null;
+}
+
+function estSuperAdmin(int $usId, PDO $pdo): bool
+{
+    return $usId === getSuperAdminId($pdo);
+}
+
 function updateUserProfil(int $usId, string $nom, string $prenom, ?string $profil, PDO $pdo)
 {
     if ($profil !== null) {

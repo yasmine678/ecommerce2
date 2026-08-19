@@ -165,10 +165,17 @@ if ($action === 'Connexion') {
     }
 
     $monId = $_SESSION['user']['usId'];
+    $superAdminId = getSuperAdminId($pdo);
+
+    if ($monId !== $superAdminId) {
+        header("Location: ../admin/users.php?erreur=1");
+        exit();
+    }
+
     $usId = intval($_POST['usId'] ?? 0);
     $role = $_POST['role'] ?? '';
 
-    if (!$usId || !in_array($role, ['client', 'manager']) || $usId == $monId) {
+    if (!$usId || !in_array($role, ['client', 'manager']) || $usId == $monId || $usId === $superAdminId) {
         header("Location: ../admin/users.php?erreur=1");
         exit();
     }

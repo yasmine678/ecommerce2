@@ -10,6 +10,8 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'manager') {
 
 $utilisateurs = getAllUsers($pdo);
 $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder soi-meme
+$superAdminId = getSuperAdminId($pdo);
+$estSuperAdmin = ($monId === $superAdminId);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -57,17 +59,22 @@ $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder
                                     <span class="badge bg-<?= $utilisateur['role'] === 'manager' ? 'primary' : 'secondary' ?>">
                                         <?= htmlspecialchars($utilisateur['role']) ?>
                                     </span>
+                                    <?php if ($utilisateur['usId'] === $superAdminId): ?>
+                                        <span class="badge bg-warning text-dark">Super admin</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="text-end">
                                     <?php if ($utilisateur['usId'] != $monId): ?>
-                                        <button type="button" class="btn btn-sm btn-outline-primary"
-                                                data-bs-toggle="modal" data-bs-target="#modalRole<?= $utilisateur['usId'] ?>"
-                                                aria-label="Changer le rôle" title="Changer le rôle">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.114.168l-.803 2.008a.25.25 0 0 0 .32.32l2.008-.803a.5.5 0 0 0 .168-.115l6.813-6.812z" />
-                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                                            </svg>
-                                        </button>
+                                        <?php if ($estSuperAdmin && $utilisateur['usId'] !== $superAdminId): ?>
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                                    data-bs-toggle="modal" data-bs-target="#modalRole<?= $utilisateur['usId'] ?>"
+                                                    aria-label="Changer le rôle" title="Changer le rôle">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.114.168l-.803 2.008a.25.25 0 0 0 .32.32l2.008-.803a.5.5 0 0 0 .168-.115l6.813-6.812z" />
+                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                                </svg>
+                                            </button>
+                                        <?php endif; ?>
 
                                         <form action="./save.php" method="POST" class="d-inline"
                                               onsubmit="return confirm('Supprimer cet utilisateur ?');">
@@ -92,7 +99,7 @@ $monId = $_SESSION['user']['usId']; // pour empecher de se supprimer/retrograder
             </div>
 
             <?php foreach ($utilisateurs as $utilisateur): ?>
-                <?php if ($utilisateur['usId'] != $monId): ?>
+                <?php if ($estSuperAdmin && $utilisateur['usId'] != $monId && $utilisateur['usId'] !== $superAdminId): ?>
                     <div class="modal fade" id="modalRole<?= $utilisateur['usId'] ?>" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">

@@ -60,32 +60,129 @@ if ($isAdmin) {
     </div>
 
     <!-- Liste des catégories -->
-    <div class=" row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3">
-        <?php if (empty($categories)): ?>
-            <div class="col-12">
-                <div class="alert alert-info text-center py-4">
-                    Aucune catégorie trouvée.
+    <?php if (empty($categories)): ?>
+        <div class="alert alert-info text-center py-4">
+            Aucune catégorie trouvée.
+        </div>
+    <?php elseif ($isAdmin): ?>
+        <!-- ADMINISTRATEUR -->
+        <div class="row g-3 cartes-animees">
+            <?php foreach ($categories as $category): ?>
+                <div class="col-12">
+                    <div class="card admin-row-card border-0 shadow-sm p-3">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+
+                            <span class="d-inline-flex align-items-center justify-content-center">
+                                <?php if (!empty($category['catImage'])): ?>
+                                    <img src="../uploads/categories/<?= htmlspecialchars($category['catImage']) ?>" alt="Image catégorie" class="rounded border" width="50" height="50" style="object-fit: cover;">
+                                <?php else: ?>
+                                    <span class="badge bg-secondary text-white p-3 rounded border">No Img</span>
+                                <?php endif; ?>
+                            </span>
+
+                            <span class="badge bg-dark text-white px-3 py-2 fs-6">
+                                <?= htmlspecialchars($category['name'] ?? '') ?>
+                            </span>
+
+                            <span class="badge bg-light text-secondary border px-3 py-2 text-truncate" style="max-width: 250px;">
+                                <?= htmlspecialchars($category['description'] ?? 'Pas de description') ?>
+                            </span>
+
+                            <!-- Actions Admin -->
+                            <span class="d-inline-flex gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changeModal<?= $category['catId'] ?>"
+                                        aria-label="Mise à jour" title="Mise à jour">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.114.168l-.803 2.008a.25.25 0 0 0 .32.32l2.008-.803a.5.5 0 0 0 .168-.115l6.813-6.812z" />
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                    </svg>
+                                </button>
+
+                                <form action="./save.php" method="POST" class="d-inline" onsubmit="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');">
+                                    <input type="hidden" name="id" value="<?= $category['catId'] ?>">
+                                    <button type="submit" name="validate" value="Supprimer" class="btn btn-sm btn-outline-danger"
+                                            aria-label="Supprimer" title="Supprimer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L13.882 4zM2.5 3h11V2h-11z" />
+                                        </svg>
+                                    </button>
+                                </form>
+                            </span>
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-        <?php else: ?>
+
+                <!-- MODAL ADMIN : Mise à jour -->
+                <div class="modal fade" id="changeModal<?= $category['catId'] ?>" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="./save.php" method="POST" enctype="multipart/form-data">
+                                <div class="modal-header">
+                                    <h5 class="modal-title fw-bold">Mise à jour de la catégorie</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="id" value="<?= $category['catId'] ?>">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Nom :</label>
+                                        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($category['name'] ?? ''); ?>" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold">Description :</label>
+                                        <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($category['description'] ?? ''); ?></textarea>
+                                    </div>
+                                    <?php if (!empty($category['catImage'])): ?>
+                                        <img src="../uploads/categories/<?= htmlspecialchars($category['catImage']) ?>"
+                                            class="w-100 rounded mb-2" style="height: 100px; object-fit: cover;" alt="">
+                                    <?php endif; ?>
+                                    <div class="mb-3">
+                                        <label class="form-label d-block mb-1">
+                                            Image actuelle :
+                                            <span class="text-muted"><?= !empty($category['catImage']) ? htmlspecialchars($category['catImage']) : 'aucune' ?></span>
+                                        </label>
+                                        <label for="catImage_<?= $category['catId'] ?>" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
+                                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
+                                            </svg>
+                                            Changer l'image
+                                        </label>
+                                        <input type="file" name="catImage" id="catImage_<?= $category['catId'] ?>" accept="image/*" class="visually-hidden">
+                                        <div class="form-text small text-muted mt-1 fichier-nom"></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="submit" name="validate" value="mise à jour" class="btn btn-primary">Modifier</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <!-- CLIENT -->
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3 cartes-animees">
             <?php foreach ($categories as $category): ?>
                 <?php
-                // Chargement des produits et services de la catégorie pour la vue client
-                $produitsCategorie = !$isAdmin ? getProduitsByCategorie($category['catId'], $pdo) : [];
-                $servicesCategorie = !$isAdmin ? getServicesByCategorie($category['catId'], $pdo) : [];
+                $produitsCategorie = getProduitsByCategorie($category['catId'], $pdo);
+                $servicesCategorie = getServicesByCategorie($category['catId'], $pdo);
                 $nombreProduits = count($produitsCategorie);
                 $nombreServices = count($servicesCategorie);
                 ?>
                 <div class="col">
                     <!-- Carte Catégorie -->
-                    <div class="card h-100 shadow-sm border-0 rounded-3 <?= !$isAdmin ? 'categorie-card' : 'admin-row-card' ?>"
-                        <?= !$isAdmin ? 'data-bs-toggle="modal" data-bs-target="#modalDetailCategorie' . $category['catId'] . '" style="cursor: pointer;"' : '' ?>>
+                    <div class="card h-100 shadow-sm border-0 rounded-3 categorie-card"
+                        data-bs-toggle="modal" data-bs-target="#modalDetailCategorie<?= $category['catId'] ?>" style="cursor: pointer;">
 
                         <div class="card-body d-flex flex-column justify-content-between p-3">
                             <div>
                                 <?php if (!empty($category['catImage'])): ?>
                                     <img src="../uploads/categories/<?= htmlspecialchars($category['catImage']) ?>"
-47                                        class="w-100 rounded mb-1" style="height: 190px; object-fit: cover;" alt="<?= htmlspecialchars($category['name']) ?>">
+                                        class="w-100 rounded mb-1" style="height: 190px; object-fit: cover;" alt="<?= htmlspecialchars($category['name']) ?>">
                                 <?php endif; ?>
 
                                 <h5 class="fw-bold text-dark mb-1">
@@ -95,45 +192,20 @@ if ($isAdmin) {
                                     <?= htmlspecialchars($category['description'] ?? 'Aucune description disponible.') ?>
                                 </p>
 
-                                <?php if (!$isAdmin): ?>
-                                    <span class="badge bg-secondary"><?= $nombreProduits ?> produit(s)</span>
-                                    <span class="badge bg-secondary"><?= $nombreServices ?> service(s)</span>
-                                <?php endif; ?>
+                                <span class="badge bg-secondary"><?= $nombreProduits ?> produit(s)</span>
+                                <span class="badge bg-secondary"><?= $nombreServices ?> service(s)</span>
                             </div>
-
-                            <!-- Actions ADMIN -->
-                            <?php if ($isAdmin): ?>
-                                <div class="mt-3 pt-2 border-top d-flex justify-content-end gap-2">
-                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#changeModal<?= $category['catId'] ?>"
-                                            aria-label="Mise à jour" title="Mise à jour">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.114.168l-.803 2.008a.25.25 0 0 0 .32.32l2.008-.803a.5.5 0 0 0 .168-.115l6.813-6.812z" />
-                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                                        </svg>
-                                    </button>
-
-                                    <form action="./save.php" method="POST" class="m-0" onsubmit="return confirm('Voulez-vous vraiment supprimer cette catégorie ?');">
-                                        <input type="hidden" name="id" value="<?= $category['catId'] ?>">
-                                        <button type="submit" name="validate" value="Supprimer" class="btn btn-sm btn-outline-danger"
-                                                aria-label="Supprimer" title="Supprimer">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L13.882 4zM2.5 3h11V2h-11z" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                </div>
-                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
-                <!-- MODALE : détail de la catégorie (ouverte au double-clic) -->
-                <div class="modal fade" id="modalDetailCategorie<?= $category['catId'] ?>" tabindex="-1">
+
+                <!-- MODAL CLIENT : Détail de la catégorie -->
+                <div class="modal fade" id="modalDetailCategorie<?= $category['catId'] ?>" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title"><?= htmlspecialchars($category['name']) ?></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                <h5 class="modal-title fw-bold"><?= htmlspecialchars($category['name']) ?></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                             </div>
                             <div class="modal-body">
                                 <p class="text-muted"><?= htmlspecialchars($category['description'] ?? 'Aucune description.') ?></p>
@@ -208,105 +280,9 @@ if ($isAdmin) {
                         </div>
                     </div>
                 </div>
-
-                <!-- MODALES SELON LE RÔLE -->
-
-                <?php if ($isAdmin): ?>
-                    <!-- MODAL ADMIN : Mise à jour -->
-                    <div class="modal fade" id="changeModal<?= $category['catId'] ?>" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <form action="./save.php" method="POST" enctype="multipart/form-data">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title fw-bold">Mise à jour de la catégorie</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <input type="hidden" name="id" value="<?= $category['catId'] ?>">
-                                        <div class="mb-3">
-                                            <label class="form-label fw-semibold">Nom :</label>
-                                            <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($category['name'] ?? ''); ?>" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label fw-semibold">Description :</label>
-                                            <textarea name="description" class="form-control" rows="3"><?= htmlspecialchars($category['description'] ?? ''); ?></textarea>
-                                        </div>
-                                        <?php if (!empty($category['catImage'])): ?>
-                                            <img src="../uploads/categories/<?= htmlspecialchars($category['catImage']) ?>"
-                                                class="w-100 rounded mb-2" style="height: 100px; object-fit: cover;" alt="">
-                                        <?php endif; ?>
-                                        <div class="mb-3">
-                                            <label class="form-label d-block mb-1">
-                                                Image actuelle :
-                                                <span class="text-muted"><?= !empty($category['catImage']) ? htmlspecialchars($category['catImage']) : 'aucune' ?></span>
-                                            </label>
-                                            <label for="catImage_<?= $category['catId'] ?>" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-center gap-2">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload" viewBox="0 0 16 16">
-                                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                                                    <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z" />
-                                                </svg>
-                                                Changer l'image
-                                            </label>
-                                            <input type="file" name="catImage" id="catImage_<?= $category['catId'] ?>" accept="image/*" class="visually-hidden">
-                                            <div class="form-text small text-muted mt-1 fichier-nom"></div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                        <button type="submit" name="validate" value="mise à jour" class="btn btn-primary">Modifier</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                <?php else: ?>
-                    <!-- MODAL CLIENT : Détail de la catégorie -->
-                    <div class="modal fade" id="modalDetailCategorie<?= $category['catId'] ?>" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title fw-bold"><?= htmlspecialchars($category['name']) ?></h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p class="text-muted"><?= htmlspecialchars($category['description'] ?? 'Aucune description.') ?></p>
-                                    <p class="fw-bold"><?= $nombreProduits ?> produit<?= $nombreProduits > 1 ? 's' : '' ?> dans cette catégorie</p>
-
-                                    <?php if (empty($produitsCategorie)): ?>
-                                        <p class="text-muted">Aucun produit pour le moment.</p>
-                                    <?php else: ?>
-                                        <div class="row row-cols-2 row-cols-md-3 g-3 cartes-animees">
-                                            <?php foreach ($produitsCategorie as $produit): ?>
-                                                <div class="col">
-                                                    <div class="card h-100 border-0 shadow-sm">
-                                                        <?php if (!empty($produit['image'])): ?>
-                                                            <img src="../uploads/products/<?= htmlspecialchars($produit['image']) ?>"
-                                                                class="card-img-top" style="height: 100px; object-fit: cover;" alt="<?= htmlspecialchars($produit['proName']) ?>">
-                                                        <?php endif; ?>
-                                                        <div class="card-body p-2">
-                                                            <p class="mb-1 small fw-semibold"><?= htmlspecialchars($produit['proName']) ?></p>
-                                                            <p class="mb-0 small text-primary fw-bold">
-                                                                <?= number_format($produit['price'], 0, ',', ' ') ?> FCFA
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="modal-footer">
-
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endif; ?>
-
             <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
+        </div>
+    <?php endif; ?>
 
     <!-- MODAL ADMIN UNIQUE : Ajout d'une catégorie -->
     <?php if ($isAdmin): ?>

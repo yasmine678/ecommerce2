@@ -20,6 +20,14 @@ function navActive(string $fichier, string $pageActuelle): string
 
     <hr class="text-secondary">
 
+    <!-- Recherche globale (categories, produits, services, utilisateurs) -->
+    <form action="../admin/recherche.php" method="GET" class="mb-2">
+        <input type="search" name="q" class="form-control form-control-sm"
+               placeholder="Rechercher..." value="<?= htmlspecialchars($_GET['q'] ?? '') ?>">
+    </form>
+
+    <hr class="text-secondary">
+
     <!-- Navigation -->
     <ul class="nav nav-pills flex-column mb-auto gap-1">
         <li class="nav-item">
@@ -69,38 +77,36 @@ function navActive(string $fichier, string $pageActuelle): string
                 </span> Utilisateurs
             </a>
         </li>
+
+        <!-- Compte : nom + avatar, menu deroulant (Mon profil / Deconnexion) -->
+        <li class="nav-item dropdown">
+            <a href="#" role="button" id="menuCompteAdminToggle"
+               class="nav-link text-white d-flex align-items-center gap-2 dropdown-toggle" aria-expanded="false">
+                <?php if (!empty($_SESSION['user']['profil'])): ?>
+                    <img src="../uploads/profils/<?= htmlspecialchars($_SESSION['user']['profil']) ?>" alt=""
+                         class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;">
+                <?php else: ?>
+                    <span class="rounded-circle bg-white bg-opacity-25 text-white d-inline-flex align-items-center justify-content-center fw-bold"
+                          style="width: 24px; height: 24px; font-size: .7rem;">
+                        <?= htmlspecialchars(mb_strtoupper(mb_substr($_SESSION['user']['firstName'] ?? '?', 0, 1))) ?>
+                    </span>
+                <?php endif; ?>
+                <?= htmlspecialchars($_SESSION['user']['firstName'] ?? 'Mon compte') ?>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item <?= str_ends_with($_SERVER['SCRIPT_NAME'], '/users/profil.php') ? 'active' : '' ?>" href="../users/profil.php">
+                        Mon profil
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="../auth/logout.php">
+                        Déconnexion
+                    </a>
+                </li>
+            </ul>
+        </li>
     </ul>
-
-    <hr class="text-secondary">
-
-    <!-- Compte : nom + avatar, menu deroulant (Mon profil / Deconnexion) -->
-    <div class="dropdown">
-        <a href="#" role="button" id="menuCompteAdminToggle"
-           class="nav-link text-white d-flex align-items-center gap-2 dropdown-toggle" aria-expanded="false">
-            <?php if (!empty($_SESSION['user']['profil'])): ?>
-                <img src="../uploads/profils/<?= htmlspecialchars($_SESSION['user']['profil']) ?>" alt=""
-                     class="rounded-circle" style="width: 24px; height: 24px; object-fit: cover;">
-            <?php else: ?>
-                <span class="rounded-circle bg-white bg-opacity-25 text-white d-inline-flex align-items-center justify-content-center fw-bold"
-                      style="width: 24px; height: 24px; font-size: .7rem;">
-                    <?= htmlspecialchars(mb_strtoupper(mb_substr($_SESSION['user']['firstName'] ?? '?', 0, 1))) ?>
-                </span>
-            <?php endif; ?>
-            <?= htmlspecialchars($_SESSION['user']['firstName'] ?? 'Mon compte') ?>
-        </a>
-        <ul class="dropdown-menu">
-            <li>
-                <a class="dropdown-item <?= str_ends_with($_SERVER['SCRIPT_NAME'], '/users/profil.php') ? 'active' : '' ?>" href="../users/profil.php">
-                    Mon profil
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="../auth/logout.php">
-                    Déconnexion
-                </a>
-            </li>
-        </ul>
-    </div>
 </div>
 
 <script src="../assets/js/admin-notifications.js" defer></script>
