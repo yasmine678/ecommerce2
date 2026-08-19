@@ -26,7 +26,7 @@ $servicesParPage = 4;
 $pagesServices = array_chunk($services, $servicesParPage);
 $totalPagesServices = count($pagesServices);
 $pageServices = isset($_GET['page_services']) ? max(1, min($totalPagesServices, (int) $_GET['page_services'])) : 1;
-$servicesAffiches = $pagesServices[$pageServices - 3] ?? [];
+$servicesAffiches = $pagesServices[$pageServices - 1] ?? [];
 
 function urlAvecPages(int $page, int $pageServices): string
 {
