@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
     if ($action === 'Creer') {
         $servName     = trim($_POST['servName'] ?? '');
         $description  = trim($_POST['description'] ?? '');
-        $priceHours   = floatval($_POST['priceHours'] ?? 0);
+        $priceHours   = floatval($_POST['price'] ?? 0);
         $unite        = trim($_POST['unite'] ?? '') !== '' ? trim($_POST['unite']) : 'heure';
         $provider    = trim($_POST['provider'] ?? '');
         $available    = ($_POST['available'] ?? '1') === '1';
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         createService([
             'servName' => $servName,
             'description' => $description,
-            'priceHours' => $priceHours,
+            'price' => $priceHours,
             'unite' => $unite,
             'serImage' => $imageName,
             'available' => $available,
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         $servId       = intval($_POST['servId'] ?? 0);
         $servName     = trim($_POST['servName'] ?? '');
         $description  = trim($_POST['description'] ?? '');
-        $priceHours   = floatval($_POST['priceHours'] ?? 0);
+        $priceHours   = floatval($_POST['price'] ?? 0);
         $unite        = trim($_POST['unite'] ?? '') !== '' ? trim($_POST['unite']) : 'heure';
         $provider    = trim($_POST['provider'] ?? '');
         $available    = ($_POST['available'] ?? '1') === '1';
@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['validate'])) {
         updateService($servId, [
             'servName' => $servName,
             'description' => $description,
-            'priceHours' => $priceHours,
+            'price' => $priceHours,
             'unite' => $unite,
             'serImage' => $imageName,
             'available' => $available,

@@ -81,7 +81,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                             <div class="modal-content">
                                 <form action="./save.php" method="POST" enctype="multipart/form-data">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="addModalLabel">Ajouter un service</h1>
+                                        <h1 class="modal-title fs-5" id="addModalLabel">Ajouter</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -96,7 +96,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                         <div class="row g-3 mb-3">
                                             <div class="col-sm-6">
                                                 <label class="form-label">Tarif (FCFA)</label>
-                                                <input type="number" name="priceHours" step="0.01" class="form-control" required>
+                                                <input type="number" name="price" step="0.01" class="form-control" required>
                                             </div>
                                             <div class="col-sm-6">
                                                 <label class="form-label">Unité</label>

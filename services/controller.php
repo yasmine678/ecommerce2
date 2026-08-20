@@ -50,14 +50,14 @@ function getServiceAvecCategorie(int $id, PDO $pdo)
 
 function createService(array $data, PDO $pdo)
 {
-    $req = "INSERT INTO service(servName, description, priceHours, unite, serImage, available, provider, catId, enPromotion, prixPromo)
-            VALUES (:servName, :description, :priceHours, :unite, :serImage, :available, :provider, :catId, :enPromotion, :prixPromo)";
+    $req = "INSERT INTO service(servName, description, price, unite, serImage, available, provider, catId, enPromotion, prixPromo)
+            VALUES (:servName, :description, :price, :unite, :serImage, :available, :provider, :catId, :enPromotion, :prixPromo)";
 
     $stmt = $pdo->prepare($req);
     return $stmt->execute([
         ':servName' => $data['servName'],
         ':description' => $data['description'],
-        ':priceHours' => $data['priceHours'],
+        ':price' => $data['price'],
         ':unite' => $data['unite'] !== '' ? $data['unite'] : 'heure',
         ':serImage' => $data['serImage'] ?? null,
         ':available' => $data['available'] ? 1 : 0,
@@ -82,13 +82,13 @@ function updateService(int $id, array $data, PDO $pdo)
 {
     if (!empty($data['serImage'])) {
         $req = "UPDATE service
-                SET servName = :servName, description = :description, priceHours = :priceHours, unite = :unite,
+                SET servName = :servName, description = :description, price = :price, unite = :unite,
                     available = :available,
                     provider = :provider, catId = :catId, enPromotion = :enPromotion, prixPromo = :prixPromo, serImage = :serImage
                 WHERE servId = :servId";
     } else {
         $req = "UPDATE service
-                SET servName = :servName, description = :description, priceHours = :priceHours, unite = :unite,
+                SET servName = :servName, description = :description, price = :price, unite = :unite,
                     available = :available,
                     provider = :provider, catId = :catId, enPromotion = :enPromotion, prixPromo = :prixPromo
                 WHERE servId = :servId";
@@ -99,7 +99,7 @@ function updateService(int $id, array $data, PDO $pdo)
     $params = [
         ':servName' => $data['servName'],
         ':description' => $data['description'],
-        ':priceHours' => $data['priceHours'],
+        ':price' => $data['price'],
         ':unite' => $data['unite'] !== '' ? $data['unite'] : 'heure',
         ':available' => $data['available'] ? 1 : 0,
         ':provider' => $data['provider'],
