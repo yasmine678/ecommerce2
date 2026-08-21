@@ -139,7 +139,7 @@ $total = count($categories) + count($produits) + count($services) + count($utili
                                 <tr>
                                     <td><?= htmlspecialchars($service['servName']) ?></td>
                                     <td><?= htmlspecialchars($service['catName'] ?? 'Sans catégorie') ?></td>
-                                    <td><?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?></td>
+                                    <td><?= number_format($service['price'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?></td>
                                     <td class="text-end">
                                         <a href="../services/index.php" class="btn btn-sm btn-outline-primary">Gérer</a>
                                     </td>

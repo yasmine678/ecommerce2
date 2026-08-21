@@ -86,10 +86,25 @@ function navActiveSi(string $suffixe): string
                 <?php else: ?>
 
                     <!-- CLIENT CONNECTE -->
-                    <li class="nav-item">
-                        <a class="nav-link px-3 py-2 <?= navActiveSi('/nouveautes.php') ?>" href="<?= BASE_URL ?>/nouveautes.php">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link px-3 py-2 dropdown-toggle <?= navActiveSi('/nouveautes.php') ?>" href="#" role="button"
+                           id="menuNouveauteToggle" aria-expanded="false">
                             Nouveau
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item <?= ($_GET['type'] ?? '') === 'services' ? '' : 'active' ?>"
+                                   href="<?= BASE_URL ?>/nouveautes.php?type=produits">
+                                    Nouveaux produits
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <?= ($_GET['type'] ?? '') === 'services' ? 'active' : '' ?>"
+                                   href="<?= BASE_URL ?>/nouveautes.php?type=services">
+                                    Nouveaux services
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link px-3 py-2 <?= navActiveSi('/services/index.php') ?>" href="<?= BASE_URL ?>/services/index.php">
@@ -100,12 +115,6 @@ function navActiveSi(string $suffixe): string
                         <a class="nav-link px-3 py-2 d-flex align-items-center gap-1 <?= navActiveSi('/cart/index.php') ?>" href="<?= BASE_URL ?>/cart/index.php">
                             Panier
                             <span id="panierBadge" class="badge rounded-pill bg-warning text-dark <?= $nombreArticlesPanier > 0 ? '' : 'd-none' ?>"><?= $nombreArticlesPanier ?></span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link px-3 py-2 <?= navActiveSi('/order/index.php') ?>" href="<?= BASE_URL ?>/order/index.php">
-                            Mes commandes
                         </a>
                     </li>
 
@@ -167,30 +176,44 @@ function navActiveSi(string $suffixe): string
     })();
 
     (function () {
-        var toggle = document.getElementById("menuCompteToggle");
-        var menu = toggle ? toggle.nextElementSibling : null;
-        if (!toggle || !menu) return;
+        // Menus deroulants personnalises (Bootstrap sans Popper : pas de data-bs-toggle="dropdown")
+        var toggles = [
+            document.getElementById("menuCompteToggle"),
+            document.getElementById("menuNouveauteToggle")
+        ];
 
-        function fermer() {
-            menu.classList.remove("show");
-            toggle.setAttribute("aria-expanded", "false");
-        }
-        function ouvrir() {
-            menu.classList.add("show");
-            toggle.setAttribute("aria-expanded", "true");
-        }
+        toggles.forEach(function (toggle) {
+            var menu = toggle ? toggle.nextElementSibling : null;
+            if (!toggle || !menu) return;
 
-        toggle.addEventListener("click", function (e) {
-            e.preventDefault();
-            menu.classList.contains("show") ? fermer() : ouvrir();
-        });
+            function fermer() {
+                menu.classList.remove("show");
+                toggle.setAttribute("aria-expanded", "false");
+            }
+            function ouvrir() {
+                toggles.forEach(function (autre) {
+                    if (autre && autre !== toggle) {
+                        var autreMenu = autre.nextElementSibling;
+                        if (autreMenu) autreMenu.classList.remove("show");
+                        autre.setAttribute("aria-expanded", "false");
+                    }
+                });
+                menu.classList.add("show");
+                toggle.setAttribute("aria-expanded", "true");
+            }
 
-        document.addEventListener("click", function (e) {
-            if (!toggle.contains(e.target) && !menu.contains(e.target)) fermer();
-        });
+            toggle.addEventListener("click", function (e) {
+                e.preventDefault();
+                menu.classList.contains("show") ? fermer() : ouvrir();
+            });
 
-        document.addEventListener("keydown", function (e) {
-            if (e.key === "Escape") fermer();
+            document.addEventListener("click", function (e) {
+                if (!toggle.contains(e.target) && !menu.contains(e.target)) fermer();
+            });
+
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") fermer();
+            });
         });
     })();
 
@@ -239,7 +262,7 @@ function navActiveSi(string $suffixe): string
                 html += '<a class="site-search-item" href="' + window.BASE_URL + '/services/detail.php?id=' + s.servId + '">'
                     + (s.serImage ? '<img src="' + window.BASE_URL + '/uploads/services/' + echapperHtml(s.serImage) + '" alt="">' : '<span class="site-search-item-noimg"></span>')
                     + '<span class="site-search-item-texte"><span class="site-search-item-nom">' + echapperHtml(s.servName) + '</span>'
-                    + '<span class="site-search-item-prix">' + formaterPrix(s.priceHours) + '/' + echapperHtml(s.unite || 'heure') + '</span></span>'
+                    + '<span class="site-search-item-prix">' + formaterPrix(s.price) + '/' + echapperHtml(s.unite || 'heure') + '</span></span>'
                     + '</a>';
             });
             html += '<a class="site-search-voir-tout" href="' + window.BASE_URL + '/researsh.php?q=' + encodeURIComponent(motCle) + '">'

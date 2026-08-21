@@ -7,7 +7,7 @@ function getCartByUser(int $userId, PDO $pdo)
                    COALESCE(product.proName, service.servName) AS proName,
                    COALESCE(
                        CASE WHEN product.enPromotion = 1 THEN product.prixPromo ELSE product.price END,
-                       CASE WHEN service.enPromotion = 1 THEN service.prixPromo ELSE service.priceHours END
+                       CASE WHEN service.enPromotion = 1 THEN service.prixPromo ELSE service.price END
                    ) AS price,
                    COALESCE(product.image, service.serimage) AS simage,
                    CASE WHEN cart.servId IS NOT NULL THEN 'service' ELSE 'product' END AS itemType

@@ -44,7 +44,7 @@ function getLignesCommande(int $orderId, PDO $pdo)
                    COALESCE(product.proName, service.servName) AS proName,
                    COALESCE(
                        CASE WHEN product.enPromotion = 1 THEN product.prixPromo ELSE product.price END,
-                       CASE WHEN service.enPromotion = 1 THEN service.prixPromo ELSE service.priceHours END
+                       CASE WHEN service.enPromotion = 1 THEN service.prixPromo ELSE service.price END
                    ) AS price
             FROM order_lines
             LEFT JOIN product ON order_lines.proId = product.proId

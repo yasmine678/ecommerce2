@@ -241,7 +241,7 @@ function urlAvecPages(int $page, int $pageServices): string
                             <div class="card-body pt-2 mt-auto">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="fw-bold text-warning">
-                                        <?php echo number_format($service['priceHours'], 0, ',', ' '); ?> FCFA/<?php echo htmlspecialchars($service['unite'] ?? 'heure'); ?>
+                                        <?php echo number_format($service['price'], 0, ',', ' '); ?> FCFA/<?php echo htmlspecialchars($service['unite'] ?? 'heure'); ?>
                                     </span>
                                     <form action="./cart/add.php" method="POST" class="m-0 ajout-panier">
                                         <input type="hidden" name="servId" value="<?php echo $service['servId']; ?>">

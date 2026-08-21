@@ -9,26 +9,38 @@ require_once(__DIR__ . "/cart/controller.php");
 $quantitesPanier = isset($_SESSION['user']) ? getCartQuantitiesByUser($_SESSION['user']['usId'], $pdo) : [];
 
 $joursNouveaute = 14;
+$type = ($_GET['type'] ?? 'produits') === 'services' ? 'services' : 'produits';
 
-$produits = getProduitsRecents($pdo, $joursNouveaute);
-$produitsParPage = 8;
-$pagesProduits = array_chunk($produits, $produitsParPage);
-$totalPages = count($pagesProduits);
-$page = isset($_GET['page']) ? max(1, min($totalPages, (int) $_GET['page'])) : 1;
-$produitsAffiches = $pagesProduits[$page - 1] ?? [];
+$produitsAffiches = [];
+$totalPages = 0;
+$page = 1;
+if ($type === 'produits') {
+    $produits = getProduitsRecents($pdo, $joursNouveaute);
+    $produitsParPage = 8;
+    $pagesProduits = array_chunk($produits, $produitsParPage);
+    $totalPages = count($pagesProduits);
+    $page = isset($_GET['page']) ? max(1, min($totalPages, (int) $_GET['page'])) : 1;
+    $produitsAffiches = $pagesProduits[$page - 1] ?? [];
+}
 
-$services = array_values(array_filter(getServicesRecents($pdo, $joursNouveaute), function ($s) {
-    return (bool) $s['available'];
-}));
-$servicesParPage = 8;
-$pagesServices = array_chunk($services, $servicesParPage);
-$totalPagesServices = count($pagesServices);
-$pageServices = isset($_GET['page_services']) ? max(1, min($totalPagesServices, (int) $_GET['page_services'])) : 1;
-$servicesAffiches = $pagesServices[$pageServices - 1] ?? [];
+$servicesAffiches = [];
+$totalPagesServices = 0;
+$pageServices = 1;
+if ($type === 'services') {
+    $services = array_values(array_filter(getServicesRecents($pdo, $joursNouveaute), function ($s) {
+        return (bool) $s['available'];
+    }));
+    $servicesParPage = 8;
+    $pagesServices = array_chunk($services, $servicesParPage);
+    $totalPagesServices = count($pagesServices);
+    $pageServices = isset($_GET['page_services']) ? max(1, min($totalPagesServices, (int) $_GET['page_services'])) : 1;
+    $servicesAffiches = $pagesServices[$pageServices - 1] ?? [];
+}
 
 function urlAvecPages(int $page, int $pageServices): string
 {
-    return '?page=' . $page . '&page_services=' . $pageServices;
+    global $type;
+    return '?type=' . $type . '&page=' . $page . '&page_services=' . $pageServices;
 }
 ?>
 <!DOCTYPE html>
@@ -37,7 +49,7 @@ function urlAvecPages(int $page, int $pageServices): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nouveautés - YosiShop</title>
+    <title>Nouveaux <?php echo $type === 'services' ? 'services' : 'produits'; ?> - YosiShop</title>
     <link rel="stylesheet" href="./assets/css/bootstrap.css">
     <link rel="stylesheet" href="./assets/css/style.css?v=<?php echo filemtime(__DIR__ . '/assets/css/style.css'); ?>">
 </head>
@@ -46,10 +58,14 @@ function urlAvecPages(int $page, int $pageServices): string
     <?php include("./includes/header.php"); ?>
 
     <section class="container my-5 below-header">
-        <h2 class="mb-1 fs-3">Nouveautés</h2>
-        <p class="text-muted mb-4">Produits et services ajoutés au cours des <?php echo $joursNouveaute; ?> derniers jours.</p>
+        <h2 class="mb-1 fs-3">Nouveaux <?php echo $type === 'services' ? 'services' : 'produits'; ?></h2>
+        <p class="text-muted mb-4">
+            <?php echo $type === 'services' ? 'Services' : 'Produits'; ?> ajoutés au cours des
+            <?php echo $joursNouveaute; ?> derniers jours.
+        </p>
 
-        <?php if (empty($produitsAffiches)): ?>
+        <?php if ($type !== 'produits'): ?>
+        <?php elseif (empty($produitsAffiches)): ?>
             <p class="text-muted">Aucun nouveau produit pour le moment.</p>
         <?php else: ?>
             <h5 class="mb-3">Produits</h5>
@@ -118,7 +134,8 @@ function urlAvecPages(int $page, int $pageServices): string
     </section>
 
     <section class="container my-5">
-        <?php if (empty($servicesAffiches)): ?>
+        <?php if ($type !== 'services'): ?>
+        <?php elseif (empty($servicesAffiches)): ?>
             <h5 class="mb-3">Services</h5>
             <p class="text-muted">Aucun nouveau service pour le moment.</p>
         <?php else: ?>
@@ -147,7 +164,7 @@ function urlAvecPages(int $page, int $pageServices): string
                             <div class="card-body pt-2 mt-auto">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="fw-bold text-warning">
-                                        <?php echo number_format($service['priceHours'], 0, ',', ' '); ?> FCFA/<?php echo htmlspecialchars($service['unite'] ?? 'heure'); ?>
+                                        <?php echo number_format($service['price'], 0, ',', ' '); ?> FCFA/<?php echo htmlspecialchars($service['unite'] ?? 'heure'); ?>
                                     </span>
                                     <form action="./cart/add.php" method="POST" class="m-0 ajout-panier">
                                         <input type="hidden" name="servId" value="<?php echo $service['servId']; ?>">

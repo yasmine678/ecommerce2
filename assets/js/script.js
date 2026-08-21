@@ -162,7 +162,7 @@ function creerCarteProduit(produit) {
 // ===== CARTE SERVICE REUTILISABLE (modales catégorie / recherche) =====
 function creerCarteService(service) {
     const image = service.serImage ? baseUrl() + "/uploads/services/" + encodeURIComponent(service.serImage) : "";
-    const prix = formaterPrix(service.priceHours);
+    const prix = formaterPrix(service.price);
     const unite = echapperHtml(service.unite || "heure");
 
     const col = document.createElement("div");

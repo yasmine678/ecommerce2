@@ -158,7 +158,7 @@ if (($_GET['format'] ?? '') === 'json') {
                                 <div class="card-body d-flex flex-column pt-0">
                                     <div class="d-flex justify-content-between align-items-center mt-auto">
                                         <span class="fw-bold text-warning">
-                                            <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
+                                            <?= number_format($service['price'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
                                         </span>
                                         <form action="./cart/add.php" method="POST" class="m-0 ajout-panier">
                                             <input type="hidden" name="servId" value="<?= $service['servId'] ?>">

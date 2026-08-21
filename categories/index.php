@@ -258,7 +258,7 @@ if ($isAdmin) {
                                                         <div class="card-body p-2">
                                                             <p class="mb-1 small fw-semibold"><?= htmlspecialchars($service['servName']) ?></p>
                                                             <p class="mb-0 small text-primary fw-bold">
-                                                                <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
+                                                                <?= number_format($service['price'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
                                                             </p>
                                                         </div>
                                                     </a>

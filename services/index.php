@@ -208,7 +208,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                         </span>
 
                                         <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 fs-6">
-                                            <?= number_format($service['priceHours'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
+                                            <?= number_format($service['price'], 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
                                         </span>
 
                                         <span class="d-inline-flex gap-2">
@@ -259,7 +259,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                                 <div class="row g-3 mb-3">
                                                     <div class="col-sm-6">
                                                         <label class="form-label">Tarif (FCFA) :</label>
-                                                        <input type="number" step="0.01" name="priceHours" class="form-control" value="<?= htmlspecialchars($service['priceHours'] ?? 0); ?>" required>
+                                                        <input type="number" step="0.01" name="price" class="form-control" value="<?= htmlspecialchars($service['price'] ?? 0); ?>" required>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label class="form-label">Unité :</label>
@@ -371,7 +371,7 @@ $services = $isAdmin ? $tousLesServices : array_values(array_filter($tousLesServ
                                     <div class="card-body pt-2 mt-auto">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <span class="fw-bold text-warning fs-5">
-                                                <?= number_format($service['priceHours'] ?? 0, 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
+                                                <?= number_format($service['price'] ?? 0, 0, ',', ' ') ?> FCFA/<?= htmlspecialchars($service['unite'] ?? 'heure') ?>
                                             </span>
                                             <form action="../cart/add.php" method="POST" class="m-0 ajout-panier">
                                                 <input type="hidden" name="servId" value="<?php echo $service['servId']; ?>">
